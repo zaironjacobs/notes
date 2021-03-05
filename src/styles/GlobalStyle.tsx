@@ -13,10 +13,16 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 16px;
   }
 
+  button, input, textarea {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    font-family: inherit;
+  }
+
   body, input, textarea, button {
     font-family: ${theme.fonts.ubuntu}, sans-serif;
   }
-
 
   *, *::after, *::before {
     box-sizing: border-box;
@@ -44,12 +50,6 @@ export const GlobalStyle = createGlobalStyle`
 
   img {
     color: transparent;
-  }
-
-  button, input {
-    border: none;
-    outline: none;
-    font-family: inherit;
   }
 
   h1, h2, h3, h4, h5, h6 {

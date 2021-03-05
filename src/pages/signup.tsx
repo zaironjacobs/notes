@@ -1,3 +1,5 @@
+import {useState} from 'react';
+import {useRouter} from 'next/router';
 import {SignUpForm, Content, SubmitButton} from '@style/SignUpStyled';
 import {
     MainContainer
@@ -5,22 +7,24 @@ import {
 import {Formik, useField} from 'formik';
 import Link from 'next/link';
 import * as Yup from 'yup';
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import global from 'global';
+import withSession from "@lib/session";
 
 
-const submit = async (values) => {
+const submit = async (values, setError, router) => {
     await axios.post(global.apiRoutes.signUp, {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
         password: values.password
     })
-        .then(function (response) {
-            // On success
+        .then(function (response: AxiosResponse) {
+            setError('');
+            router.push(global.paths.home);
         })
         .catch(function (error) {
-            // On error
+            setError(error.response.data.message);
         });
 }
 
@@ -33,7 +37,7 @@ const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) 
             {/*<label className='sign-up-label' htmlFor={props.id || props.name}>{label}</label>*/}
             <input className='sign-up-input' {...field} {...props} />
             {meta.touched && meta.error ? (
-                <div className='sign-up-error'>{meta.error}</div>
+                <div className='sign-up-form-error'>{meta.error}</div>
             ) : null}
         </>
     )
@@ -41,6 +45,9 @@ const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) 
 
 
 const SignUp = () => {
+    const router = useRouter();
+    const [error, setError] = useState('');
+
     return (
         <>
             <MainContainer>
@@ -55,26 +62,27 @@ const SignUp = () => {
                         validationSchema={Yup.object({
                             firstName: Yup.string()
                                 .min(3, 'At least 3 characters')
-                                .max(15, 'No more than 15 characters')
+                                .max(30, 'No more than 30 characters')
                                 .required('Required'),
 
                             lastName: Yup.string()
                                 .min(3, 'At least 3 characters')
-                                .max(15, 'No more than 15 characters')
+                                .max(30, 'No more than 30 characters')
                                 .required('Required'),
 
                             email: Yup.string()
                                 .email('Invalid email address')
+                                .max(30, 'No more than 30 characters')
                                 .required('Required'),
 
                             password: Yup.string()
                                 .min(8, 'At least 8 characters')
-                                .max(35, 'No more than 35 characters')
+                                .max(30, 'No more than 30 characters')
                                 .required('Required'),
                         })}
                         onSubmit={(values, {setSubmitting, resetForm}) => {
                             setTimeout(async () => {
-                                await submit(values);
+                                await submit(values, setError, router);
                                 resetForm();
                                 setSubmitting(false);
                             }, 1000);
@@ -91,15 +99,16 @@ const SignUp = () => {
                                                  placeholder='Email'/>
                                 <CustomTextInput label='Password' name='password' type='password'
                                                  placeholder='Password'/>
+                                <div className='sign-up-server-error'>{error}</div>
                                 <SubmitButton
                                     type='submit'>{props.isSubmitting ? 'Please Wait...' : 'Create Account'}
                                 </SubmitButton>
                             </SignUpForm>
                         )}
                     </Formik>
-                    <span className='sign-up-already-account'>Already have an account?&nbsp;
+                    <div className='sign-up-already-account'>Already have an account?&nbsp;
                         <Link href={global.paths.login}>Log in</Link>
-                </span>
+                    </div>
                 </Content>
             </MainContainer>
         </>
@@ -107,3 +116,18 @@ const SignUp = () => {
 }
 
 export default SignUp;
+
+export const getServerSideProps = withSession(async function ({req, res}) {
+    // If user exists, redirect to home
+    const user = req.session.get('user');
+    if (user) {
+        return {
+            redirect: {
+                destination: global.paths.home,
+                permanent: false,
+            },
+        }
+    }
+
+    return {props: {}}
+});

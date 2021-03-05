@@ -34,7 +34,6 @@ export const SignUpForm = styled(Form)`
 
   .sign-up-input {
     width: 100%;
-    font-size: 16px;
     height: 45px;
     padding: 8px;
     border-radius: 3px;
@@ -54,7 +53,7 @@ export const SignUpForm = styled(Form)`
     margin-top: 10px;
   }
 
-  .sign-up-error {
+  .sign-up-form-error {
     color: ${theme.colors.imperialRed};
     font-size: 14px;
     margin-top: 5px;
@@ -63,10 +62,16 @@ export const SignUpForm = styled(Form)`
       content: '\\00a0';
     }
   }
+
+  .sign-up-server-error {
+    margin-top: 20px;
+    text-align: center;
+    color: ${theme.colors.imperialRed};
+    margin-bottom: 5px;
+  }
 `;
 
 export const SubmitButton = styled.button`
-  margin-top: 20px;
   display: flex;
   height: 50px;
   justify-content: center;

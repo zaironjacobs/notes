@@ -1,24 +1,29 @@
 import {SignUpForm, Content, SubmitButton} from '@style/LoginStyled';
+import {useRouter} from 'next/router';
 import {
     MainContainer
 } from '@style/LoginStyled';
 import {Formik, useField} from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import global from 'global';
-import Link from "next/link";
+import Link from 'next/link';
+import {useState} from 'react';
+import withSession from "@lib/session";
 
 
-const submit = async (values) => {
+const submit = async (values, setError, router) => {
     await axios.post(global.apiRoutes.login, {
         email: values.email,
         password: values.password
     })
-        .then(function (response) {
-            // On success
+        .then(function (response: AxiosResponse) {
+            console.log(response.data.authToken);
+            setError('');
+            router.push(global.paths.home);
         })
         .catch(function (error) {
-            // On error
+            setError(error.response.data.message);
         });
 }
 
@@ -31,7 +36,7 @@ const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) 
             {/*<label className='login-label' htmlFor={props.id || props.name}>{label}</label>*/}
             <input className='login-input' {...field} {...props} />
             {meta.touched && meta.error ? (
-                <div className='login-error'>{meta.error}</div>
+                <div className='login-form-error'>{meta.error}</div>
             ) : null}
         </>
     )
@@ -39,6 +44,9 @@ const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) 
 
 
 const Login = () => {
+    const router = useRouter();
+    const [error, setError] = useState('');
+
     return (
         <>
             <MainContainer>
@@ -51,16 +59,17 @@ const Login = () => {
                         validationSchema={Yup.object({
                             email: Yup.string()
                                 .email('Invalid email address')
+                                .max(30, 'No more than 30 characters')
                                 .required('Required'),
 
                             password: Yup.string()
                                 .min(8, 'At least 8 characters')
-                                .max(35, 'No more than 35 characters')
+                                .max(30, 'No more than 30 characters')
                                 .required('Required'),
                         })}
                         onSubmit={(values, {setSubmitting, resetForm}) => {
                             setTimeout(async () => {
-                                await submit(values);
+                                await submit(values, setError, router);
                                 resetForm();
                                 setSubmitting(false);
                             }, 1000);
@@ -73,15 +82,16 @@ const Login = () => {
                                                  placeholder='Email'/>
                                 <CustomTextInput label='Password' name='password' type='password'
                                                  placeholder='Password'/>
+                                <div className='login-server-error'>{error}</div>
                                 <SubmitButton
                                     type='submit'>{props.isSubmitting ? 'Please Wait...' : 'Sign In'}
                                 </SubmitButton>
                             </SignUpForm>
                         )}
                     </Formik>
-                    <span className='login-no-account'>Don't have an account?&nbsp;
+                    <div className='login-no-account'>Don't have an account?&nbsp;
                         <Link href={global.paths.signUp}>Sign up</Link>
-                </span>
+                    </div>
                 </Content>
             </MainContainer>
         </>
@@ -89,3 +99,18 @@ const Login = () => {
 }
 
 export default Login;
+
+export const getServerSideProps = withSession(async function ({req, res}) {
+    // If user is logged in, redirect to home
+    const user = req.session.get('user');
+    if (user) {
+        return {
+            redirect: {
+                destination: global.paths.home,
+                permanent: false,
+            },
+        }
+    }
+
+    return {props: {}}
+});

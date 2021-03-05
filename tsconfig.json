@@ -6,7 +6,8 @@
       "@style/*": ["styles/*"],
       "@component/*": ["components/*"],
       "@interface/*": ["interfaces/*"],
-      "@lib/*": ["lib/*"]
+      "@lib/*": ["lib/*"],
+      "@util/*": ["utils/*"]
     },
     "lib": [
       "dom",

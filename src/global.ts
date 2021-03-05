@@ -4,7 +4,8 @@ export default {
     paths: {
         index: '/',
         signUp: '/signup',
-        login: '/login'
+        login: '/login',
+        home: '/home'
     },
 
     apiRoutes: {

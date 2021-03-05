@@ -7,7 +7,7 @@
     "dev": "next dev -p 5100",
     "build": "next build",
     "start": "next start  -p 5100",
-    "migrate": "node scripts/migrate-db.js"
+    "migrate": "node scripts/migrateDb.js"
   },
   "author": "Zairon Jacobs <zaironjacobs@gmail.com>",
   "dependencies": {
@@ -16,8 +16,8 @@
     "bcrypt": "^5.0.1",
     "dotenv": "^8.2.0",
     "formik": "^2.2.6",
-    "moment": "^2.29.1",
-    "next": "^10.0.7",
+    "next": "^10.0.8",
+    "next-iron-session": "^4.1.12",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "serverless-mysql": "^1.5.4",
@@ -25,8 +25,8 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
-    "@types/node": "^14.14.28",
+    "@types/node": "^14.14.31",
     "@types/react": "^17.0.2",
-    "typescript": "^4.1.5"
+    "typescript": "^4.2.3"
   }
 }

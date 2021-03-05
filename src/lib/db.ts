@@ -11,15 +11,12 @@ export const db = mysql({
     },
 })
 
-export async function query(
-    q: string,
-    values: (string | number)[] | string | number = []
-) {
+export async function query(q: string, values: (string | number)[] | string | number = []) {
     try {
         const results = await db.query(q, values);
         await db.end();
         return results;
-    } catch (e) {
-        throw Error(e.message);
+    } catch (error) {
+        throw error;
     }
 }
