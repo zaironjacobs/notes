@@ -1,24 +1,25 @@
 import {MainContainer} from '@style/HomeStyled';
 import global from 'global';
 import withSession from '@lib/session';
-import {useContext, useEffect} from "react";
-import IsLoggedInContext from "@component/IsLoggedInContext";
+import Menu from '@component/Menu';
+import Header from '@component/Header';
 
 
 const Home = (props) => {
-    const {isLoggedIn, setIsLoggedIn} = useContext(IsLoggedInContext);
-    useEffect(() => {
-            if (props.user.isLoggedIn) {
-                setIsLoggedIn(true);
-            }
-        }, [],
-    );
-
 
     return (
         <>
+            {/* Menu */}
+            <div ref={props.menuNode}>
+                <Menu menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen} user={props.user}/>
+            </div>
+
+            {/* Header */}
+            <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
+
+            {/* Main */}
             <MainContainer>
-                {props.user.id}
+                {props.user.email}
             </MainContainer>
         </>
     )

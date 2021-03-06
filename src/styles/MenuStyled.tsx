@@ -5,6 +5,7 @@ import theme from 'theme';
 export const Content = styled.div`
   position: absolute;
   display: flex;
+  flex-direction: column;
   height: 100vh;
   max-width: 200px;
   width: 100%;
@@ -17,8 +18,7 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     list-style-type: none;
-    width: 100%;
-    margin: 70px 0 0 30px;
+    margin: 0 0 0 30px;
     padding: 30px 0 0 0;
 
     li {
@@ -38,6 +38,25 @@ export const Content = styled.div`
         margin-bottom: 0;
       }
     }
+  }
+  
+  .name-logo-wrapper {
+    height: 75px;
+    margin-left: 30px;
+    margin-top: 35px;
+  }
+
+  .name-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 65px;
+    width: 65px;
+    font-size: 20px;
+    font-weight: 500;
+    color: ${theme.colors.white};
+    background-color: ${theme.colors.starCommandBlue};
+    border-radius: 50%;
   }
 `;
 

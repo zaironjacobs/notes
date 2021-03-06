@@ -1,12 +1,12 @@
 import {Content} from '@style/HeaderStyled';
-import Burger from '@component/./Burger';
+import Burger from '@component/Burger';
 
 
-const Header = ({menuOpen, setMenuOpen}) => {
+const Header = (props) => {
     return (
         <>
             <Content>
-                <Burger menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+                <Burger menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
                 <span className='logo'>Notes</span>
             </Content>
         </>

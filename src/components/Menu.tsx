@@ -3,13 +3,16 @@ import Link from 'next/link';
 import global from 'global';
 import axios, {AxiosResponse} from 'axios';
 import {useRouter} from 'next/router';
-import {useContext} from 'react';
-import IsLoggedInContext from '@component/IsLoggedInContext';
 
 
 const Menu = (props) => {
     const router = useRouter();
-    const {isLoggedIn, setIsLoggedIn} = useContext(IsLoggedInContext);
+    const user = props.user;
+
+    let initials = 'Hi';
+    if (user.isLoggedIn) {
+        initials = user.firstName.charAt(0).toUpperCase() + user.lastName.charAt(0).toUpperCase();
+    }
 
     const closeMenu = () => {
         props.setMenuOpen(false);
@@ -18,7 +21,6 @@ const Menu = (props) => {
     const logout = async () => {
         await axios.post(global.api.logout)
             .then(function (response: AxiosResponse) {
-                setIsLoggedIn(false);
                 router.push(global.paths.login);
             })
             .catch(function (error) {
@@ -34,10 +36,17 @@ const Menu = (props) => {
     return (
         <>
             <Content menuOpen={props.menuOpen}>
+
+                <div className='name-logo-wrapper'>
+                    <span className='name-logo'>{initials}</span>
+                </div>
+
                 <ul>
-                    {isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.home}>Home</Link></li>}
-                    {isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.home}>All notes</Link></li>}
-                    {isLoggedIn && <li onClick={async () => await closeMenuAndLogout()}>Logout</li>}
+                    {user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.home}>Home</Link></li>}
+                    {user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.home}>All notes</Link></li>}
+                    {user.isLoggedIn && <li onClick={async () => await closeMenuAndLogout()}>Logout</li>}
+                    {!user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.login}>Login</Link></li>}
+                    {!user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.signUp}>Sign Up</Link></li>}
                 </ul>
             </Content>
         </>

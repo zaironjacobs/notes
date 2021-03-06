@@ -1,20 +1,25 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import {GlobalStyle} from '@style/GlobalStyle';
 import Layout from '@component/Layout';
-import IsLoggedInContext from '@component/IsLoggedInContext';
+import useOnClickOutside from '@hook/useOnClickOutside';
 
 
-const App = ({Component, pageProps}) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+const App = (props) => {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuNode = useRef();
+    useOnClickOutside(menuNode, () => setMenuOpen(false));
 
     return (
         <>
             <GlobalStyle/>
-            <IsLoggedInContext.Provider value={{isLoggedIn, setIsLoggedIn}}>
-                <Layout>
-                    <Component {...pageProps} />
-                </Layout>
-            </IsLoggedInContext.Provider>
+            <Layout>
+                <props.Component
+                    {...props.pageProps}
+                    menuOpen={menuOpen}
+                    setMenuOpen={setMenuOpen}
+                    menuNode={menuNode}
+                />
+            </Layout>
         </>
     )
 }

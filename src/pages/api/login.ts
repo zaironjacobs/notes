@@ -10,7 +10,7 @@ export default withSession(async (req, res) => {
         try {
             const results = await query(
                 `
-                    SELECT *
+                    SELECT id, first_name, last_name, email, password
                     FROM users
                     WHERE EMAIL = '${email}'
                 `,
@@ -19,9 +19,16 @@ export default withSession(async (req, res) => {
             const user = results[0];
             const match = await compare(password, user['password']);
             if (match) {
-                req.session.set('user', {isLoggedIn: true, id: user.id});
+                const responseUser = {
+                    id: user.id,
+                    firstName: user.first_name,
+                    lastName: user.last_name,
+                    isLoggedIn: true,
+                    email: user.email
+                };
+                req.session.set('user', responseUser);
                 await req.session.save();
-                return res.status(200).json({message: 'Login success'});
+                return res.status(200).json({message: 'Login success', user: responseUser});
             } else {
                 return res.status(500).json({message: 'Login failed'});
             }

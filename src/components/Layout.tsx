@@ -2,10 +2,7 @@ import {useState, useRef} from 'react';
 import Head from 'next/head';
 import global from 'global';
 import {Content} from '@style/LayoutStyled';
-import Menu from '@component/./Menu';
-import Header from '@component/./Header';
-import Footer from '@component/Footer';
-import {useOnClickOutside} from '@hook/useOnClickOutside';
+import useOnClickOutside from '@hook/useOnClickOutside';
 
 
 const Layout = ({children}) => {
@@ -16,8 +13,6 @@ const Layout = ({children}) => {
 
     return (
         <>
-
-            {/* Head */}
             <Head>
                 <title>{global.siteName}</title>
                 <meta name='viewport' content='width=device-width, initial-scale=1'/>
@@ -34,23 +29,8 @@ const Layout = ({children}) => {
             </Head>
 
             <Content>
-
-                {/* Menu */}
-                <div ref={menuNode}>
-                    <Menu menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
-                </div>
-
-                {/* Header */}
-                <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
-
-                {/* Page content */}
                 {children}
-
-                {/* Footer */}
-                {/*<Footer/>*/}
-
             </Content>
-
         </>
     );
 }

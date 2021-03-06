@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useRouter} from 'next/router';
 import {SignUpForm, Content, SubmitButton} from '@style/SignUpStyled';
 import {
@@ -10,22 +10,25 @@ import * as Yup from 'yup';
 import axios, {AxiosResponse} from 'axios';
 import global from 'global';
 import withSession from '@lib/session';
-import IsLoggedInContext from '@component/IsLoggedInContext';
+import Menu from '@component/Menu';
+import Header from '@component/Header';
 
 
-const SignUp = () => {
-    const {isLoggedIn, setIsLoggedIn} = useContext(IsLoggedInContext);
-    useEffect(() => {
-            setIsLoggedIn(false);
-        }, [],
-    );
-
-
+const SignUp = (props) => {
     const router = useRouter();
     const [error, setError] = useState('');
 
     return (
         <>
+            {/* Menu */}
+            <div ref={props.menuNode}>
+                <Menu menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen} user={props.user}/>
+            </div>
+
+            {/* Header */}
+            <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
+
+            {/* Main */}
             <MainContainer>
                 <Content>
                     <Formik
@@ -39,11 +42,13 @@ const SignUp = () => {
                             firstName: Yup.string()
                                 .min(3, 'At least 3 characters')
                                 .max(30, 'No more than 30 characters')
+                                .matches(/^[aA-zZ\s]+$/, 'Only alphabets')
                                 .required('Required'),
 
                             lastName: Yup.string()
                                 .min(3, 'At least 3 characters')
                                 .max(30, 'No more than 30 characters')
+                                .matches(/^[aA-zZ\s]+$/, 'Only alphabets')
                                 .required('Required'),
 
                             email: Yup.string()
@@ -136,5 +141,5 @@ export const getServerSideProps = withSession(async function ({req, res}) {
         }
     }
 
-    return {props: {}}
+    return {props: {user: {isLoggedIn: false}}};
 });

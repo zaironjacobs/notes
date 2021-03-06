@@ -8,23 +8,41 @@ import * as Yup from 'yup';
 import axios, {AxiosResponse} from 'axios';
 import global from 'global';
 import Link from 'next/link';
-import {useContext, useEffect, useState} from 'react';
+import {useState} from 'react';
 import withSession from '@lib/session';
-import IsLoggedInContext from "@component/IsLoggedInContext";
+import Menu from '@component/Menu';
+import Header from '@component/Header';
 
 
-const Login = () => {
-    const {isLoggedIn, setIsLoggedIn} = useContext(IsLoggedInContext);
-    useEffect(() => {
-            setIsLoggedIn(false);
-        }, [],
-    );
-
+const Login = (props) => {
     const router = useRouter();
     const [error, setError] = useState('');
 
+    const submit = async (values, setError, router) => {
+        await axios.post(global.api.login, {
+            email: values.email,
+            password: values.password
+        })
+            .then(function (response: AxiosResponse) {
+                setError('');
+                router.push(global.paths.home);
+            })
+            .catch(function (error) {
+                setError(error.response.data.message);
+            });
+    }
+
     return (
         <>
+            {/* Menu */}
+            <div ref={props.menuNode}>
+                <Menu menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen} user={props.user}/>
+            </div>
+
+            {/* Header */}
+            <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
+
+            {/* Main */}
             <MainContainer>
                 <Content>
                     <Formik
@@ -48,7 +66,7 @@ const Login = () => {
                                 await submit(values, setError, router);
                                 resetForm();
                                 setSubmitting(false);
-                            }, 1000);
+                            }, 500);
                         }}
                     >
                         {props => (
@@ -73,21 +91,6 @@ const Login = () => {
         </>
     );
 }
-
-const submit = async (values, setError, router) => {
-    await axios.post(global.api.login, {
-        email: values.email,
-        password: values.password
-    })
-        .then(function (response: AxiosResponse) {
-            setError('');
-            router.push(global.paths.home);
-        })
-        .catch(function (error) {
-            setError(error.response.data.message);
-        });
-}
-
 
 const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) => {
     const [field, meta] = useField(props);
@@ -117,5 +120,5 @@ export const getServerSideProps = withSession(async function ({req, res}) {
         }
     }
 
-    return {props: {}}
+    return {props: {user: {isLoggedIn: false}}};
 });
