@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import {SignUpForm, Content, SubmitButton} from '@style/SignUpStyled';
 import {
@@ -9,42 +9,18 @@ import Link from 'next/link';
 import * as Yup from 'yup';
 import axios, {AxiosResponse} from 'axios';
 import global from 'global';
-import withSession from "@lib/session";
-
-
-const submit = async (values, setError, router) => {
-    await axios.post(global.apiRoutes.signUp, {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        password: values.password
-    })
-        .then(function (response: AxiosResponse) {
-            setError('');
-            router.push(global.paths.home);
-        })
-        .catch(function (error) {
-            setError(error.response.data.message);
-        });
-}
-
-
-const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) => {
-    const [field, meta] = useField(props);
-
-    return (
-        <>
-            {/*<label className='sign-up-label' htmlFor={props.id || props.name}>{label}</label>*/}
-            <input className='sign-up-input' {...field} {...props} />
-            {meta.touched && meta.error ? (
-                <div className='sign-up-form-error'>{meta.error}</div>
-            ) : null}
-        </>
-    )
-}
+import withSession from '@lib/session';
+import IsLoggedInContext from '@component/IsLoggedInContext';
 
 
 const SignUp = () => {
+    const {isLoggedIn, setIsLoggedIn} = useContext(IsLoggedInContext);
+    useEffect(() => {
+            setIsLoggedIn(false);
+        }, [],
+    );
+
+
     const router = useRouter();
     const [error, setError] = useState('');
 
@@ -113,6 +89,37 @@ const SignUp = () => {
             </MainContainer>
         </>
     );
+}
+
+const submit = async (values, setError, router) => {
+    await axios.post(global.api.signUp, {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password
+    })
+        .then(function (response: AxiosResponse) {
+            setError('');
+            router.push(global.paths.home);
+        })
+        .catch(function (error) {
+            setError(error.response.data.message);
+        });
+}
+
+
+const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) => {
+    const [field, meta] = useField(props);
+
+    return (
+        <>
+            {/*<label className='sign-up-label' htmlFor={props.id || props.name}>{label}</label>*/}
+            <input className='sign-up-input' {...field} {...props} />
+            {meta.touched && meta.error ? (
+                <div className='sign-up-form-error'>{meta.error}</div>
+            ) : null}
+        </>
+    )
 }
 
 export default SignUp;

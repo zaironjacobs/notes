@@ -7,7 +7,8 @@
       "@component/*": ["components/*"],
       "@interface/*": ["interfaces/*"],
       "@lib/*": ["lib/*"],
-      "@util/*": ["utils/*"]
+      "@util/*": ["utils/*"],
+      "@hook/*": ["hooks/*"]
     },
     "lib": [
       "dom",

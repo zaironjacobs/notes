@@ -5,7 +5,6 @@ import global from 'global';
 
 const Index = () => {
     const router = useRouter();
-
     useEffect(() => {
         router.push(global.paths.login);
     }, []);

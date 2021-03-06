@@ -1,14 +1,24 @@
 import {MainContainer} from '@style/HomeStyled';
 import global from 'global';
 import withSession from '@lib/session';
+import {useContext, useEffect} from "react";
+import IsLoggedInContext from "@component/IsLoggedInContext";
 
 
-const Home = ({user}) => {
+const Home = (props) => {
+    const {isLoggedIn, setIsLoggedIn} = useContext(IsLoggedInContext);
+    useEffect(() => {
+            if (props.user.isLoggedIn) {
+                setIsLoggedIn(true);
+            }
+        }, [],
+    );
+
 
     return (
         <>
             <MainContainer>
-                {user.id}
+                {props.user.id}
             </MainContainer>
         </>
     )

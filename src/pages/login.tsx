@@ -8,42 +8,18 @@ import * as Yup from 'yup';
 import axios, {AxiosResponse} from 'axios';
 import global from 'global';
 import Link from 'next/link';
-import {useState} from 'react';
-import withSession from "@lib/session";
-
-
-const submit = async (values, setError, router) => {
-    await axios.post(global.apiRoutes.login, {
-        email: values.email,
-        password: values.password
-    })
-        .then(function (response: AxiosResponse) {
-            console.log(response.data.authToken);
-            setError('');
-            router.push(global.paths.home);
-        })
-        .catch(function (error) {
-            setError(error.response.data.message);
-        });
-}
-
-
-const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) => {
-    const [field, meta] = useField(props);
-
-    return (
-        <>
-            {/*<label className='login-label' htmlFor={props.id || props.name}>{label}</label>*/}
-            <input className='login-input' {...field} {...props} />
-            {meta.touched && meta.error ? (
-                <div className='login-form-error'>{meta.error}</div>
-            ) : null}
-        </>
-    )
-}
+import {useContext, useEffect, useState} from 'react';
+import withSession from '@lib/session';
+import IsLoggedInContext from "@component/IsLoggedInContext";
 
 
 const Login = () => {
+    const {isLoggedIn, setIsLoggedIn} = useContext(IsLoggedInContext);
+    useEffect(() => {
+            setIsLoggedIn(false);
+        }, [],
+    );
+
     const router = useRouter();
     const [error, setError] = useState('');
 
@@ -98,10 +74,39 @@ const Login = () => {
     );
 }
 
+const submit = async (values, setError, router) => {
+    await axios.post(global.api.login, {
+        email: values.email,
+        password: values.password
+    })
+        .then(function (response: AxiosResponse) {
+            setError('');
+            router.push(global.paths.home);
+        })
+        .catch(function (error) {
+            setError(error.response.data.message);
+        });
+}
+
+
+const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) => {
+    const [field, meta] = useField(props);
+
+    return (
+        <>
+            {/*<label className='login-label' htmlFor={props.id || props.name}>{label}</label>*/}
+            <input className='login-input' {...field} {...props} />
+            {meta.touched && meta.error ? (
+                <div className='login-form-error'>{meta.error}</div>
+            ) : null}
+        </>
+    )
+}
+
 export default Login;
 
 export const getServerSideProps = withSession(async function ({req, res}) {
-    // If user is logged in, redirect to home
+    // If user exists, redirect to home
     const user = req.session.get('user');
     if (user) {
         return {

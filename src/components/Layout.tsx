@@ -1,10 +1,19 @@
+import {useState, useRef} from 'react';
 import Head from 'next/head';
 import global from 'global';
+import {Content} from '@style/LayoutStyled';
+import Menu from '@component/./Menu';
 import Header from '@component/./Header';
 import Footer from '@component/Footer';
+import {useOnClickOutside} from '@hook/useOnClickOutside';
 
 
 const Layout = ({children}) => {
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const menuNode = useRef();
+    useOnClickOutside(menuNode, () => setMenuOpen(false));
+
     return (
         <>
 
@@ -24,14 +33,23 @@ const Layout = ({children}) => {
                     crossOrigin='anonymous'/>
             </Head>
 
-            {/* Header */}
-            <Header/>
+            <Content>
 
-            {/* Page content */}
-            {children}
+                {/* Menu */}
+                <div ref={menuNode}>
+                    <Menu menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+                </div>
 
-            {/* Footer */}
-            <Footer/>
+                {/* Header */}
+                <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
+
+                {/* Page content */}
+                {children}
+
+                {/* Footer */}
+                {/*<Footer/>*/}
+
+            </Content>
 
         </>
     );

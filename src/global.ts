@@ -8,8 +8,10 @@ export default {
         home: '/home'
     },
 
-    apiRoutes: {
-        signUp: 'api/signup',
-        login: 'api/login'
+    api: {
+        user: '/api/user',
+        signUp: '/api/signup',
+        login: '/api/login',
+        logout: '/api/logout'
     }
 };
