@@ -4,7 +4,7 @@ import theme from 'theme';
 
 export const Button = styled.button`
   position: absolute;
-  left: 20px;
+  left: 25px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;

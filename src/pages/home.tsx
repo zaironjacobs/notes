@@ -6,6 +6,7 @@ import Header from '@component/Header';
 
 
 const Home = (props) => {
+    const user = props.user;
 
     return (
         <>
@@ -19,7 +20,8 @@ const Home = (props) => {
 
             {/* Main */}
             <MainContainer>
-                {props.user.email}
+                First Name: {user.firstName}
+                Last Name: {user.lastName}
             </MainContainer>
         </>
     )

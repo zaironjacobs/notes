@@ -18,6 +18,22 @@ const SignUp = (props) => {
     const router = useRouter();
     const [error, setError] = useState('');
 
+    const submit = async (values, setError, router) => {
+        await axios.post(global.api.signUp, {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            password: values.password
+        })
+            .then(function (response: AxiosResponse) {
+                setError('');
+                router.push(global.paths.home);
+            })
+            .catch(function (error) {
+                setError(error.response.data.message);
+            });
+    };
+
     return (
         <>
             {/* Menu */}
@@ -62,11 +78,11 @@ const SignUp = (props) => {
                                 .required('Required'),
                         })}
                         onSubmit={(values, {setSubmitting, resetForm}) => {
-                            setTimeout(async () => {
+                            (async () => {
                                 await submit(values, setError, router);
                                 resetForm();
                                 setSubmitting(false);
-                            }, 1000);
+                            })();
                         }}
                     >
                         {props => (
@@ -96,23 +112,6 @@ const SignUp = (props) => {
     );
 }
 
-const submit = async (values, setError, router) => {
-    await axios.post(global.api.signUp, {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        password: values.password
-    })
-        .then(function (response: AxiosResponse) {
-            setError('');
-            router.push(global.paths.home);
-        })
-        .catch(function (error) {
-            setError(error.response.data.message);
-        });
-}
-
-
 const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) => {
     const [field, meta] = useField(props);
 
@@ -141,5 +140,6 @@ export const getServerSideProps = withSession(async function ({req, res}) {
         }
     }
 
+    // Else return a user object with isLoggedIn as false
     return {props: {user: {isLoggedIn: false}}};
 });

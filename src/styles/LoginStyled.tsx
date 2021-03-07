@@ -4,8 +4,7 @@ import {Form} from 'formik';
 import {Main} from "@style/GlobalStyle";
 
 
-export const MainContainer = styled(Main)`
-`;
+export const MainContainer = styled(Main)``;
 
 
 export const Content = styled.div`

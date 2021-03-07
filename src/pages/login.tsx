@@ -30,7 +30,7 @@ const Login = (props) => {
             .catch(function (error) {
                 setError(error.response.data.message);
             });
-    }
+    };
 
     return (
         <>
@@ -62,11 +62,11 @@ const Login = (props) => {
                                 .required('Required'),
                         })}
                         onSubmit={(values, {setSubmitting, resetForm}) => {
-                            setTimeout(async () => {
+                            (async () => {
                                 await submit(values, setError, router);
                                 resetForm();
                                 setSubmitting(false);
-                            }, 500);
+                            })();
                         }}
                     >
                         {props => (
@@ -120,5 +120,6 @@ export const getServerSideProps = withSession(async function ({req, res}) {
         }
     }
 
+    // Else return a user object with isLoggedIn as false
     return {props: {user: {isLoggedIn: false}}};
 });

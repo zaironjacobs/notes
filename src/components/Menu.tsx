@@ -43,7 +43,7 @@ const Menu = (props) => {
 
                 <ul>
                     {user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.home}>Home</Link></li>}
-                    {user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.home}>All notes</Link></li>}
+                    {user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.notes}>My notes</Link></li>}
                     {user.isLoggedIn && <li onClick={async () => await closeMenuAndLogout()}>Logout</li>}
                     {!user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.login}>Login</Link></li>}
                     {!user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.signUp}>Sign Up</Link></li>}

@@ -3,7 +3,8 @@ import {NotFoundWrapper, MainContainer} from '@style/404Styled';
 import Head from 'next/head';
 import global from 'global';
 
-function Custom404() {
+
+const Custom404 = () => {
     return (
         <>
             <MainContainer>

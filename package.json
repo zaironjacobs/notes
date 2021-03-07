@@ -21,6 +21,9 @@
     "react-dom": "17.0.1",
     "serverless-mysql": "^1.5.4",
     "styled-components": "^5.2.1",
+    "swr": "^0.4.2",
+    "unfetch": "^4.2.0",
+    "uuid": "^8.3.2",
     "yup": "^0.32.9"
   },
   "devDependencies": {

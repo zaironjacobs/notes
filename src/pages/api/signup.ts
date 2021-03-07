@@ -1,28 +1,25 @@
 import {query} from '@lib/db';
 import {hash} from 'bcrypt';
-import withSession from "@lib/session";
+import withSession from '@lib/session';
+import {v4 as uuidv4} from 'uuid';
 
 
 export default withSession(async (req, res) => {
+    // Signup user
     if (req.method === 'POST') {
         const {firstName, lastName, email, password} = req.body;
-
         const saltRounds = 10;
         const password_hashed = await hash(password, saltRounds);
-
         try {
             if (!firstName || !lastName || !email) {
                 return res.status(500).json({message: 'All values are required'});
             }
-
-            const result = await query(
+            const resultInsertUser = await query(
                 `
-                    INSERT INTO users (first_name, last_name, email, password)
-                    VALUES (?, ?, ?, ?)
+                    INSERT INTO users (id, first_name, last_name, email, password)
+                    VALUES ('${uuidv4()}', '${firstName}', '${lastName}', '${email}', '${password_hashed}');
                 `,
-                [firstName, lastName, email, password_hashed]
             );
-
             return res.status(200).json({message: 'Success'});
         } catch (error) {
             if (error.errno === 1062 || error.code === 'ER_DUP_ENTRY') {
@@ -32,6 +29,6 @@ export default withSession(async (req, res) => {
             }
         }
     } else {
-        return res.status(405).json({message: 'Could not create account'});
+        return res.status(405).json({message: 'An error occurred'});
     }
 });

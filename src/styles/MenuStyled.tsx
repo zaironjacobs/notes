@@ -11,6 +11,7 @@ export const Content = styled.div`
   width: 100%;
   background-color: ${theme.colors.royalBlueLight};
   z-index: 999999;
+  box-shadow: ${({menuOpen}) => menuOpen ? 'rgba(0, 0, 0, 0.15) 0 5px 15px;' : 'rgba(0, 0, 0, 0) 0 5px 15px;'};
   transition: transform 0.3s ease-in-out;
   transform: ${({menuOpen}) => menuOpen ? 'translateX(0)' : 'translateX(-100%)'};
 
@@ -39,7 +40,7 @@ export const Content = styled.div`
       }
     }
   }
-  
+
   .name-logo-wrapper {
     height: 75px;
     margin-left: 30px;

@@ -1,15 +1,8 @@
-import {useState, useRef} from 'react';
 import Head from 'next/head';
 import global from 'global';
-import {Content} from '@style/LayoutStyled';
-import useOnClickOutside from '@hook/useOnClickOutside';
 
 
 const Layout = ({children}) => {
-    const [menuOpen, setMenuOpen] = useState(false);
-
-    const menuNode = useRef();
-    useOnClickOutside(menuNode, () => setMenuOpen(false));
 
     return (
         <>
@@ -27,10 +20,7 @@ const Layout = ({children}) => {
                     integrity='sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp'
                     crossOrigin='anonymous'/>
             </Head>
-
-            <Content>
-                {children}
-            </Content>
+            {children}
         </>
     );
 }

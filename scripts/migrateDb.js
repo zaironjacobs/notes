@@ -30,21 +30,31 @@ async function migrate() {
 
         await query(`
         CREATE TABLE IF NOT EXISTS users (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            first_name TEXT NOT NULL,
-            last_name TEXT NOT NULL,
-            email TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL,
+            id VARCHAR(36) NOT NULL PRIMARY KEY,
+            first_name VARCHAR(30) NOT NULL,
+            last_name VARCHAR(30) NOT NULL,
+            email VARCHAR(30) NOT NULL UNIQUE,
+            password VARCHAR(72) NOT NULL,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)
+            updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
         `);
 
         await query(`
         CREATE TABLE IF NOT EXISTS notes (
-            id INT AUTO_INCREMENT PRIMARY KEY,
+            id VARCHAR(36) NOT NULL PRIMARY KEY,
+            name VARCHAR(30) NOT NULL,
             content TEXT NULL,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)
+            updated_at TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
+        `);
+
+        await query(`
+        CREATE TABLE IF NOT EXISTS user_notes (
+            id VARCHAR(36) NOT NULL PRIMARY KEY,
+            user_id VARCHAR(36) NOT NULL REFERENCES user(id),
+            note_id VARCHAR(36) NOT NULL REFERENCES notes(id),
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
         `);
 
         console.log('migration ran successfully');

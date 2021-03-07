@@ -3,27 +3,35 @@ import withSession from '@lib/session';
 
 
 export default withSession(async (req, res) => {
-    if (req.method === 'GET') {
-        const user_session = req.session.get('user');
-        if (user_session) {
-            try {
-                const results = await query(
-                    `
+    // Fetch user
+    if (req.method === 'POST') {
+
+        const userFromSession = req.session.get('user');
+        if (!userFromSession.isLoggedIn) {
+            return res.status(500).json({message: 'Could not fetch user info'});
+        }
+
+        try {
+            const resultSelectUser = await query(
+                `
                         SELECT first_name, last_name, email
                         FROM users
-                        WHERE id = ${user_session.id}
+                        WHERE id = '${userFromSession.id}';
                     `
-                );
-                const user = results[0];
-                user.isLoggedIn = true;
-                return res.status(200).json(user);
-            } catch (error) {
-                return res.status(500).json({message: 'Could not fetch user info'});
-            }
-        } else {
-            res.json({isLoggedIn: false});
+            );
+            const user = resultSelectUser[0];
+            const responseUser = {
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                email: user.email,
+                isLoggedIn: true,
+            };
+            return res.status(200).json({message: 'User info fetched', user: responseUser});
+        } catch (error) {
+            return res.status(500).json({message: 'Could not fetch user info'});
         }
     } else {
-        return res.status(405).json({message: 'Only GET'});
+        return res.status(405).json({message: 'An error occurred'});
     }
 });

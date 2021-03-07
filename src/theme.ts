@@ -11,7 +11,7 @@ export default {
         black: '#000000',
         white: '#FFFFFF',
         lightGrey: '#F7F7F8',
-        darkGrey: '#3e3e3e',
+        darkGrey: '#4f4f4f',
         starCommandBlue: '#0077b6',
         royalBlueLight: '#308ed4',
         imperialRed: '#e63946'
