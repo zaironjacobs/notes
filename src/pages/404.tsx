@@ -1,7 +1,8 @@
 import React from 'react';
-import {NotFoundWrapper, MainContainer} from '@style/404Styled';
+import {NotFoundWrapper, MainContainer, Button} from '@style/404Styled';
 import Head from 'next/head';
 import global from 'global';
+import Link from 'next/link';
 
 
 const Custom404 = () => {
@@ -16,6 +17,7 @@ const Custom404 = () => {
                     <div className='not-found-404'>404</div>
                     <div className='not-found-page'>Page Not Found</div>
                 </NotFoundWrapper>
+                <Button><Link href={global.paths.home}>Home</Link></Button>
             </MainContainer>
         </>
     );

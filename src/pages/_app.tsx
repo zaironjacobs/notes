@@ -2,8 +2,6 @@ import {useRef, useState} from 'react';
 import {GlobalStyle} from '@style/GlobalStyle';
 import Layout from '@component/Layout';
 import useOnClickOutside from '@hook/useOnClickOutside';
-import {SWRConfig} from 'swr'
-import fetch from 'unfetch';
 
 
 const App = (props) => {
@@ -15,16 +13,14 @@ const App = (props) => {
     return (
         <>
             <GlobalStyle/>
-            <SWRConfig value={{refreshInterval: 3000, fetcher: fetcher}}>
-                <Layout>
-                    <props.Component
-                        {...props.pageProps}
-                        menuOpen={menuOpen}
-                        setMenuOpen={setMenuOpen}
-                        menuNode={menuNode}
-                    />
-                </Layout>
-            </SWRConfig>
+            <Layout>
+                <props.Component
+                    {...props.pageProps}
+                    menuOpen={menuOpen}
+                    setMenuOpen={setMenuOpen}
+                    menuNode={menuNode}
+                />
+            </Layout>
         </>
     )
 }

@@ -42,7 +42,7 @@ export default withSession(async (req, res) => {
 
         const userFromSession = req.session.get('user');
         if (!userFromSession.isLoggedIn) {
-            return res.status(500).json({message: 'Could not fetch note'});
+            return res.status(500).json({message: 'Could not delete note'});
         }
 
         try {
@@ -65,6 +65,40 @@ export default withSession(async (req, res) => {
             }
         } catch (error) {
             return res.status(500).json({message: 'Could not delete note'});
+        }
+
+    }
+
+    // Update a note
+    else if (req.method === 'PUT') {
+
+        const userFromSession = req.session.get('user');
+        if (!userFromSession.isLoggedIn) {
+            return res.status(500).json({message: 'Could not update note'});
+        }
+
+        try {
+            const noteId = req.body.id;
+            const noteName = req.body.name;
+            const noteContent = req.body.content;
+            const resultUpdateNote = await query(
+                `
+                        UPDATE notes
+                        SET name = '${noteName}', content = '${noteContent}'
+                        WHERE id =
+                              (SELECT note_id
+                              FROM user_notes
+                              WHERE user_id = '${userFromSession.id}'
+                              AND note_id = '${noteId}');
+                    `
+            );
+            if (JSON.parse(JSON.stringify(resultUpdateNote)).affectedRows == 1) {
+                return res.status(200).json({message: 'Note updated'});
+            } else {
+                return res.status(500).json({message: 'Could not update note'});
+            }
+        } catch (error) {
+            return res.status(500).json({message: 'Could not update note'});
         }
 
     } else {

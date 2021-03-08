@@ -4,13 +4,17 @@ import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
 import axios, {AxiosResponse} from "axios";
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
+import PopupNewNote from '@component/PopupNewNote';
 
 
 const Notes = (props) => {
+    const router = useRouter();
     const user = props.user;
     const [notes, setNotes] = useState(null);
+    const [showNewNotePopup, setShowNewNotePopup] = useState(false);
 
     // Fetch notes
     useEffect(() => {
@@ -27,8 +31,17 @@ const Notes = (props) => {
         fetchNotes().then(notes => setNotes(notes));
     }, []);
 
-    const goToNote = (noteId) => {
-
+    const newNote = (name) => {
+        return axios.post(global.api.createNote, {name: name, content: ''})
+            .then(function (response: AxiosResponse) {
+                const newNoteId = response.data.id;
+                router.push(global.paths.note + '/' + Buffer.from(newNoteId).toString('base64')
+                    + '?editable=true');
+            })
+            .catch(function (error) {
+                console.log(error.response);
+                return [];
+            });
     }
 
     return (
@@ -43,21 +56,25 @@ const Notes = (props) => {
 
             {/* Main */}
             <MainContainer>
-
+                {showNewNotePopup &&
+                <PopupNewNote
+                    createNewNote={newNote}
+                    setShowNotePopup={setShowNewNotePopup}
+                />
+                }
                 <NotesHeaderOne>
                     <div className='my-notes'>My notes</div>
+                    <span onClick={() => setShowNewNotePopup(true)}><i className='fas fa-plus-circle new-note'/></span>
                 </NotesHeaderOne>
-
                 {notes !== null && notes.map((note, index: number) => (
-                    <Link href={global.paths.note + '/' + encodeURIComponent(note.id)} key={index}>
-                        <Note>
-                            <input className='note-checkbox' type='checkbox'/>
-                            <div className='note'>{note.name}</div>
-                        </Note>
-                    </Link>
+                    <Note key={index}>
+                        <input className='note-checkbox' type='checkbox'/>
+                        <Link href={global.paths.note + '/' + Buffer.from(note.id).toString('base64')}>
+                            <div className='note-name'>{note.name}</div>
+                        </Link>
+                    </Note>
+
                 ))}
-
-
             </MainContainer>
         </>
     )
@@ -65,18 +82,23 @@ const Notes = (props) => {
 
 export default Notes;
 
-export const getServerSideProps = withSession(async function ({req, res}) {
-    // If user does not exist, redirect to login
-    const user = req.session.get('user');
-    if (!user) {
-        return {
-            redirect: {
-                destination: global.paths.login,
-                permanent: false,
-            },
-        }
+export const getServerSideProps = withSession(async function (
+    {
+        req, res
     }
+    ) {
+        // If user does not exist, redirect to login
+        const user = req.session.get('user');
+        if (!user) {
+            return {
+                redirect: {
+                    destination: global.paths.login,
+                    permanent: false,
+                },
+            }
+        }
 
-    // Else return the user object and notes
-    return {props: {user}};
-});
+        // Else return the user object and notes
+        return {props: {user}};
+    }
+);

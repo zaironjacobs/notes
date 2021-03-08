@@ -7,7 +7,8 @@ export default {
         login: '/login',
         home: '/home',
         note: '/note',
-        notes: '/notes'
+        notes: '/notes',
+        notfound404: '/404'
     },
 
     api: {

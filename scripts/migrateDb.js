@@ -45,16 +45,18 @@ async function migrate() {
             name VARCHAR(30) NOT NULL,
             content TEXT NULL,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
+            updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
         `);
 
         await query(`
         CREATE TABLE IF NOT EXISTS user_notes (
             id VARCHAR(36) NOT NULL PRIMARY KEY,
-            user_id VARCHAR(36) NOT NULL REFERENCES user(id),
-            note_id VARCHAR(36) NOT NULL REFERENCES notes(id),
+            user_id VARCHAR(36) NOT NULL,
+            note_id VARCHAR(36) NOT NULL,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
+            updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            CONSTRAINT FOREIGN KEY (note_id) REFERENCES notes(id) ON DELETE CASCADE,
+            CONSTRAINT FOREIGN KEY (user_id) REFERENCES users(id));
         `);
 
         console.log('migration ran successfully');

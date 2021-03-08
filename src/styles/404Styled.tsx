@@ -15,6 +15,7 @@ export const NotFoundWrapper = styled.div`
   justify-content: center;
   flex-flow: column;
   align-items: center;
+  margin-bottom: 25px;
 
   .not-found-404 {
     font-size: 100px;
@@ -41,5 +42,32 @@ export const NotFoundWrapper = styled.div`
     ${theme.media._1200px} {
       font-size: 26px;
     }
+  }
+`;
+
+export const Button = styled.button`
+  cursor: pointer;
+  border: none;
+  height: 40px;
+  max-width: 85px;
+  width: 100%;
+  border-radius: 4px;
+  outline: none;
+  transition: 0.3s;
+  font-size: 18px;
+  
+  a {
+    color: ${theme.colors.darkGrey};
+    text-decoration: none;
+  }
+
+  :hover {
+    box-shadow: rgba(149, 157, 165, 0.18) 0 8px 24px;
+  }
+
+  ${theme.media._768px} {
+    max-width: 125px;
+    height: 45px;
+    font-size: 24px;
   }
 `;

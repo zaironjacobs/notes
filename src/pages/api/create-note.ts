@@ -4,7 +4,7 @@ import {v4 as uuidv4} from 'uuid';
 
 
 export default withSession(async (req, res) => {
-    // Retrieve a user's note
+    // Create a new note
     if (req.method === 'POST') {
 
         const userFromSession = req.session.get('user');
@@ -12,28 +12,30 @@ export default withSession(async (req, res) => {
             return res.status(500).json({message: 'Could not create note'});
         }
 
-        const {name, content} = req.body;
-        const newNoteId = uuidv4();
         try {
+            const {name, content} = req.body;
+            const newNoteId = uuidv4();
             const resultInsertNoteId = await query(
                 `
                         INSERT INTO notes (id, name, content)
                         VALUES ('${newNoteId}', '${name}', '${content}');
                     `,
             );
+            const newUserNotesId = uuidv4();
             const resultInsertUserNote = await query(
                 `
                     INSERT INTO user_notes (id, user_id, note_id)
                     VALUES (?, ?, ?)
                 `,
-                [uuidv4(), userFromSession.id, newNoteId]
+                [newUserNotesId, userFromSession.id, newNoteId]
             );
-            return res.status(200).json({message: 'Success'});
+            return res.status(200).json({message: 'Success', id: newNoteId});
         } catch (error) {
             return res.status(500).json({message: 'Could not create note'});
         }
-
     } else {
-        return res.status(500).json({message: 'An error occurred'});
+
+        // Invalid method
+        return res.status(500).json({message: 'Invalid method'});
     }
 });

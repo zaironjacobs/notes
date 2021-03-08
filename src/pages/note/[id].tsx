@@ -6,37 +6,60 @@ import Menu from '@component/Menu';
 import Header from '@component/Header';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
+import PopupConfirmation from '@component/PopupConfirmation';
 import axios, {AxiosResponse} from 'axios';
 
 
 const Note = (props) => {
     const router = useRouter();
+    const noteId: string = Buffer.from(router.query.id.toString(), 'base64').toString();
+    const editable = router.query.editable || '';
     const [note, setNote] = useState(null);
-    const noteId = router.query.id;
+    const [noteName, setNoteName] = useState('');
+    const [noteContent, setNoteContent] = useState('');
+    const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
+    const [disabled, setDisabled] = useState(true);
+
+    // New note should ne editable by default
+    useEffect(() => {
+        if (editable === 'true') {
+            setDisabled(false);
+        }
+    }, []);
 
     // Fetch note
     useEffect(() => {
-        const fetchNotes = async () => {
+        const fetchNote = async () => {
             return axios.post(global.api.note, {id: noteId})
                 .then(function (response: AxiosResponse) {
                     return response.data.note;
                 })
                 .catch(function (error) {
-                    console.log(error.response);
-                    return [];
+                    router.push(global.paths.notfound404);
                 });
         }
-        fetchNotes().then(note => setNote(note));
+        fetchNote().then(note => {
+            setNote(note);
+            setNoteName(note.name);
+            setNoteContent(note.content);
+        });
     }, []);
 
     const saveNote = () => {
-
+        if (!disabled && noteName !== '') {
+            axios.put(global.api.note, {id: noteId, name: noteName, content: noteContent})
+                .then(function (response: AxiosResponse) {
+                    setDisabled(true);
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+        }
     }
 
     const deleteNote = () => {
         axios.delete(global.api.note, {data: {id: noteId}})
             .then(function (response: AxiosResponse) {
-                console.log(response);
                 router.push(global.paths.notes);
             })
             .catch(function (error) {
@@ -44,6 +67,19 @@ const Note = (props) => {
             });
     }
 
+    const enableEditing = (value) => {
+        if (disabled) {
+            setDisabled(!value);
+        }
+    }
+
+    const changeNoteName = (event) => {
+        setNoteName(event.target.value);
+    }
+
+    const changeNoteContent = (event) => {
+        setNoteContent(event.target.value);
+    }
 
     return (
         <>
@@ -56,39 +92,72 @@ const Note = (props) => {
             <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
 
             {/* Main */}
-            <MainContainer>
-                <NoteHeaderOne>
-                    <Link href={global.paths.notes}>
-                        <div className='note-back'><i className='fas fa-arrow-circle-left'/></div>
-                    </Link>
-                </NoteHeaderOne>
-                <NoteHeaderTwo>
-                    <div className='note-name'>{note && note.name}</div>
-                    <div className='note-options'>
-                        <div className='note-save' onClick={saveNote}><i className='fas fa-check'/></div>
-                        <div className='note-trash' onClick={deleteNote}><i className='fas fa-trash'/></div>
-                    </div>
-                </NoteHeaderTwo>
-                <TextArea className='text-area' defaultValue={note && note.content}/>
-            </MainContainer>
+            {note ? <MainContainer>
+                    {showConfirmationPopup &&
+                    <PopupConfirmation message='Are you sure you want to delete this note?'
+                                       customFunction={deleteNote}
+                                       setShowPopUp={setShowConfirmationPopup}
+                    />
+                    }
+                    <NoteHeaderOne>
+                        <Link href={global.paths.notes}>
+                            <div className='note-back'>
+                                <i className='fas fa-arrow-circle-left'/>
+                            </div>
+                        </Link>
+                    </NoteHeaderOne>
+                    <NoteHeaderTwo>
+                        <div className='note-name-wrapper'>
+                            <input className='note-name-input'
+                                   placeholder='Note name...'
+                                   value={noteName}
+                                   onChange={changeNoteName}
+                                   disabled={disabled}/>
+                        </div>
+                        <div className='note-options'>
+                            <div className='note-edit' onClick={() => {
+                                enableEditing(true);
+                            }}>
+                                <i className='fas fa-edit'/>
+                            </div>
+                            <div className='note-save' onClick={saveNote}><i className='fas fa-check'/></div>
+                            <div className='note-trash' onClick={() => {
+                                setShowConfirmationPopup(true)
+                            }}>
+                                <i className='fas fa-trash'/>
+                            </div>
+                        </div>
+                    </NoteHeaderTwo>
+                    <TextArea
+                        placeholder='Your amazing ideas here...'
+                        className='text-area'
+                        onChange={changeNoteContent}
+                        value={noteContent} disabled={disabled}/>
+                </MainContainer>
+                : null}
         </>
     )
 }
 
 export default Note;
 
-export const getServerSideProps = withSession(async function ({req, res}) {
-    // If user does not exist, redirect to login
-    const user = req.session.get('user');
-    if (!user) {
-        return {
-            redirect: {
-                destination: global.paths.login,
-                permanent: false,
-            },
-        }
+export const getServerSideProps = withSession(async function (
+    {
+        req, res
     }
+    ) {
+        // If user does not exist, redirect to login
+        const user = req.session.get('user');
+        if (!user) {
+            return {
+                redirect: {
+                    destination: global.paths.login,
+                    permanent: false,
+                },
+            }
+        }
 
-    // Else return the user object
-    return {props: {user}};
-});
+        // Else return the user object
+        return {props: {user}};
+    }
+);

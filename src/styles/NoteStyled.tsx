@@ -18,6 +18,11 @@ export const TextArea = styled.textarea`
   font-weight: 400;
   font-size: 18px;
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
+
+  :disabled {
+    background-color: unset;
+  }
+
 `;
 
 
@@ -47,13 +52,36 @@ export const NoteHeaderTwo = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0 10px 0 10px;
+  padding: 0 10px 0 0;
+  justify-content: space-between;
 
-  .note-name {
-    margin-right: auto;
+  .note-name-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 750px;
+    width: 100%;
+    margin-right: 10px;
+  }
+
+  .note-name-input {
+    font-size: 18px;
+    height: 45px;
+    width: 100%;
+    padding: 0 10px 0 10px;
+    color: ${theme.colors.black};
+    font-weight: 500;
+    box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
+
+    :disabled {
+      background-color: unset;
+      box-shadow: none;
+    }
+  }
+
+  .note-edit {
     font-size: 20px;
-    font-weight: 600;
-    position: relative;
+    cursor: pointer;
   }
 
   .note-options {
@@ -62,16 +90,17 @@ export const NoteHeaderTwo = styled.div`
   }
 
   .note-save {
-    font-size: 22px;
+    font-size: 20px;
     right: 0;
     color: green;
     cursor: pointer;
+    margin-left: 20px;
   }
 
   .note-trash {
-    font-size: 22px;
+    font-size: 20px;
     right: 10px;
-    margin-left: 30px;
+    margin-left: 20px;
     color: red;
     cursor: pointer;
   }
