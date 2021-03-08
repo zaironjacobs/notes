@@ -32,12 +32,28 @@ export const NotesHeaderOne = styled.div`
   }
 `;
 
+
+export const NotesHeaderTwo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+  padding: 0 10px 0 10px;
+
+  .notes-trash {
+    font-size: 20px;
+    margin-right: 8px;
+    color: red;
+    cursor: pointer;
+  }
+`;
+
+
 export const Note = styled.div`
   display: flex;
   width: 100%;
   font-size: 18px;
   border-bottom: 1px solid ${theme.colors.darkGrey};
-  cursor: pointer;
   margin-bottom: 20px;
   transition: .3s ease-in-out;
   border-radius: 5px;
@@ -49,9 +65,10 @@ export const Note = styled.div`
   .note-checkbox {
     margin-right: 10px;
   }
-  
+
   .note-name {
     width: 100%;
     padding: 8px 3px 8px 3px;
+    cursor: pointer;
   }
 `;

@@ -1,22 +1,26 @@
-import {MainContainer, NotesHeaderOne, Note} from '@style/NotesStyled';
+import {MainContainer, NotesHeaderOne, NotesHeaderTwo, Note} from '@style/NotesStyled';
 import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
 import axios, {AxiosResponse} from "axios";
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PopupNewNote from '@component/PopupNewNote';
+import PopupConfirmation from "@component/PopupConfirmation";
 
 
 const Notes = (props) => {
     const router = useRouter();
-    const user = props.user;
+    const user: {} = props.user;
     const [notes, setNotes] = useState(null);
     const [showNewNotePopup, setShowNewNotePopup] = useState(false);
+    const [showDeleteNoteConfirmationPopup, setShowDeleteNoteConfirmationPopup] = useState(false);
+    const [showTrash, setShowTrash] = useState(false);
+    const [selectedNotesId, setSelectedNotesId] = useState([]);
 
-    // Fetch notes
+    // Fetch all notes from the user
     useEffect(() => {
         const fetchNotes = async () => {
             return axios.post(global.api.notes)
@@ -31,6 +35,7 @@ const Notes = (props) => {
         fetchNotes().then(notes => setNotes(notes));
     }, []);
 
+    // Create a new note
     const newNote = (name) => {
         return axios.post(global.api.createNote, {name: name, content: ''})
             .then(function (response: AxiosResponse) {
@@ -44,6 +49,33 @@ const Notes = (props) => {
             });
     }
 
+    // Delete all notes from selectedNotesId
+    const deleteSelected = () => {
+        selectedNotesId.forEach((noteId) => {
+            axios.delete(global.api.note, {data: {id: noteId}})
+                .then(function (response: AxiosResponse) {
+                    // Delete the note from notes
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+        })
+    }
+
+    // Add the id of the selected notes to selectedNotesId
+    const onCheckBoxChange = (e, noteId) => {
+        if (e.target.checked) {
+            selectedNotesId.push(noteId);
+            setSelectedNotesId(selectedNotesId.filter(id => id));
+        } else {
+            setSelectedNotesId(selectedNotesId.filter(id => id !== noteId));
+        }
+    }
+
+    useEffect(() => {
+        setShowTrash(selectedNotesId.length > 0);
+    }, [selectedNotesId]);
+
     return (
         <>
             {/* Menu */}
@@ -56,6 +88,12 @@ const Notes = (props) => {
 
             {/* Main */}
             <MainContainer>
+                {showDeleteNoteConfirmationPopup &&
+                <PopupConfirmation message='Delete all selected notes?'
+                                   customFunction={deleteSelected}
+                                   setShowPopUp={setShowDeleteNoteConfirmationPopup}
+                />
+                }
                 {showNewNotePopup &&
                 <PopupNewNote
                     createNewNote={newNote}
@@ -66,11 +104,27 @@ const Notes = (props) => {
                     <div className='my-notes'>My notes</div>
                     <span onClick={() => setShowNewNotePopup(true)}><i className='fas fa-plus-circle new-note'/></span>
                 </NotesHeaderOne>
+                <NotesHeaderTwo>
+                    {showTrash &&
+                    <div className='notes-trash' onClick={() => {
+                        setShowDeleteNoteConfirmationPopup(true);
+                    }}>
+                        <i className='fas fa-trash'/>
+                    </div>
+                    }
+                </NotesHeaderTwo>
                 {notes !== null && notes.map((note, index: number) => (
                     <Note key={index}>
-                        <input className='note-checkbox' type='checkbox'/>
+                        <input
+                            className='note-checkbox'
+                            id={note.id}
+                            type='checkbox'
+                            onChange={(e) => {
+                                onCheckBoxChange(e, note.id);
+                            }}
+                        />
                         <Link href={global.paths.note + '/' + Buffer.from(note.id).toString('base64')}>
-                            <div className='note-name'>{note.name}</div>
+                            <label className='note-name' htmlFor={note.id}>{note.name}</label>
                         </Link>
                     </Note>
 
@@ -82,11 +136,7 @@ const Notes = (props) => {
 
 export default Notes;
 
-export const getServerSideProps = withSession(async function (
-    {
-        req, res
-    }
-    ) {
+export const getServerSideProps = withSession(async function ({req, res}) {
         // If user does not exist, redirect to login
         const user = req.session.get('user');
         if (!user) {

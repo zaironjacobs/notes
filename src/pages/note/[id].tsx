@@ -13,11 +13,11 @@ import axios, {AxiosResponse} from 'axios';
 const Note = (props) => {
     const router = useRouter();
     const noteId: string = Buffer.from(router.query.id.toString(), 'base64').toString();
-    const editable = router.query.editable || '';
+    const editable: string | string[] = router.query.editable || '';
     const [note, setNote] = useState(null);
     const [noteName, setNoteName] = useState('');
     const [noteContent, setNoteContent] = useState('');
-    const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
+    const [showDeleteNoteConfirmationPopup, setShowDeleteNoteConfirmationPopup] = useState(false);
     const [disabled, setDisabled] = useState(true);
 
     // New note should ne editable by default
@@ -45,6 +45,7 @@ const Note = (props) => {
         });
     }, []);
 
+    // Save the note
     const saveNote = () => {
         if (!disabled && noteName !== '') {
             axios.put(global.api.note, {id: noteId, name: noteName, content: noteContent})
@@ -57,6 +58,7 @@ const Note = (props) => {
         }
     }
 
+    // Delete the note
     const deleteNote = () => {
         axios.delete(global.api.note, {data: {id: noteId}})
             .then(function (response: AxiosResponse) {
@@ -67,7 +69,8 @@ const Note = (props) => {
             });
     }
 
-    const enableEditing = (value) => {
+    // Enable or disable editing mode
+    const setEditingMode = (value) => {
         if (disabled) {
             setDisabled(!value);
         }
@@ -93,10 +96,10 @@ const Note = (props) => {
 
             {/* Main */}
             {note ? <MainContainer>
-                    {showConfirmationPopup &&
+                    {showDeleteNoteConfirmationPopup &&
                     <PopupConfirmation message='Are you sure you want to delete this note?'
                                        customFunction={deleteNote}
-                                       setShowPopUp={setShowConfirmationPopup}
+                                       setShowPopUp={setShowDeleteNoteConfirmationPopup}
                     />
                     }
                     <NoteHeaderOne>
@@ -116,13 +119,13 @@ const Note = (props) => {
                         </div>
                         <div className='note-options'>
                             <div className='note-edit' onClick={() => {
-                                enableEditing(true);
+                                setEditingMode(true);
                             }}>
                                 <i className='fas fa-edit'/>
                             </div>
                             <div className='note-save' onClick={saveNote}><i className='fas fa-check'/></div>
                             <div className='note-trash' onClick={() => {
-                                setShowConfirmationPopup(true)
+                                setShowDeleteNoteConfirmationPopup(true);
                             }}>
                                 <i className='fas fa-trash'/>
                             </div>
