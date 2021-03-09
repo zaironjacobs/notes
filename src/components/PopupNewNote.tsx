@@ -26,6 +26,7 @@ const PopupNewNote = (props) => {
                     <div className='create-text'>New note name:</div>
                     <input className='note-name'
                            placeholder='New note name'
+                           autoComplete='off'
                            onChange={dynamicChangeNoteName}/>
                     <button className='button' onClick={create}>Create</button>
                     <button className='button' onClick={cancel}>Cancel</button>
