@@ -8,7 +8,7 @@ import {useState, useEffect} from 'react';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PopupNewNote from '@component/PopupNewNote';
-import PopupConfirmation from "@component/PopupConfirmation";
+import PopupConfirmation from '@component/PopupConfirmation';
 
 
 const Notes = (props) => {
@@ -20,20 +20,37 @@ const Notes = (props) => {
     const [showTrash, setShowTrash] = useState(false);
     const [selectedNotesId, setSelectedNotesId] = useState([]);
 
-    // Fetch all notes from the user
+    // After render, fetch the user's notes
     useEffect(() => {
-        const fetchNotes = async () => {
-            return axios.post(global.api.notes)
-                .then(function (response: AxiosResponse) {
-                    return response.data.notes;
-                })
-                .catch(function (error) {
-                    console.log(error.response);
-                    return [];
-                });
-        }
-        fetchNotes().then(notes => setNotes(notes));
+        fetchNotes().then(notes => {
+            setAllNotesChecked(notes, false);
+            setNotes(notes);
+        });
     }, []);
+
+    // After render or when selectedNotesId changes, show the trash icon or not
+    useEffect(() => {
+        setShowTrash(selectedNotesId.length > 0);
+    }, [selectedNotesId]);
+
+    // Fetch all notes from the user
+    const fetchNotes = async () => {
+        return axios.post(global.api.notes)
+            .then(function (response: AxiosResponse) {
+                return response.data.notes;
+            })
+            .catch(function (error) {
+                console.log(error.response);
+                return [];
+            });
+    }
+
+    // Set all notes to checked or not checked
+    const setAllNotesChecked = (notes, isChecked) => {
+        notes.forEach((note) => {
+            note.isChecked = isChecked;
+        })
+    }
 
     // Create a new note
     const newNote = (name) => {
@@ -54,7 +71,12 @@ const Notes = (props) => {
         selectedNotesId.forEach((noteId) => {
             axios.delete(global.api.note, {data: {id: noteId}})
                 .then(function (response: AxiosResponse) {
-                    // Delete the note from notes
+                    setSelectedNotesId([]);
+                    fetchNotes().then(notes => {
+                        setAllNotesChecked(notes, false);
+                        setNotes(notes);
+                        setShowDeleteNoteConfirmationPopup(false);
+                    });
                 })
                 .catch(function (error) {
                     console.log(error.response);
@@ -63,18 +85,16 @@ const Notes = (props) => {
     }
 
     // Add the id of the selected notes to selectedNotesId
-    const onCheckBoxChange = (e, noteId) => {
+    const onCheckBoxChange = (e, note) => {
         if (e.target.checked) {
-            selectedNotesId.push(noteId);
+            selectedNotesId.push(note.id);
             setSelectedNotesId(selectedNotesId.filter(id => id));
+            note.isChecked = true;
         } else {
-            setSelectedNotesId(selectedNotesId.filter(id => id !== noteId));
+            setSelectedNotesId(selectedNotesId.filter(id => id !== note.id));
+            note.isChecked = false;
         }
     }
-
-    useEffect(() => {
-        setShowTrash(selectedNotesId.length > 0);
-    }, [selectedNotesId]);
 
     return (
         <>
@@ -119,8 +139,9 @@ const Notes = (props) => {
                             className='note-checkbox'
                             id={note.id}
                             type='checkbox'
+                            checked={note.isChecked}
                             onChange={(e) => {
-                                onCheckBoxChange(e, note.id);
+                                onCheckBoxChange(e, note);
                             }}
                         />
                         <Link href={global.paths.note + '/' + Buffer.from(note.id).toString('base64')}>

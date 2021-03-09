@@ -1,4 +1,4 @@
-import {MainContainer} from '@style/HomeStyled';
+import {MainContainer, HelloMessage} from '@style/HomeStyled';
 import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
@@ -20,8 +20,10 @@ const Home = (props) => {
 
             {/* Main */}
             <MainContainer>
-                First Name: {user.firstName}
-                Last Name: {user.lastName}
+                <HelloMessage>
+                    <div className='hello'>Hello,</div>
+                    <div className='name'>{user.firstName}</div>
+                </HelloMessage>
             </MainContainer>
         </>
     )

@@ -1,13 +1,18 @@
-import {Content} from '@style/MenuStyled';
+import {Content, Overlay} from '@style/MenuStyled';
 import Link from 'next/link';
 import global from 'global';
 import axios, {AxiosResponse} from 'axios';
 import {useRouter} from 'next/router';
+import useOnClickOutside from '@hook/useOnClickOutside';
+import {useRef} from 'react';
 
 
 const Menu = (props) => {
     const router = useRouter();
     const user = props.user;
+
+    const menuNode = useRef();
+    useOnClickOutside(menuNode, () => props.setMenuOpen(false));
 
     let initials = 'Hi';
     if (user.isLoggedIn) {
@@ -35,10 +40,11 @@ const Menu = (props) => {
 
     return (
         <>
-            <Content menuOpen={props.menuOpen}>
-
+            <Content menuOpen={props.menuOpen} ref={menuNode}>
                 <div className='name-logo-wrapper'>
-                    <span className='name-logo'>{initials}</span>
+                    <Link href={global.paths.home}>
+                        <span onClick={closeMenu} className='name-logo'>{initials}</span>
+                    </Link>
                 </div>
 
                 <ul>
@@ -49,6 +55,7 @@ const Menu = (props) => {
                     {!user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.signUp}>Sign Up</Link></li>}
                 </ul>
             </Content>
+            <Overlay menuOpen={props.menuOpen}/>
         </>
     );
 }

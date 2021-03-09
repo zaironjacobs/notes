@@ -11,7 +11,7 @@ export const MainContainer = styled(Main)`
 
 export const TextArea = styled.textarea`
   width: 100%;
-  height: calc(100vh - ${theme.header.mobileHeight} - 115px);
+  height: calc(100vh - ${theme.header.mobileHeight} - 135px);
   margin-top: 10px;
   resize: none;
   padding: 10px;
@@ -22,7 +22,6 @@ export const TextArea = styled.textarea`
   :disabled {
     background-color: unset;
   }
-
 `;
 
 

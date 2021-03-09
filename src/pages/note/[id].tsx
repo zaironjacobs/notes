@@ -87,9 +87,7 @@ const Note = (props) => {
     return (
         <>
             {/* Menu */}
-            <div ref={props.menuNode}>
-                <Menu menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen} user={props.user}/>
-            </div>
+            <Menu menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen} user={props.user}/>
 
             {/* Header */}
             <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
@@ -149,7 +147,7 @@ export const getServerSideProps = withSession(async function (
         req, res
     }
     ) {
-        // If user does not exist, redirect to login
+// If user does not exist, redirect to login
         const user = req.session.get('user');
         if (!user) {
             return {

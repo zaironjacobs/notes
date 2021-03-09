@@ -35,12 +35,14 @@ export const NotesHeaderOne = styled.div`
 
 export const NotesHeaderTwo = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: end;
+  flex-direction: column;
   width: 100%;
   padding: 0 10px 0 10px;
+  margin-bottom: 10px;
+  height: 32px;
 
   .notes-trash {
+    align-self: flex-end;
     font-size: 20px;
     margin-right: 8px;
     color: red;
@@ -55,15 +57,16 @@ export const Note = styled.div`
   font-size: 18px;
   border-bottom: 1px solid ${theme.colors.darkGrey};
   margin-bottom: 20px;
-  transition: .3s ease-in-out;
-  border-radius: 5px;
+  transition: .1s ease-in-out;
 
   :hover {
     background-color: #cae3ff;
   }
 
   .note-checkbox {
-    margin-right: 10px;
+    font-size: 28px;
+    margin-right: 15px;
+    cursor: pointer;
   }
 
   .note-name {
