@@ -8,6 +8,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PopupConfirmation from '@component/PopupConfirmation';
 import axios, {AxiosResponse} from 'axios';
+import Notification from '@component/Notification';
 
 
 const Note = (props) => {
@@ -20,6 +21,8 @@ const Note = (props) => {
     const [showDeleteNoteConfirmationPopup, setShowDeleteNoteConfirmationPopup] = useState(false);
     const [editable, setEditable] = useState(false);
     const textAreaNode = useRef<HTMLInputElement>(null);
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
 
 
     // New note should be editable by default
@@ -67,6 +70,7 @@ const Note = (props) => {
             axios.put(global.api.note, {id: noteId, name: noteName, content: noteContent})
                 .then(function (response: AxiosResponse) {
                     setEditable(false);
+                    startShowNotification();
                 })
                 .catch(function (error) {
                     console.log(error.response);
@@ -93,6 +97,16 @@ const Note = (props) => {
         setNoteContent(event.target.value);
     }
 
+    // Show notification
+    const startShowNotification = () => {
+        setNotificationMessage('Note saved');
+        setShowNotification(true);
+        setTimeout(() => {
+            setShowNotification(false);
+            setNotificationMessage('');
+        }, 3000);
+    }
+
     return (
         <>
             {/* Menu */}
@@ -100,6 +114,9 @@ const Note = (props) => {
 
             {/* Header */}
             <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
+
+            {/* Bottom Notification */}
+            {<Notification message={notificationMessage} showMessage={showNotification}/>}
 
             {/* Main */}
             {note ? <MainContainer>

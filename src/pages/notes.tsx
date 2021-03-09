@@ -9,6 +9,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PopupNewNote from '@component/PopupNewNote';
 import PopupConfirmation from '@component/PopupConfirmation';
+import Notification from "@component/Notification";
 
 
 const Notes = (props) => {
@@ -19,6 +20,8 @@ const Notes = (props) => {
     const [showDeleteNoteConfirmationPopup, setShowDeleteNoteConfirmationPopup] = useState(false);
     const [showTrash, setShowTrash] = useState(false);
     const [selectedNotesId, setSelectedNotesId] = useState([]);
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
 
     // After render, fetch the user's notes
     useEffect(() => {
@@ -76,6 +79,7 @@ const Notes = (props) => {
                         setAllNotesChecked(notes, false);
                         setNotes(notes);
                         setShowDeleteNoteConfirmationPopup(false);
+                        startShowNotification();
                     });
                 })
                 .catch(function (error) {
@@ -96,6 +100,16 @@ const Notes = (props) => {
         }
     }
 
+    // Show notification
+    const startShowNotification = () => {
+        setNotificationMessage('Notes deleted');
+        setShowNotification(true);
+        setTimeout(() => {
+            setShowNotification(false);
+            setNotificationMessage('');
+        }, 3000);
+    }
+
     return (
         <>
             {/* Menu */}
@@ -105,6 +119,9 @@ const Notes = (props) => {
 
             {/* Header */}
             <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
+
+            {/* Bottom Notification */}
+            {<Notification message={notificationMessage} showMessage={showNotification}/>}
 
             {/* Main */}
             <MainContainer>

@@ -22,6 +22,7 @@ export const TextArea = styled.textarea`
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
 
   :disabled {
+    color: ${theme.colors.darkGrey};
     background-color: unset;
   }
 `;
@@ -77,6 +78,7 @@ export const NoteHeaderTwo = styled.div`
     box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
 
     :disabled {
+      color: ${theme.colors.darkGrey};
       background-color: unset;
       box-shadow: none;
     }

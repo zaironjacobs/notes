@@ -54,8 +54,10 @@ export const NotesHeaderTwo = styled.div`
 
 export const Note = styled.div`
   display: flex;
+  align-items: center;
   width: 100%;
   font-size: 18px;
+  height: 45px;
   border-bottom: 1px solid ${theme.colors.darkGrey};
   margin-bottom: 20px;
   transition: .1s ease-in-out;
@@ -73,6 +75,5 @@ export const Note = styled.div`
     width: 100%;
     padding: 8px 3px 8px 3px;
     cursor: pointer;
-    margin-top: -5px;
   }
 `;
