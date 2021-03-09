@@ -57,7 +57,7 @@ export const NoteHeaderTwo = styled.div`
     box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
 
     :disabled {
-      color: ${theme.colors.greyDark};
+      color: ${theme.colors.black};
       background-color: unset;
       box-shadow: none;
     }
@@ -109,7 +109,7 @@ export const NoteHeaderTwo = styled.div`
 
 export const TextArea = styled.textarea`
   width: 100%;
-  height: calc(100vh - ${theme.header.mobileHeight} - 155px);
+  height: calc(100vh - ${theme.header.mobileHeight} - 175px);
   margin-top: 10px;
   resize: none;
   padding: 10px;
@@ -117,10 +117,12 @@ export const TextArea = styled.textarea`
   font-size: 18px;
   border: 1px solid #d4d4d4;
   border-radius: 5px;
+  color: ${theme.colors.black};
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
 
   :disabled {
-    color: ${theme.colors.greyDark};
+    color: ${theme.colors.black};
     background-color: unset;
+    box-shadow: none;
   }
 `;
