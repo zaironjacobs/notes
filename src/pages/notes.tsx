@@ -134,7 +134,7 @@ const Notes = (props) => {
                 {showNewNotePopup &&
                 <PopupNewNote
                     createNewNote={newNote}
-                    setShowNotePopup={setShowNewNotePopup}
+                    setShowNewNotePopup={setShowNewNotePopup}
                 />
                 }
                 <NotesHeaderOne>
@@ -162,7 +162,7 @@ const Notes = (props) => {
                             }}
                         />
                         <Link href={global.paths.note + '/' + Buffer.from(note.id).toString('base64')}>
-                            <label className='note-name' htmlFor={note.id}>{note.name}</label>
+                            <span className='note-name'>{note.name}</span>
                         </Link>
                     </Note>
 

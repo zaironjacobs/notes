@@ -23,6 +23,7 @@ const Home = (props) => {
                 <HelloMessage>
                     <div className='hello'>Hello,</div>
                     <div className='name'>{user.firstName}</div>
+                    <span className='memo-emoji'>📝</span>
                 </HelloMessage>
             </MainContainer>
         </>

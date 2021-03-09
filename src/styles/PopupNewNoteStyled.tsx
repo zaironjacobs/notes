@@ -28,7 +28,7 @@ export const Popup = styled.div`
   padding: 10px;
   max-width: 325px;
   width: 100%;
-  height: 220px;
+  height: 175px;
   border-radius: 20px;
   font-weight: 500;
   background: white;
@@ -38,12 +38,18 @@ export const Popup = styled.div`
     margin-bottom: 15px;
   }
 
-  .note-name {
+  .input-note-name {
     box-shadow: rgba(0, 0, 0, 0.07) 0 2px 4px 0 inset;
-    border: 1px solid #d4d4d4;
+    border: 1px solid ${theme.colors.greyLight};
     border-radius: 5px;
-    margin-bottom: 15px;
     padding: 10px;
+    margin-bottom: 25px;
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
   }
 
   .button {
@@ -58,7 +64,7 @@ export const Popup = styled.div`
     font-size: 18px;
     font-weight: 400;
     margin-bottom: 15px;
-    background-color: #dbdbdb;
+    background-color: ${theme.colors.greyLight};
 
     :last-of-type {
       margin-bottom: 0;

@@ -34,10 +34,10 @@ export const Popup = styled.div`
 
   .confirmation-text {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
   }
 
-  .confirmation-buttons-wrapper {
+  .buttons-wrapper {
     display: flex;
     justify-content: space-evenly;
   }
@@ -53,7 +53,7 @@ export const Popup = styled.div`
     transition: 0.3s;
     font-size: 18px;
     font-weight: 400;
-    background-color: #dbdbdb;
+    background-color: ${theme.colors.greyLight};
 
     a {
       color: ${theme.colors.greyDark};

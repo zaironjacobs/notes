@@ -16,8 +16,13 @@ export const HelloMessage = styled.div`
   .hello {
     font-size: 36px;
   }
-  
+
   .name {
     font-size: 46px;
+    margin-bottom: 15px;
+  }
+
+  .memo-emoji {
+    font-size: 125px;
   }
 `;

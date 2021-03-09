@@ -45,24 +45,6 @@ export const NoteHeaderTwo = styled.div`
     margin-right: 20px;
   }
 
-  .note-name-input {
-    font-size: 18px;
-    height: 45px;
-    width: 100%;
-    padding: 10px;
-    color: ${theme.colors.black};
-    font-weight: 500;
-    border: 1px solid #d4d4d4;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
-
-    :disabled {
-      color: ${theme.colors.black};
-      background-color: unset;
-      box-shadow: none;
-    }
-  }
-
   .note-options-wrapper {
     display: flex;
     position: relative;
@@ -103,26 +85,5 @@ export const NoteHeaderTwo = styled.div`
     :hover {
       color: ${theme.colors.redLight}
     }
-  }
-`;
-
-
-export const TextArea = styled.textarea`
-  width: 100%;
-  height: calc(100vh - ${theme.header.mobileHeight} - 175px);
-  margin-top: 10px;
-  resize: none;
-  padding: 10px;
-  font-weight: 400;
-  font-size: 18px;
-  border: 1px solid #d4d4d4;
-  border-radius: 5px;
-  color: ${theme.colors.black};
-  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
-
-  :disabled {
-    color: ${theme.colors.black};
-    background-color: unset;
-    box-shadow: none;
   }
 `;

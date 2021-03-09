@@ -1,5 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
-import {MainContainer, TextArea, NoteHeaderOne, NoteHeaderTwo} from '@style/NoteStyled';
+import {MainContainer, NoteHeaderOne, NoteHeaderTwo} from '@style/NoteStyled';
+import {CustomTextArea} from '@component/CustomTextArea';
+import {CustomInput} from '@component/CustomInput';
 import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
@@ -133,13 +135,13 @@ const Note = (props) => {
                     </NoteHeaderOne>
                     <NoteHeaderTwo>
                         <div className='note-name-wrapper'>
-                            <input className='note-name-input'
-                                   placeholder='Note name...'
-                                   value={noteName}
-                                   onChange={changeNoteName}
-                                   type='text'
-                                   autoComplete='off'
-                                   disabled={!editable}/>
+                            <CustomInput placeholder='Note name...'
+                                         value={noteName}
+                                         onChange={changeNoteName}
+                                         type='text'
+                                         autoComplete='off'
+                                         disabled={!editable}
+                            />
                         </div>
                         <div className='note-options-wrapper'>
                             <div className='note-edit' onClick={() => {
@@ -155,7 +157,7 @@ const Note = (props) => {
                             </div>
                         </div>
                     </NoteHeaderTwo>
-                    <TextArea
+                    <CustomTextArea
                         placeholder='Your amazing ideas here...'
                         onChange={changeNoteContent}
                         value={noteContent} disabled={!editable}
@@ -169,13 +171,8 @@ const Note = (props) => {
 
 export default Note;
 
-export const getServerSideProps = withSession(async function (
-{
-    req, res
-}
-)
-{
-// If user does not exist, redirect to login
+export const getServerSideProps = withSession(async function ({req, res}) {
+    // If user does not exist, redirect to login
     const user = req.session.get('user');
     if (!user) {
         return {
@@ -188,5 +185,4 @@ export const getServerSideProps = withSession(async function (
 
     // Else return the user object
     return {props: {user}};
-}
-);
+});

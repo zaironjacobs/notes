@@ -68,7 +68,7 @@ export const Note = styled.div`
   transition: .1s ease-in-out;
 
   :hover {
-    background-color: #cae3ff;
+    background-color: ${theme.colors.greyLight};
   }
 
   .note-checkbox {

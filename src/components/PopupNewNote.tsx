@@ -5,17 +5,20 @@ import {useState} from 'react';
 const PopupNewNote = (props) => {
     const [noteName, setNoteName] = useState('');
 
+    // Create the new note if a name is given
     const create = () => {
         if (noteName !== '') {
             props.createNewNote(noteName);
         }
     }
 
+    // Cancel the action
     const cancel = () => {
-        props.setShowNotePopup(false);
+        props.setShowNewNotePopup(false);
     }
 
-    const dynamicChangeNoteName = (event) => {
+    // Set the note name from the input
+    const dynamicSetNoteName = (event) => {
         setNoteName(event.target.value);
     }
 
@@ -24,13 +27,15 @@ const PopupNewNote = (props) => {
             <Overlay>
                 <Popup>
                     <div className='create-text'>New note name:</div>
-                    <input className='note-name'
+                    <input className='input-note-name'
                            placeholder='New note name'
                            type='text'
                            autoComplete='off'
-                           onChange={dynamicChangeNoteName}/>
-                    <button className='button' onClick={create}>Create</button>
-                    <button className='button' onClick={cancel}>Cancel</button>
+                           onChange={dynamicSetNoteName}/>
+                    <div className='buttons-wrapper'>
+                        <button className='button' onClick={create}>Create</button>
+                        <button className='button' onClick={cancel}>Cancel</button>
+                    </div>
                 </Popup>
             </Overlay>
         </>
