@@ -65,7 +65,7 @@ export const Note = styled.div`
   }
 
   .note-checkbox {
-    margin-right: 15px;
+    margin-right: 25px;
     cursor: pointer;
   }
 
@@ -73,5 +73,6 @@ export const Note = styled.div`
     width: 100%;
     padding: 8px 3px 8px 3px;
     cursor: pointer;
+    margin-top: -5px;
   }
 `;
