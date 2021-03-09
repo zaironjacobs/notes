@@ -17,6 +17,8 @@ export const TextArea = styled.textarea`
   padding: 10px;
   font-weight: 400;
   font-size: 18px;
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
 
   :disabled {
@@ -67,9 +69,11 @@ export const NoteHeaderTwo = styled.div`
     font-size: 18px;
     height: 45px;
     width: 100%;
-    padding: 0 10px 0 10px;
+    padding: 10px;
     color: ${theme.colors.black};
     font-weight: 500;
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
 
     :disabled {

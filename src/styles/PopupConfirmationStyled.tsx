@@ -51,6 +51,7 @@ export const Overlay = styled.div`
       transition: 0.3s;
       font-size: 18px;
       font-weight: 400;
+      background-color: #dbdbdb;
 
       a {
         color: ${theme.colors.darkGrey};

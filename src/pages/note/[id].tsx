@@ -140,7 +140,6 @@ const Note = (props) => {
                     </NoteHeaderTwo>
                     <TextArea
                         placeholder='Your amazing ideas here...'
-                        className='text-area'
                         onChange={changeNoteContent}
                         value={noteContent} disabled={!editable}
                         ref={textAreaNode}

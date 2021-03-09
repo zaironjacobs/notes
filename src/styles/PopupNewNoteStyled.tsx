@@ -38,7 +38,10 @@ export const Overlay = styled.div`
 
     .note-name {
       box-shadow: rgba(0, 0, 0, 0.07) 0 2px 4px 0 inset;
+      border: 1px solid #d4d4d4;
+      border-radius: 5px;
       margin-bottom: 15px;
+      padding: 10px;
     }
 
     .button {
@@ -53,7 +56,8 @@ export const Overlay = styled.div`
       font-size: 18px;
       font-weight: 400;
       margin-bottom: 15px;
-      
+      background-color: #dbdbdb;
+
       :last-of-type {
         margin-bottom: 0;
       }
