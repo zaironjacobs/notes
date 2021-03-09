@@ -57,7 +57,7 @@ export const Button = styled.button`
   font-size: 18px;
   
   a {
-    color: ${theme.colors.darkGrey};
+    color: ${theme.colors.greyDark};
     text-decoration: none;
   }
 

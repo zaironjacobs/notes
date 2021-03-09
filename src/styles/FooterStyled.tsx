@@ -9,15 +9,11 @@ export const Content = styled.div`
   justify-content: center;
   width: 100%;
   height: ${theme.footer.mobileHeight};
-  background-color: ${theme.colors.lightGrey};
+  background-color: ${theme.colors.greyLight};
 
   .built-by {
     a {
-      color: ${theme.colors.darkGrey};
-
-      :hover {
-        color: ${theme.colors.royalBlueLight};
-      }
+      color: ${theme.colors.greyDark};
     }
   }
 
@@ -25,13 +21,9 @@ export const Content = styled.div`
     margin-bottom: 10px;
 
     .github-icon {
-      color: ${theme.colors.darkGrey};
+      color: ${theme.colors.greyDark};
       font-size: 25px;
       transition: .3s;
-
-      :hover {
-        color: ${theme.colors.royalBlueLight};
-      }
     }
   }
 `;

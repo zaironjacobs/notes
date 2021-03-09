@@ -1,4 +1,4 @@
-import {Overlay} from '@style/PopupNewNoteStyled';
+import {Overlay, Popup} from '@style/PopupNewNoteStyled';
 import {useState} from 'react';
 
 
@@ -22,7 +22,7 @@ const PopupNewNote = (props) => {
     return (
         <>
             <Overlay>
-                <div className='popup'>
+                <Popup>
                     <div className='create-text'>New note name:</div>
                     <input className='note-name'
                            placeholder='New note name'
@@ -31,7 +31,7 @@ const PopupNewNote = (props) => {
                            onChange={dynamicChangeNoteName}/>
                     <button className='button' onClick={create}>Create</button>
                     <button className='button' onClick={cancel}>Cancel</button>
-                </div>
+                </Popup>
             </Overlay>
         </>
     )

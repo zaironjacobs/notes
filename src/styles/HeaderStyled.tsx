@@ -8,7 +8,7 @@ export const Content = styled.div`
   align-items: center;
   width: 100%;
   height: ${theme.header.mobileHeight};
-  background-color: ${theme.colors.starCommandBlue};
+  background-color: ${theme.colors.blueNormal};
   padding: 0 15px 0 15px;
 
   .logo {
@@ -18,6 +18,7 @@ export const Content = styled.div`
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 3px;
+    cursor: pointer;
   }
 `;
 

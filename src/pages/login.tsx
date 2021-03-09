@@ -1,4 +1,5 @@
-import {SignUpForm, Content, SubmitButton} from '@style/LoginStyled';
+import {SignUpForm, Content} from '@style/LoginStyled';
+import {MainButton} from '@style/MainButton';
 import {useRouter} from 'next/router';
 import {
     MainContainer
@@ -77,9 +78,9 @@ const Login = (props) => {
                                 <CustomTextInput label='Password' name='password' type='password'
                                                  placeholder='Password'/>
                                 <div className='login-server-error'>{error}</div>
-                                <SubmitButton
-                                    type='submit'>{props.isSubmitting ? 'Please Wait...' : 'Sign In'}
-                                </SubmitButton>
+                                <MainButton type='submit'>
+                                    {props.isSubmitting ? 'Please Wait...' : 'Sign In'}
+                                </MainButton>
                             </SignUpForm>
                         )}
                     </Formik>

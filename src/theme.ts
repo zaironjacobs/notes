@@ -10,11 +10,22 @@ export default {
     colors: {
         black: '#000000',
         white: '#FFFFFF',
-        lightGrey: '#F7F7F8',
-        darkGrey: '#4f4f4f',
-        starCommandBlue: '#0077b6',
-        royalBlueLight: '#308ed4',
-        imperialRed: '#e63946'
+
+        blueLight: '#5cb5f8',
+        blueNormal: '#0687db',
+        blueDark: '#005ea9',
+
+        greyLight: '#dbdbdb',
+        greyNormal: '#84898f',
+        greyDark: '#444a51',
+
+        greenLight: '#8cd276',
+        greenNormal: '#63c146',
+        greenDark: '#4DA230',
+
+        redLight: '#ef5562',
+        redNormal: '#E42535',
+        redDark: '#bc1522',
     },
 
     fonts: {

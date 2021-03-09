@@ -53,7 +53,7 @@ export const SignUpForm = styled(Form)`
   }
 
   .login-form-error {
-    color: ${theme.colors.imperialRed};
+    color: ${theme.colors.redLight};
     font-size: 14px;
     margin-top: 5px;
 
@@ -65,28 +65,7 @@ export const SignUpForm = styled(Form)`
   .login-server-error {
     margin-top: 20px;
     text-align: center;
-    color: ${theme.colors.imperialRed};
+    color: ${theme.colors.redLight};
     margin-bottom: 5px;
-  }
-`;
-
-export const SubmitButton = styled.button`
-  display: flex;
-  height: 50px;
-  justify-content: center;
-  align-items: center;
-  padding: 8px;
-  border-radius: 5px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
-  color: ${theme.colors.white};
-  background-color: ${theme.colors.royalBlueLight};
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: 400;
-  outline: none;
-  transition: .3s;
-
-  :hover {
-    background-color: ${theme.colors.starCommandBlue};
   }
 `;

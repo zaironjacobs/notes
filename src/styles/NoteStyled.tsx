@@ -9,42 +9,21 @@ export const MainContainer = styled(Main)`
 `;
 
 
-export const TextArea = styled.textarea`
-  width: 100%;
-  height: calc(100vh - ${theme.header.mobileHeight} - 135px);
-  margin-top: 10px;
-  resize: none;
-  padding: 10px;
-  font-weight: 400;
-  font-size: 18px;
-  border: 1px solid #d4d4d4;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
-
-  :disabled {
-    color: ${theme.colors.darkGrey};
-    background-color: unset;
-  }
-`;
-
-
 export const NoteHeaderOne = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
   padding: 0 10px 0 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 
-  .note-back {
+  .back {
     font-size: 30px;
-    color: ${theme.colors.starCommandBlue};
+    color: ${theme.colors.blueNormal};
     cursor: pointer;
+    transition: .3s;
 
     :hover {
-      i {
-        transition: .3s;
-        color: ${theme.colors.royalBlueLight};
-      }
+      color: ${theme.colors.blueLight};
     }
   }
 `;
@@ -78,7 +57,7 @@ export const NoteHeaderTwo = styled.div`
     box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
 
     :disabled {
-      color: ${theme.colors.darkGrey};
+      color: ${theme.colors.greyDark};
       background-color: unset;
       box-shadow: none;
     }
@@ -92,21 +71,56 @@ export const NoteHeaderTwo = styled.div`
   .note-edit {
     font-size: 22px;
     cursor: pointer;
+    transition: .3s;
+    color: ${theme.colors.greyDark};
+
+    :hover {
+      color: ${theme.colors.greyNormal};
+    }
   }
 
   .note-save {
     font-size: 22px;
     right: 0;
-    color: green;
+    color: ${theme.colors.greenNormal};
     cursor: pointer;
+    transition: .3s;
     margin-left: 20px;
+
+    :hover {
+      color: ${theme.colors.greenLight}
+    }
   }
 
   .note-trash {
     font-size: 22px;
     right: 10px;
     margin-left: 20px;
-    color: red;
+    transition: .3s;
+    color: ${theme.colors.redNormal};
     cursor: pointer;
+
+    :hover {
+      color: ${theme.colors.redLight}
+    }
+  }
+`;
+
+
+export const TextArea = styled.textarea`
+  width: 100%;
+  height: calc(100vh - ${theme.header.mobileHeight} - 155px);
+  margin-top: 10px;
+  resize: none;
+  padding: 10px;
+  font-weight: 400;
+  font-size: 18px;
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
+
+  :disabled {
+    color: ${theme.colors.greyDark};
+    background-color: unset;
   }
 `;

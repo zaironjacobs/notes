@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     background-color: ${theme.colors.white};
     text-rendering: optimizeLegibility;
-    color: ${theme.colors.darkGrey};
+    color: ${theme.colors.greyDark};
     font-weight: 400;
     font-size: 16px;
   }
@@ -30,21 +30,21 @@ export const GlobalStyle = createGlobalStyle`
 
   ::selection {
     color: ${theme.colors.white};
-    background: ${theme.colors.royalBlueLight};
+    background: ${theme.colors.blueNormal};
   }
 
   ::-moz-selection {
     color: ${theme.colors.white};
-    background: ${theme.colors.royalBlueLight};
+    background: ${theme.colors.blueNormal};
   }
 
   a {
-    color: ${theme.colors.royalBlueLight};
+    color: ${theme.colors.blueNormal};
     text-decoration: underline solid transparent;
     transition: .3s ease;
 
     :hover {
-      text-decoration: underline solid ${theme.colors.royalBlueLight};
+      text-decoration: underline solid ${theme.colors.blueLight};
     }
   }
 

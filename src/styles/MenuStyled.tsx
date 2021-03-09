@@ -9,7 +9,7 @@ export const Content = styled.div`
   height: 100vh;
   max-width: 200px;
   width: 100%;
-  background-color: ${theme.colors.royalBlueLight};
+  background-color: ${theme.colors.blueNormal};
   box-shadow: ${({menuOpen}) => menuOpen ? 'rgba(0, 0, 0, 0.15) 0 5px 15px;' : 'rgba(0, 0, 0, 0) 0 5px 15px;'};
   transition: transform 0.3s ease-in-out;
   transform: ${({menuOpen}) => menuOpen ? 'translateX(0)' : 'translateX(-100%)'};
@@ -22,16 +22,16 @@ export const Content = styled.div`
 
     li {
       margin-bottom: 25px;
-      color: ${theme.colors.lightGrey};
       font-size: 24px;
       font-weight: 400;
       width: fit-content;
       cursor: pointer;
 
       a {
-        color: ${theme.colors.lightGrey};
+        color: ${theme.colors.white};
         font-size: 24px;
         font-weight: 400;
+        text-decoration: none;
       }
 
       :last-of-type {
@@ -46,19 +46,20 @@ export const Content = styled.div`
     margin-top: 35px;
     width: fit-content;
     cursor: pointer;
-  }
 
-  .name-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 65px;
-    width: 65px;
-    font-size: 20px;
-    font-weight: 500;
-    color: ${theme.colors.white};
-    background-color: ${theme.colors.starCommandBlue};
-    border-radius: 50%;
+    .name-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 65px;
+      width: 65px;
+      font-size: 20px;
+      font-weight: 500;
+      color: ${theme.colors.white};
+      background-color: ${theme.colors.blueLight};
+      border-radius: 50%;
+      transition: .3s;
+    }
   }
 `;
 

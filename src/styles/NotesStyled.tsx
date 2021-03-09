@@ -25,10 +25,10 @@ export const NotesHeaderOne = styled.div`
     font-size: 30px;
     cursor: pointer;
     transition: .3s;
-    color: green;
+    color: ${theme.colors.greenNormal};
 
     :hover {
-      
+      color: ${theme.colors.greenLight};
     }
   }
 `;
@@ -45,9 +45,14 @@ export const NotesHeaderTwo = styled.div`
   .notes-trash {
     align-self: flex-end;
     font-size: 22px;
-    margin-right: 8px;
-    color: red;
+    margin-right: 6px;
+    transition: .3s;
+    color: ${theme.colors.redNormal};
     cursor: pointer;
+
+    :hover {
+      color: ${theme.colors.redLight};
+    }
   }
 `;
 
@@ -58,7 +63,7 @@ export const Note = styled.div`
   width: 100%;
   font-size: 18px;
   height: 45px;
-  border-bottom: 1px solid ${theme.colors.darkGrey};
+  border-bottom: 1px solid ${theme.colors.greyDark};
   margin-bottom: 20px;
   transition: .1s ease-in-out;
 

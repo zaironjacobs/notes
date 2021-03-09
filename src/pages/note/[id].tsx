@@ -128,9 +128,7 @@ const Note = (props) => {
                     }
                     <NoteHeaderOne>
                         <Link href={global.paths.notes}>
-                            <div className='note-back'>
-                                <i className='fas fa-arrow-circle-left'/>
-                            </div>
+                            <i className='fas fa-arrow-circle-left back'/>
                         </Link>
                     </NoteHeaderOne>
                     <NoteHeaderTwo>
@@ -172,22 +170,23 @@ const Note = (props) => {
 export default Note;
 
 export const getServerSideProps = withSession(async function (
-    {
-        req, res
-    }
-    ) {
+{
+    req, res
+}
+)
+{
 // If user does not exist, redirect to login
-        const user = req.session.get('user');
-        if (!user) {
-            return {
-                redirect: {
-                    destination: global.paths.login,
-                    permanent: false,
-                },
-            }
+    const user = req.session.get('user');
+    if (!user) {
+        return {
+            redirect: {
+                destination: global.paths.login,
+                permanent: false,
+            },
         }
-
-        // Else return the user object
-        return {props: {user}};
     }
+
+    // Else return the user object
+    return {props: {user}};
+}
 );
