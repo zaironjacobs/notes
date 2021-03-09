@@ -60,7 +60,7 @@ export const NoteHeaderTwo = styled.div`
     align-items: center;
     max-width: 750px;
     width: 100%;
-    margin-right: 10px;
+    margin-right: 20px;
   }
 
   .note-name-input {
@@ -78,18 +78,18 @@ export const NoteHeaderTwo = styled.div`
     }
   }
 
-  .note-edit {
-    font-size: 20px;
-    cursor: pointer;
-  }
-
-  .note-options {
+  .note-options-wrapper {
     display: flex;
     position: relative;
   }
 
+  .note-edit {
+    font-size: 22px;
+    cursor: pointer;
+  }
+
   .note-save {
-    font-size: 20px;
+    font-size: 22px;
     right: 0;
     color: green;
     cursor: pointer;
@@ -97,7 +97,7 @@ export const NoteHeaderTwo = styled.div`
   }
 
   .note-trash {
-    font-size: 20px;
+    font-size: 22px;
     right: 10px;
     margin-left: 20px;
     color: red;

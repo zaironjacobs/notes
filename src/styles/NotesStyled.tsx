@@ -25,9 +25,10 @@ export const NotesHeaderOne = styled.div`
     font-size: 30px;
     cursor: pointer;
     transition: .3s;
+    color: green;
 
     :hover {
-      color: ${theme.colors.royalBlueLight};
+      
     }
   }
 `;
@@ -43,7 +44,7 @@ export const NotesHeaderTwo = styled.div`
 
   .notes-trash {
     align-self: flex-end;
-    font-size: 20px;
+    font-size: 22px;
     margin-right: 8px;
     color: red;
     cursor: pointer;
@@ -64,7 +65,6 @@ export const Note = styled.div`
   }
 
   .note-checkbox {
-    font-size: 28px;
     margin-right: 15px;
     cursor: pointer;
   }

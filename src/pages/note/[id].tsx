@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {MainContainer, TextArea, NoteHeaderOne, NoteHeaderTwo} from '@style/NoteStyled';
 import global from 'global';
 import withSession from '@lib/session';
@@ -13,19 +13,35 @@ import axios, {AxiosResponse} from 'axios';
 const Note = (props) => {
     const router = useRouter();
     const noteId: string = Buffer.from(router.query.id.toString(), 'base64').toString();
-    const editable: string | string[] = router.query.editable || '';
+    const queryEditable: string | string[] = router.query.editable || '';
     const [note, setNote] = useState(null);
     const [noteName, setNoteName] = useState('');
     const [noteContent, setNoteContent] = useState('');
     const [showDeleteNoteConfirmationPopup, setShowDeleteNoteConfirmationPopup] = useState(false);
-    const [disabled, setDisabled] = useState(true);
+    const [editable, setEditable] = useState(false);
+    const textAreaNode = useRef<HTMLInputElement>(null);
 
-    // New note should ne editable by default
+
+    // New note should be editable by default
     useEffect(() => {
-        if (editable === 'true') {
-            setDisabled(false);
+        if (queryEditable === 'true') {
+            setEditable(true);
         }
     }, []);
+
+    // Set the focus on the textarea on queryEditable is true
+    useEffect(() => {
+        if (textAreaNode.current !== null && editable === true) {
+            textAreaNode.current.focus();
+        }
+    }, [textAreaNode.current]);
+
+    // Set the focus on the textarea when enabled is true
+    useEffect(() => {
+        if (textAreaNode.current !== null && editable === true) {
+            textAreaNode.current.focus();
+        }
+    }, [editable]);
 
     // Fetch note
     useEffect(() => {
@@ -47,10 +63,10 @@ const Note = (props) => {
 
     // Save the note
     const saveNote = () => {
-        if (!disabled && noteName !== '') {
+        if (editable && noteName !== '') {
             axios.put(global.api.note, {id: noteId, name: noteName, content: noteContent})
                 .then(function (response: AxiosResponse) {
-                    setDisabled(true);
+                    setEditable(false);
                 })
                 .catch(function (error) {
                     console.log(error.response);
@@ -67,13 +83,6 @@ const Note = (props) => {
             .catch(function (error) {
                 console.log(error.response);
             });
-    }
-
-    // Enable or disable editing mode
-    const setEditingMode = (value) => {
-        if (disabled) {
-            setDisabled(!value);
-        }
     }
 
     const changeNoteName = (event) => {
@@ -113,11 +122,11 @@ const Note = (props) => {
                                    placeholder='Note name...'
                                    value={noteName}
                                    onChange={changeNoteName}
-                                   disabled={disabled}/>
+                                   disabled={!editable}/>
                         </div>
-                        <div className='note-options'>
+                        <div className='note-options-wrapper'>
                             <div className='note-edit' onClick={() => {
-                                setEditingMode(true);
+                                setEditable(true);
                             }}>
                                 <i className='fas fa-edit'/>
                             </div>
@@ -133,7 +142,9 @@ const Note = (props) => {
                         placeholder='Your amazing ideas here...'
                         className='text-area'
                         onChange={changeNoteContent}
-                        value={noteContent} disabled={disabled}/>
+                        value={noteContent} disabled={!editable}
+                        ref={textAreaNode}
+                    />
                 </MainContainer>
                 : null}
         </>
