@@ -122,6 +122,8 @@ const Note = (props) => {
                                    placeholder='Note name...'
                                    value={noteName}
                                    onChange={changeNoteName}
+                                   type='text'
+                                   autoComplete='off'
                                    disabled={!editable}/>
                         </div>
                         <div className='note-options-wrapper'>

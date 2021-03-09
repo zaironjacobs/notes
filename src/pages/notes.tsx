@@ -140,7 +140,6 @@ const Notes = (props) => {
                             id={note.id}
                             type='checkbox'
                             checked={note.isChecked}
-                            autoComplete='off'
                             onChange={(e) => {
                                 onCheckBoxChange(e, note);
                             }}
