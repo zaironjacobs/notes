@@ -4,7 +4,7 @@ import theme from 'theme';
 
 
 export const MainContainer = styled(Main)`
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 0 15px 0 15px;
 `;
 

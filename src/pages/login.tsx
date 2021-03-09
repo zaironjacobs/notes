@@ -64,8 +64,8 @@ const Login = (props) => {
                         onSubmit={(values, {setSubmitting, resetForm}) => {
                             (async () => {
                                 await submit(values, setError, router);
-                                resetForm();
                                 setSubmitting(false);
+                                resetForm();
                             })();
                         }}
                     >
