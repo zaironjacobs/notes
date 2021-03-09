@@ -25,7 +25,7 @@ export const Overlay = styled.div`
     padding: 10px;
     max-width: 325px;
     width: 100%;
-    height: 125px;
+    height: 145px;
     border-radius: 20px;
     font-weight: 500;
     background: white;
