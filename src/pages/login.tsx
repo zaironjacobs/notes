@@ -9,10 +9,11 @@ import * as Yup from 'yup';
 import axios, {AxiosResponse} from 'axios';
 import global from 'global';
 import Link from 'next/link';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
+import Head from "next/head";
 
 
 const Login = (props) => {
@@ -45,6 +46,9 @@ const Login = (props) => {
 
             {/* Main */}
             <MainContainer>
+                <Head>
+                    <title>Login – {global.siteName}</title>
+                </Head>
                 <Content>
                     <Formik
                         initialValues={{

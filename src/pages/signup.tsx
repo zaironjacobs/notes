@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {useRouter} from 'next/router';
 import {CustomButton} from '@component/CustomButton';
 import {SignUpForm, Content} from '@style/SignUpStyled';
@@ -13,6 +13,7 @@ import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
+import Head from "next/head";
 
 
 const SignUp = (props) => {
@@ -47,6 +48,9 @@ const SignUp = (props) => {
 
             {/* Main */}
             <MainContainer>
+                <Head>
+                    <title>Signup – {global.siteName}</title>
+                </Head>
                 <Content>
                     <Formik
                         initialValues={{

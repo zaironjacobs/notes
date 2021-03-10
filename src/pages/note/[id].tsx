@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {MainContainer, NoteHeaderOne, NoteHeaderTwo} from '@style/NoteStyled';
 import {CustomTextArea} from '@component/CustomTextArea';
 import {CustomInput} from '@component/CustomInput';
@@ -10,7 +10,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PopupConfirmation from '@component/PopupConfirmation';
 import axios, {AxiosResponse} from 'axios';
-import Notification from '@component/Notification';
+import Head from "next/head";
 
 
 const Note = (props) => {
@@ -23,8 +23,6 @@ const Note = (props) => {
     const [showDeleteNoteConfirmationPopup, setShowDeleteNoteConfirmationPopup] = useState(false);
     const [editable, setEditable] = useState(false);
     const textAreaNode = useRef<HTMLInputElement>(null);
-    const [showNotification, setShowNotification] = useState(false);
-    const [notificationMessage, setNotificationMessage] = useState('');
 
 
     // New note should be editable by default
@@ -72,7 +70,7 @@ const Note = (props) => {
             axios.put(global.api.note, {id: noteId, name: noteName, content: noteContent})
                 .then(function (response: AxiosResponse) {
                     setEditable(false);
-                    startShowNotification();
+                    props.showNotification('Note saved');
                 })
                 .catch(function (error) {
                     console.log(error.response);
@@ -84,6 +82,8 @@ const Note = (props) => {
     const deleteNote = () => {
         axios.delete(global.api.note, {data: {id: noteId}})
             .then(function (response: AxiosResponse) {
+                props.showNotification('Note deleted');
+                //props.setShowNotification(true);
                 router.push(global.paths.notes);
             })
             .catch(function (error) {
@@ -91,22 +91,14 @@ const Note = (props) => {
             });
     }
 
+    // Dynamically change note name
     const changeNoteName = (event) => {
         setNoteName(event.target.value);
     }
 
+    // Dynamically change note content
     const changeNoteContent = (event) => {
         setNoteContent(event.target.value);
-    }
-
-    // Show notification
-    const startShowNotification = () => {
-        setNotificationMessage('Note saved');
-        setShowNotification(true);
-        setTimeout(() => {
-            setShowNotification(false);
-            setNotificationMessage('');
-        }, 3000);
     }
 
     return (
@@ -117,11 +109,11 @@ const Note = (props) => {
             {/* Header */}
             <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
 
-            {/* Bottom Notification */}
-            {<Notification message={notificationMessage} showMessage={showNotification}/>}
-
             {/* Main */}
             {note ? <MainContainer>
+                    <Head>
+                        <title>{noteName} – {global.siteName}</title>
+                    </Head>
                     {showDeleteNoteConfirmationPopup &&
                     <PopupConfirmation message='Are you sure you want to delete this note?'
                                        customFunction={deleteNote}

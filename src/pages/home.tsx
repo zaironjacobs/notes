@@ -3,6 +3,8 @@ import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
+import Head from "next/head";
+import React from "react";
 
 
 const Home = (props) => {
@@ -20,6 +22,9 @@ const Home = (props) => {
 
             {/* Main */}
             <MainContainer>
+                <Head>
+                    <title>Home – {global.siteName}</title>
+                </Head>
                 <HelloMessage>
                     <div className='hello'>Hello,</div>
                     <div className='name'>{user.firstName}</div>

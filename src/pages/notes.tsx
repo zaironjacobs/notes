@@ -4,12 +4,13 @@ import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
 import axios, {AxiosResponse} from "axios";
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PopupNewNote from '@component/PopupNewNote';
 import PopupConfirmation from '@component/PopupConfirmation';
 import Notification from "@component/Notification";
+import Head from "next/head";
 
 
 const Notes = (props) => {
@@ -79,7 +80,7 @@ const Notes = (props) => {
                         setAllNotesChecked(notes, false);
                         setNotes(notes);
                         setShowDeleteNoteConfirmationPopup(false);
-                        startShowNotification();
+                        props.showNotification('Notes deleted');
                     });
                 })
                 .catch(function (error) {
@@ -100,16 +101,6 @@ const Notes = (props) => {
         }
     }
 
-    // Show notification
-    const startShowNotification = () => {
-        setNotificationMessage('Notes deleted');
-        setShowNotification(true);
-        setTimeout(() => {
-            setShowNotification(false);
-            setNotificationMessage('');
-        }, 3000);
-    }
-
     return (
         <>
             {/* Menu */}
@@ -125,6 +116,9 @@ const Notes = (props) => {
 
             {/* Main */}
             <MainContainer>
+                <Head>
+                    <title>My notes – {global.siteName}</title>
+                </Head>
                 {showDeleteNoteConfirmationPopup &&
                 <PopupConfirmation message='Delete all selected notes?'
                                    customFunction={deleteSelected}
