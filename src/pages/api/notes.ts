@@ -9,7 +9,7 @@ export default withSession(async (req, res) => {
 
             const userFromSession = req.session.get('user');
             if (!userFromSession.isLoggedIn) {
-                return res.status(500).json({message: 'Could not fetch notes'});
+                return res.status(401).json({message: 'Could not fetch notes'});
             }
 
             const resultSelectNotes = await query(
@@ -36,6 +36,6 @@ export default withSession(async (req, res) => {
             return res.status(500).json({message: 'Could not fetch notes'});
         }
     } else {
-        return res.status(500).json({message: 'An error occurred'});
+        return res.status(405).json({message: 'An error occurred'});
     }
 });

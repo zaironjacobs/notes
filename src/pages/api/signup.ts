@@ -20,7 +20,7 @@ export default withSession(async (req, res) => {
                     VALUES ('${uuidv4()}', '${firstName}', '${lastName}', '${email}', '${password_hashed}');
                 `,
             );
-            return res.status(200).json({message: 'Success'});
+            return res.status(201).json({message: 'Success'});
         } catch (error) {
             if (error.errno === 1062 || error.code === 'ER_DUP_ENTRY') {
                 return res.status(500).json({message: 'This e-mail is already in use'});

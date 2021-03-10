@@ -9,7 +9,7 @@ export default withSession(async (req, res) => {
 
         const userFromSession = req.session.get('user');
         if (!userFromSession.isLoggedIn) {
-            return res.status(500).json({message: 'Could not create note'});
+            return res.status(401).json({message: 'Could not create note'});
         }
 
         try {
@@ -29,13 +29,13 @@ export default withSession(async (req, res) => {
                 `,
                 [newUserNotesId, userFromSession.id, newNoteId]
             );
-            return res.status(200).json({message: 'Success', id: newNoteId});
+            return res.status(201).json({message: 'Success', id: newNoteId});
         } catch (error) {
             return res.status(500).json({message: 'Could not create note'});
         }
     } else {
 
         // Invalid method
-        return res.status(500).json({message: 'Invalid method'});
+        return res.status(405).json({message: 'Invalid method'});
     }
 });

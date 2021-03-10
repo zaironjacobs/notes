@@ -21,9 +21,4 @@ export const HelloMessage = styled.div`
     font-size: 46px;
     margin-bottom: 15px;
   }
-
-  .memo-emoji {
-    font-size: 125px;
-    margin-left: 15px;
-  }
 `;

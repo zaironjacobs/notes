@@ -52,8 +52,8 @@ const Login = (props) => {
                 <Content>
                     <Formik
                         initialValues={{
-                            email: '',
-                            password: ''
+                            email: process.env.NEXT_PUBLIC_DEMO_EMAIL || '',
+                            password: process.env.NEXT_PUBLIC_DEMO_PASSWORD || ''
                         }}
                         validationSchema={Yup.object({
                             email: Yup.string()

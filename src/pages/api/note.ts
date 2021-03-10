@@ -8,7 +8,7 @@ export default withSession(async (req, res) => {
 
         const userFromSession = req.session.get('user');
         if (!userFromSession.isLoggedIn) {
-            return res.status(500).json({message: 'Could not fetch note'});
+            return res.status(401).json({message: 'Could not fetch note'});
         }
 
         try {
@@ -64,7 +64,7 @@ export default withSession(async (req, res) => {
                 return res.status(500).json({message: 'Could not delete note'});
             }
         } catch (error) {
-            return res.status(500).json({message: 'Could not delete note'});
+            return res.status(401).json({message: 'Could not delete note'});
         }
 
     }
@@ -93,17 +93,17 @@ export default withSession(async (req, res) => {
                     `
             );
             if (JSON.parse(JSON.stringify(resultUpdateNote)).affectedRows == 1) {
-                return res.status(200).json({message: 'Note updated'});
+                return res.status(201).json({message: 'Note updated'});
             } else {
                 return res.status(500).json({message: 'Could not update note'});
             }
         } catch (error) {
-            return res.status(500).json({message: 'Could not update note'});
+            return res.status(401).json({message: 'Could not update note'});
         }
 
     } else {
 
         // Invalid method
-        return res.status(500).json({message: 'Invalid method'});
+        return res.status(405).json({message: 'Invalid method'});
     }
 });
