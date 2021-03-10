@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useRouter} from 'next/router';
-import {CustomButton} from '@component/CustomButton';
+import {CustomSmallButton} from '@component/CustomSmallButton';
 import {SignUpForm, Content} from '@style/SignUpStyled';
 import {
     MainContainer
@@ -102,9 +102,9 @@ const SignUp = (props) => {
                                 <CustomTextInput label='Password' name='password' type='password'
                                                  placeholder='Password'/>
                                 <div className='sign-up-server-error'>{error}</div>
-                                <CustomButton type='submit'>
+                                <CustomSmallButton type='submit'>
                                     {props.isSubmitting ? 'Please Wait...' : 'Create Account'}
-                                </CustomButton>
+                                </CustomSmallButton>
                             </SignUpForm>
                         )}
                     </Formik>

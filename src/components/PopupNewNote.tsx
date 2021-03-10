@@ -1,4 +1,5 @@
 import {Overlay, Popup} from '@style/PopupNewNoteStyled';
+import {CustomSmallButton} from '@component/CustomSmallButton';
 import {useState} from 'react';
 
 
@@ -33,8 +34,8 @@ const PopupNewNote = (props) => {
                            autoComplete='off'
                            onChange={dynamicSetNoteName}/>
                     <div className='buttons-wrapper'>
-                        <button className='button' onClick={create}>Create</button>
-                        <button className='button' onClick={cancel}>Cancel</button>
+                        <CustomSmallButton className='button' onClick={create}>Create</CustomSmallButton>
+                        <CustomSmallButton className='button' onClick={cancel}>Cancel</CustomSmallButton>
                     </div>
                 </Popup>
             </Overlay>

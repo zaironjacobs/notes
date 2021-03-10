@@ -51,33 +51,5 @@ export const Popup = styled.div`
     justify-content: space-evenly;
     width: 100%;
   }
-
-  .button {
-    cursor: pointer;
-    border: none;
-    height: 35px;
-    max-width: 85px;
-    width: 100%;
-    border-radius: 4px;
-    outline: none;
-    transition: 0.3s;
-    font-size: 18px;
-    font-weight: 400;
-    margin-bottom: 15px;
-    background-color: ${theme.colors.greyLight};
-
-    :last-of-type {
-      margin-bottom: 0;
-    }
-
-    a {
-      color: ${theme.colors.greyDark};
-      text-decoration: none;
-    }
-
-    :hover {
-      box-shadow: rgba(149, 157, 165, 0.25) 0 8px 24px;
-    }
-  }
 `;
 

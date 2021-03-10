@@ -1,4 +1,5 @@
 import {Overlay, Popup} from '@style/PopupConfirmationStyled';
+import {CustomSmallButton} from '@component/CustomSmallButton';
 
 
 const PopupConfirmation = (props) => {
@@ -19,8 +20,8 @@ const PopupConfirmation = (props) => {
                 <Popup>
                     <span className='confirmation-text'>{props.message}</span>
                     <div className='buttons-wrapper'>
-                        <button className='confirmation-button' onClick={onYes}>Yes</button>
-                        <button className='confirmation-button' onClick={onNo}>No</button>
+                        <CustomSmallButton className='confirmation-button' onClick={onYes}>Yes</CustomSmallButton>
+                        <CustomSmallButton className='confirmation-button' onClick={onNo}>No</CustomSmallButton>
                     </div>
                 </Popup>
             </Overlay>
