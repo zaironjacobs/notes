@@ -3,7 +3,7 @@ import withSession from '@lib/session';
 
 
 export default withSession(async (req, res) => {
-    // Retrieve all user's notes
+    // Retrieve notes
     if (req.method === 'POST') {
         try {
 
@@ -36,6 +36,6 @@ export default withSession(async (req, res) => {
             return res.status(500).json({message: 'Could not fetch notes'});
         }
     } else {
-        return res.status(405).json({message: 'An error occurred'});
+        return res.status(405).json({message: 'Invalid method'});
     }
 });

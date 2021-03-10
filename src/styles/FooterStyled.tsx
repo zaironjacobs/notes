@@ -9,11 +9,13 @@ export const Content = styled.div`
   justify-content: center;
   width: 100%;
   height: ${theme.footer.mobileHeight};
-  background-color: ${theme.colors.greyLight};
+  background-color: ${theme.colors.white};
+  border-top: 1px solid ${theme.colors.greyLight};
 
   .built-by {
     a {
       color: ${theme.colors.greyDark};
+      text-decoration: none;
     }
   }
 

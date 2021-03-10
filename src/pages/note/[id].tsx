@@ -11,7 +11,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PopupConfirmation from '@component/PopupConfirmation';
 import axios, {AxiosResponse} from 'axios';
-import Head from "next/head";
+import Head from 'next/head';
 
 
 const Note = (props) => {
@@ -170,11 +170,7 @@ const Note = (props) => {
 
 export default Note;
 
-export const getServerSideProps = withSession(async function (
-    {
-        req, res
-    }
-    ) {
+export const getServerSideProps = withSession(async function ({req, res}) {
         // If user does not exist, redirect to login
         const user = req.session.get('user');
         if (!user) {

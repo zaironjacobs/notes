@@ -4,7 +4,6 @@ import theme from 'theme';
 
 
 export const MainContainer = styled(Main)`
-  margin-top: 20px;
   padding: 0 15px 0 15px;
 `;
 
@@ -45,7 +44,7 @@ export const NoteHeaderTwo = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    max-width: 750px;
+    max-width: 950px;
     width: 100%;
     margin-right: 20px;
   }

@@ -29,6 +29,6 @@ export default withSession(async (req, res) => {
             }
         }
     } else {
-        return res.status(405).json({message: 'An error occurred'});
+        return res.status(405).json({message: 'Invalid method'});
     }
 });

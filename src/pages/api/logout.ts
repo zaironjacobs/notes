@@ -7,6 +7,6 @@ export default withSession(async (req, res) => {
         req.session.destroy();
         return res.status(200).json({message: 'Logged out'});
     } else {
-        return res.status(405).json({message: 'An error occurred'});
+        return res.status(405).json({message: 'Invalid method'});
     }
 });

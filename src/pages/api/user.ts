@@ -32,6 +32,6 @@ export default withSession(async (req, res) => {
             return res.status(500).json({message: 'Could not fetch user info'});
         }
     } else {
-        return res.status(405).json({message: 'An error occurred'});
+        return res.status(405).json({message: 'Invalid method'});
     }
 });

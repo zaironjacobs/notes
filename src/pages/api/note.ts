@@ -3,7 +3,7 @@ import withSession from '@lib/session';
 
 
 export default withSession(async (req, res) => {
-    // Retrieve a user's note
+    // Retrieve a note
     if (req.method === 'POST') {
 
         const userFromSession = req.session.get('user');

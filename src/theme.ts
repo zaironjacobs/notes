@@ -7,8 +7,6 @@ export default {
         _1200px: '@media (min-width: 1200px)'
     },
 
-    borderRadius: '5px',
-
     colors: {
         black: '#000000',
         white: '#FFFFFF',
@@ -17,6 +15,7 @@ export default {
         blueNormal: '#0687db',
         blueDark: '#005ea9',
 
+        greyLighter: '#f8f8f8',
         greyLight: '#dbdbdb',
         greyNormal: '#84898f',
         greyDark: '#444a51',
@@ -29,6 +28,8 @@ export default {
         redNormal: '#E42535',
         redDark: '#bc1522',
     },
+
+    borderRadius: '5px',
 
     fonts: {
         ubuntu: 'Ubuntu',

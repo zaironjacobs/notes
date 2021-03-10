@@ -4,7 +4,6 @@ import theme from 'theme';
 
 
 export const MainContainer = styled(Main)`
-  margin-top: 20px;
   padding: 0 15px 0 15px;
 `;
 
@@ -82,7 +81,7 @@ export const Note = styled.div`
   transition: .1s ease-in-out;
 
   :hover {
-    background-color: ${theme.colors.greyLight};
+    background-color: ${theme.colors.greyLighter};
   }
 
   .note-checkbox {
