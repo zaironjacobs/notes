@@ -115,10 +115,11 @@ const Note = (props) => {
             <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
 
             {/* Main */}
-            {note ? <MainContainer>
-                    <Head>
-                        <title>{noteName} – {global.siteName}</title>
-                    </Head>
+            <MainContainer>
+                <Head>
+                    <title>{note && noteName} – {global.siteName}</title>
+                </Head>
+                {note ?
                     <PageWrapper>
                         {showDeleteNoteConfirmationPopup &&
                         <PopupConfirmation message='Are you sure you want to delete this note?'
@@ -162,8 +163,9 @@ const Note = (props) => {
                             ref={textAreaNode}
                         />
                     </PageWrapper>
-                </MainContainer>
-                : null}
+                    : null}
+            </MainContainer>
+
         </>
     )
 }
