@@ -15,6 +15,7 @@ export const NoteHeaderOne = styled.div`
   width: 100%;
   padding: 0 10px 0 10px;
   margin-bottom: 20px;
+  height: 40px;
 
   .back {
     font-size: 30px;
