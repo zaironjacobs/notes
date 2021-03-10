@@ -15,10 +15,19 @@ export const Content = styled.div`
   transform: ${({menuOpen}) => menuOpen ? 'translateX(0)' : 'translateX(-100%)'};
   z-index: 999999999;
 
+  ${theme.media._768px} {
+    max-width: 300px;
+  }
+
+
   ul {
     list-style-type: none;
     margin: 0 0 0 30px;
     padding: 30px 0 0 0;
+
+    ${theme.media._768px} {
+      padding: 45px 0 0 0;
+    }
 
     li {
       margin-bottom: 25px;
@@ -32,6 +41,10 @@ export const Content = styled.div`
         font-size: 24px;
         font-weight: 400;
         text-decoration: none;
+
+        ${theme.media._768px} {
+          font-size: 30px;
+        }
       }
 
       :last-of-type {
@@ -59,6 +72,16 @@ export const Content = styled.div`
       background-color: ${theme.colors.blueLight};
       border-radius: 50%;
       transition: .3s;
+
+      :hover {
+        text-decoration: unset;
+      }
+
+      ${theme.media._768px} {
+        font-size: 32px;
+        height: 85px;
+        width: 85px;
+      }
     }
   }
 `;

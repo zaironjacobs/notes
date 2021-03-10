@@ -48,10 +48,10 @@ export const NotFoundWrapper = styled.div`
 export const Button = styled.button`
   cursor: pointer;
   border: none;
-  height: 40px;
-  max-width: 85px;
+  height: 45px;
+  max-width: 100px;
   width: 100%;
-  border-radius: 4px;
+  border-radius: ${theme.borderRadius};
   outline: none;
   transition: 0.3s;
   font-size: 18px;
@@ -66,8 +66,9 @@ export const Button = styled.button`
   }
 
   ${theme.media._768px} {
-    max-width: 125px;
-    height: 45px;
+    max-width: 135px;
+    height: 50px;
     font-size: 24px;
+    padding-bottom: 3px;
   }
 `;

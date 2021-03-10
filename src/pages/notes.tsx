@@ -1,4 +1,5 @@
 import {MainContainer, NotesHeaderOne, Note} from '@style/NotesStyled';
+import {PageWrapper} from '@style/GlobalStyle';
 import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
@@ -119,48 +120,49 @@ const Notes = (props) => {
                 <Head>
                     <title>My notes – {global.siteName}</title>
                 </Head>
-                {showDeleteNoteConfirmationPopup &&
-                <PopupConfirmation message='Delete all selected notes?'
-                                   customFunction={deleteSelected}
-                                   setShowPopUp={setShowDeleteNoteConfirmationPopup}
-                />
-                }
-                {showNewNotePopup &&
-                <PopupNewNote
-                    createNewNote={newNote}
-                    setShowNewNotePopup={setShowNewNotePopup}
-                />
-                }
-                <NotesHeaderOne>
-                    <div className='my-notes'>My notes</div>
-                    <div className='notes-header-one-left'>
-                        {showTrash &&
-                        <div className='notes-trash' onClick={() => {
-                            setShowDeleteNoteConfirmationPopup(true);
-                        }}>
-                            <i className='fas fa-trash'/>
+                <PageWrapper>
+                    {showDeleteNoteConfirmationPopup &&
+                    <PopupConfirmation message='Delete all selected notes?'
+                                       customFunction={deleteSelected}
+                                       setShowPopUp={setShowDeleteNoteConfirmationPopup}
+                    />
+                    }
+                    {showNewNotePopup &&
+                    <PopupNewNote
+                        createNewNote={newNote}
+                        setShowNewNotePopup={setShowNewNotePopup}
+                    />
+                    }
+                    <NotesHeaderOne>
+                        <div className='my-notes'>My notes</div>
+                        <div className='notes-header-one-left'>
+                            {showTrash &&
+                            <div className='notes-trash' onClick={() => {
+                                setShowDeleteNoteConfirmationPopup(true);
+                            }}>
+                                <i className='fas fa-trash'/>
+                            </div>
+                            }
+                            <i onClick={() => setShowNewNotePopup(true)} className='fas fa-plus-circle new-note'/>
                         </div>
-                        }
-                        <i onClick={() => setShowNewNotePopup(true)} className='fas fa-plus-circle new-note'/>
-                    </div>
-                </NotesHeaderOne>
-                {notes !== null && notes.map((note, index: number) => (
-                    <Note key={index}>
-                        <input
-                            className='note-checkbox'
-                            id={note.id}
-                            type='checkbox'
-                            checked={note.isChecked}
-                            onChange={(e) => {
-                                onCheckBoxChange(e, note);
-                            }}
-                        />
-                        <Link href={global.paths.note + '/' + Buffer.from(note.id).toString('base64')}>
-                            <span className='note-name'>{note.name}</span>
-                        </Link>
-                    </Note>
-
-                ))}
+                    </NotesHeaderOne>
+                    {notes !== null && notes.map((note, index: number) => (
+                        <Note key={index}>
+                            <input
+                                className='note-checkbox'
+                                id={note.id}
+                                type='checkbox'
+                                checked={note.isChecked}
+                                onChange={(e) => {
+                                    onCheckBoxChange(e, note);
+                                }}
+                            />
+                            <Link href={global.paths.note + '/' + Buffer.from(note.id).toString('base64')}>
+                                <span className='note-name'>{note.name}</span>
+                            </Link>
+                        </Note>
+                    ))}
+                </PageWrapper>
             </MainContainer>
         </>
     )

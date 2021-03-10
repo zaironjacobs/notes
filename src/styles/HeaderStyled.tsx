@@ -19,6 +19,15 @@ export const Content = styled.div`
     text-transform: uppercase;
     letter-spacing: 3px;
     cursor: pointer;
+    text-decoration: none;
+
+    :hover {
+      text-decoration: unset;
+    }
+
+    ${theme.media._768px} {
+      font-size: 32px;
+    }
   }
 `;
 

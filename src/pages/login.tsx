@@ -27,7 +27,7 @@ const Login = (props) => {
         })
             .then(function (response: AxiosResponse) {
                 setError('');
-                router.push(global.paths.home);
+                router.push(global.paths.notes);
             })
             .catch(function (error) {
                 setError(error.response.data.message);
@@ -119,7 +119,7 @@ export const getServerSideProps = withSession(async function ({req, res}) {
     if (user) {
         return {
             redirect: {
-                destination: global.paths.home,
+                destination: global.paths.notes,
                 permanent: false,
             },
         }

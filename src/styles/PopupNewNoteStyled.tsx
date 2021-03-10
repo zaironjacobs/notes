@@ -41,7 +41,7 @@ export const Popup = styled.div`
   .input-note-name {
     box-shadow: rgba(0, 0, 0, 0.07) 0 2px 4px 0 inset;
     border: 1px solid ${theme.colors.greyLight};
-    border-radius: 5px;
+    border-radius: ${theme.borderRadius};
     padding: 10px;
     margin-bottom: 25px;
   }

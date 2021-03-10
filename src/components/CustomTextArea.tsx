@@ -11,7 +11,7 @@ export const CustomTextArea = styled.textarea`
   font-weight: 400;
   font-size: 18px;
   border: 1px solid ${theme.colors.greyLight};
-  border-radius: 5px;
+  border-radius: ${theme.borderRadius};
   color: ${theme.colors.black};
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
 

@@ -8,7 +8,7 @@ export const CustomButton = styled.button`
   justify-content: center;
   align-items: center;
   padding: 8px;
-  border-radius: 5px;
+  border-radius: ${theme.borderRadius};
   box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
   color: ${theme.colors.white};
   background-color: ${theme.colors.blueNormal};

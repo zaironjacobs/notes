@@ -64,7 +64,10 @@ export const Main = styled.main`
   flex-direction: column;
   width: 100%;
   min-height: calc(100vh - ${theme.header.mobileHeight} - ${theme.footer.mobileHeight});
+`;
 
-  ${theme.media._1200px} {
-  }
+
+export const PageWrapper = styled.div`
+  max-width: 800px;
+  width: 100%;
 `;

@@ -8,6 +8,7 @@ export const MainContainer = styled(Main)`
   padding: 0 15px 0 15px;
 `;
 
+
 export const NotesHeaderOne = styled.div`
   display: flex;
   align-items: center;
@@ -20,6 +21,11 @@ export const NotesHeaderOne = styled.div`
   .my-notes {
     font-size: 20px;
     font-weight: 600;
+
+    ${theme.media._768px} {
+      font-size: 32px;
+    }
+
   }
 
   .notes-header-one-left {
@@ -38,6 +44,11 @@ export const NotesHeaderOne = styled.div`
       :hover {
         color: ${theme.colors.redLight};
       }
+
+      ${theme.media._768px} {
+        font-size: 32px;
+      }
+
     }
 
     .new-note {
@@ -50,6 +61,11 @@ export const NotesHeaderOne = styled.div`
       :hover {
         color: ${theme.colors.greenLight};
       }
+
+      ${theme.media._768px} {
+        font-size: 38px;
+      }
+
     }
   }
 `;
@@ -78,5 +94,9 @@ export const Note = styled.div`
     width: 100%;
     padding: 8px 3px 8px 3px;
     cursor: pointer;
+
+    ${theme.media._768px} {
+      font-size: 20px;
+    }
   }
 `;

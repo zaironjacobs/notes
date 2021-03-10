@@ -9,7 +9,7 @@ const Header = (props) => {
         <>
             <Content>
                 <Burger menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
-                <Link href={global.paths.home}><span className='logo'>Notes</span></Link>
+                <Link href={global.paths.notes}><a className='logo'><span>Notes</span></a></Link>
             </Content>
         </>
     );

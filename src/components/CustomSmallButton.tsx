@@ -8,7 +8,7 @@ export const CustomSmallButton = styled.button`
   height: 35px;
   max-width: 100px;
   width: 100%;
-  border-radius: 4px;
+  border-radius: ${theme.borderRadius};
   outline: none;
   transition: 0.3s;
   font-size: 18px;

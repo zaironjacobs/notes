@@ -10,7 +10,7 @@ export const CustomInput = styled.input`
   color: ${theme.colors.black}
   font-weight: 500;
   border: 1px solid ${theme.colors.greyLight};
-  border-radius: 5px;
+  border-radius: ${theme.borderRadius};
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
 
   :disabled {

@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {MainContainer, NoteHeaderOne, NoteHeaderTwo} from '@style/NoteStyled';
+import {PageWrapper} from '@style/GlobalStyle';
 import {CustomTextArea} from '@component/CustomTextArea';
 import {CustomInput} from '@component/CustomInput';
 import global from 'global';
@@ -58,9 +59,13 @@ const Note = (props) => {
                 });
         }
         fetchNote().then(note => {
-            setNote(note);
-            setNoteName(note.name);
-            setNoteContent(note.content);
+            if (note) {
+                setNote(note);
+                setNoteName(note.name);
+                setNoteContent(note.content);
+            } else {
+                router.push(global.paths.notfound404);
+            }
         });
     }, []);
 
@@ -114,47 +119,49 @@ const Note = (props) => {
                     <Head>
                         <title>{noteName} – {global.siteName}</title>
                     </Head>
-                    {showDeleteNoteConfirmationPopup &&
-                    <PopupConfirmation message='Are you sure you want to delete this note?'
-                                       customFunction={deleteNote}
-                                       setShowPopUp={setShowDeleteNoteConfirmationPopup}
-                    />
-                    }
-                    <NoteHeaderOne>
-                        <Link href={global.paths.notes}>
-                            <i className='fas fa-arrow-circle-left back'/>
-                        </Link>
-                    </NoteHeaderOne>
-                    <NoteHeaderTwo>
-                        <div className='note-name-wrapper'>
-                            <CustomInput placeholder='Note name...'
-                                         value={noteName}
-                                         onChange={changeNoteName}
-                                         type='text'
-                                         autoComplete='off'
-                                         disabled={!editable}
-                            />
-                        </div>
-                        <div className='note-options-wrapper'>
-                            <div className='note-edit' onClick={() => {
-                                setEditable(true);
-                            }}>
-                                <i className='fas fa-edit'/>
+                    <PageWrapper>
+                        {showDeleteNoteConfirmationPopup &&
+                        <PopupConfirmation message='Are you sure you want to delete this note?'
+                                           customFunction={deleteNote}
+                                           setShowPopUp={setShowDeleteNoteConfirmationPopup}
+                        />
+                        }
+                        <NoteHeaderOne>
+                            <Link href={global.paths.notes}>
+                                <i className='fas fa-arrow-circle-left back'/>
+                            </Link>
+                        </NoteHeaderOne>
+                        <NoteHeaderTwo>
+                            <div className='note-name-wrapper'>
+                                <CustomInput placeholder='Note name...'
+                                             value={noteName}
+                                             onChange={changeNoteName}
+                                             type='text'
+                                             autoComplete='off'
+                                             disabled={!editable}
+                                />
                             </div>
-                            <div className='note-save' onClick={saveNote}><i className='fas fa-check'/></div>
-                            <div className='note-trash' onClick={() => {
-                                setShowDeleteNoteConfirmationPopup(true);
-                            }}>
-                                <i className='fas fa-trash'/>
+                            <div className='note-options-wrapper'>
+                                <div className='note-edit' onClick={() => {
+                                    setEditable(true);
+                                }}>
+                                    <i className='fas fa-edit'/>
+                                </div>
+                                <div className='note-save' onClick={saveNote}><i className='fas fa-check'/></div>
+                                <div className='note-trash' onClick={() => {
+                                    setShowDeleteNoteConfirmationPopup(true);
+                                }}>
+                                    <i className='fas fa-trash'/>
+                                </div>
                             </div>
-                        </div>
-                    </NoteHeaderTwo>
-                    <CustomTextArea
-                        placeholder='Your amazing ideas here...'
-                        onChange={changeNoteContent}
-                        value={noteContent} disabled={!editable}
-                        ref={textAreaNode}
-                    />
+                        </NoteHeaderTwo>
+                        <CustomTextArea
+                            placeholder='Your amazing ideas here...'
+                            onChange={changeNoteContent}
+                            value={noteContent} disabled={!editable}
+                            ref={textAreaNode}
+                        />
+                    </PageWrapper>
                 </MainContainer>
                 : null}
         </>
@@ -163,18 +170,23 @@ const Note = (props) => {
 
 export default Note;
 
-export const getServerSideProps = withSession(async function ({req, res}) {
-    // If user does not exist, redirect to login
-    const user = req.session.get('user');
-    if (!user) {
-        return {
-            redirect: {
-                destination: global.paths.login,
-                permanent: false,
-            },
-        }
+export const getServerSideProps = withSession(async function (
+    {
+        req, res
     }
+    ) {
+        // If user does not exist, redirect to login
+        const user = req.session.get('user');
+        if (!user) {
+            return {
+                redirect: {
+                    destination: global.paths.login,
+                    permanent: false,
+                },
+            }
+        }
 
-    // Else return the user object
-    return {props: {user}};
-});
+        // Else return the user object
+        return {props: {user}};
+    }
+);

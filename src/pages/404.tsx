@@ -17,7 +17,7 @@ const Custom404 = () => {
                     <div className='not-found-404'>404</div>
                     <div className='not-found-page'>Page Not Found</div>
                 </NotFoundWrapper>
-                <Button><Link href={global.paths.home}>Home</Link></Button>
+                <Button><Link href={global.paths.login}>🡠 Notes</Link></Button>
             </MainContainer>
         </>
     );

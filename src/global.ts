@@ -5,7 +5,6 @@ export default {
         index: '/',
         signUp: '/signup',
         login: '/login',
-        home: '/home',
         note: '/note',
         notes: '/notes',
         notfound404: '/404'

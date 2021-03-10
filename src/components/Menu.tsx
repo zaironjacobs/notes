@@ -44,12 +44,11 @@ const Menu = (props) => {
         <>
             <Content menuOpen={props.menuOpen} ref={menuNode}>
                 <div className='name-logo-wrapper'>
-                    <Link href={global.paths.home}>
-                        <span onClick={closeMenu} className='name-logo'>{initials}</span>
+                    <Link href={global.paths.notes}>
+                        <a className='name-logo'><span onClick={closeMenu}>{initials}</span></a>
                     </Link>
                 </div>
                 <ul>
-                    {user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.home}>Home</Link></li>}
                     {user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.notes}>My notes</Link></li>}
                     {user.isLoggedIn && <li onClick={async () => await closeMenuAndLogout()}><a>Logout</a></li>}
                     {!user.isLoggedIn && <li onClick={closeMenu}><Link href={global.paths.login}>Login</Link></li>}

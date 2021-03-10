@@ -35,7 +35,7 @@ export const SignUpForm = styled(Form)`
     width: 100%;
     height: 45px;
     padding: 8px;
-    border-radius: 3px;
+    border-radius: ${theme.borderRadius};
     border: 1px solid ${theme.colors.greyDark};
     margin-top: 20px;
 

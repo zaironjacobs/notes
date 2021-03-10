@@ -7,6 +7,8 @@ export default {
         _1200px: '@media (min-width: 1200px)'
     },
 
+    borderRadius: '5px',
+
     colors: {
         black: '#000000',
         white: '#FFFFFF',

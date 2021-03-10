@@ -26,6 +26,10 @@ export const NoteHeaderOne = styled.div`
     :hover {
       color: ${theme.colors.blueLight};
     }
+
+    ${theme.media._768px} {
+      font-size: 38px;
+    }
   }
 `;
 
@@ -60,6 +64,10 @@ export const NoteHeaderTwo = styled.div`
     :hover {
       color: ${theme.colors.greyNormal};
     }
+
+    ${theme.media._768px} {
+      font-size: 32px;
+    }
   }
 
   .note-save {
@@ -73,6 +81,10 @@ export const NoteHeaderTwo = styled.div`
     :hover {
       color: ${theme.colors.greenLight}
     }
+
+    ${theme.media._768px} {
+      font-size: 32px;
+    }
   }
 
   .note-trash {
@@ -85,6 +97,10 @@ export const NoteHeaderTwo = styled.div`
 
     :hover {
       color: ${theme.colors.redLight}
+    }
+
+    ${theme.media._768px} {
+      font-size: 32px;
     }
   }
 `;
