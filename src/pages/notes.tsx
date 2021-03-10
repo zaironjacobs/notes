@@ -1,4 +1,4 @@
-import {MainContainer, NotesHeaderOne, NotesHeaderTwo, Note} from '@style/NotesStyled';
+import {MainContainer, NotesHeaderOne, Note} from '@style/NotesStyled';
 import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
@@ -9,8 +9,8 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PopupNewNote from '@component/PopupNewNote';
 import PopupConfirmation from '@component/PopupConfirmation';
-import Notification from "@component/Notification";
-import Head from "next/head";
+import Notification from '@component/Notification';
+import Head from 'next/head';
 
 
 const Notes = (props) => {
@@ -133,17 +133,17 @@ const Notes = (props) => {
                 }
                 <NotesHeaderOne>
                     <div className='my-notes'>My notes</div>
-                    <span onClick={() => setShowNewNotePopup(true)}><i className='fas fa-plus-circle new-note'/></span>
-                </NotesHeaderOne>
-                <NotesHeaderTwo>
-                    {showTrash &&
-                    <div className='notes-trash' onClick={() => {
-                        setShowDeleteNoteConfirmationPopup(true);
-                    }}>
-                        <i className='fas fa-trash'/>
+                    <div className='notes-header-one-left'>
+                        {showTrash &&
+                        <div className='notes-trash' onClick={() => {
+                            setShowDeleteNoteConfirmationPopup(true);
+                        }}>
+                            <i className='fas fa-trash'/>
+                        </div>
+                        }
+                        <i onClick={() => setShowNewNotePopup(true)} className='fas fa-plus-circle new-note'/>
                     </div>
-                    }
-                </NotesHeaderTwo>
+                </NotesHeaderOne>
                 {notes !== null && notes.map((note, index: number) => (
                     <Note key={index}>
                         <input

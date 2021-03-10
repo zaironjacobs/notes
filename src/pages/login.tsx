@@ -1,5 +1,5 @@
 import {SignUpForm, Content} from '@style/LoginStyled';
-import {CustomSmallButton} from '@component/CustomSmallButton';
+import {CustomButton} from '@component/CustomButton';
 import {useRouter} from 'next/router';
 import {
     MainContainer
@@ -13,7 +13,7 @@ import React, {useState} from 'react';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
-import Head from "next/head";
+import Head from 'next/head';
 
 
 const Login = (props) => {
@@ -82,9 +82,9 @@ const Login = (props) => {
                                 <CustomTextInput label='Password' name='password' type='password'
                                                  placeholder='Password'/>
                                 <div className='login-server-error'>{error}</div>
-                                <CustomSmallButton type='submit'>
+                                <CustomButton type='submit'>
                                     {props.isSubmitting ? 'Please Wait...' : 'Sign In'}
-                                </CustomSmallButton>
+                                </CustomButton>
                             </SignUpForm>
                         )}
                     </Formik>

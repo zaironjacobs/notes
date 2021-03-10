@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useRouter} from 'next/router';
-import {CustomSmallButton} from '@component/CustomSmallButton';
+import {CustomButton} from '@component/CustomButton';
 import {SignUpForm, Content} from '@style/SignUpStyled';
 import {
     MainContainer
@@ -13,7 +13,7 @@ import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
-import Head from "next/head";
+import Head from 'next/head';
 
 
 const SignUp = (props) => {
@@ -102,9 +102,9 @@ const SignUp = (props) => {
                                 <CustomTextInput label='Password' name='password' type='password'
                                                  placeholder='Password'/>
                                 <div className='sign-up-server-error'>{error}</div>
-                                <CustomSmallButton type='submit'>
+                                <CustomButton type='submit'>
                                     {props.isSubmitting ? 'Please Wait...' : 'Create Account'}
-                                </CustomSmallButton>
+                                </CustomButton>
                             </SignUpForm>
                         )}
                     </Formik>

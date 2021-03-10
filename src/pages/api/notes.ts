@@ -19,7 +19,8 @@ export default withSession(async (req, res) => {
                     WHERE id = ANY
                           (SELECT note_id
                            FROM user_notes
-                           WHERE user_id = '${userFromSession.id}');
+                           WHERE user_id = '${userFromSession.id}')
+                    ORDER BY created_at DESC;
                     `
             );
             const responseNotes = [];

@@ -21,37 +21,34 @@ export const NotesHeaderOne = styled.div`
     font-weight: 600;
   }
 
-  .new-note {
-    font-size: 30px;
-    cursor: pointer;
-    transition: .3s;
-    color: ${theme.colors.greenNormal};
+  .notes-header-one-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    :hover {
-      color: ${theme.colors.greenLight};
+    .notes-trash {
+      align-self: flex-end;
+      font-size: 26px;
+      margin-right: 6px;
+      transition: .3s;
+      color: ${theme.colors.redNormal};
+      cursor: pointer;
+
+      :hover {
+        color: ${theme.colors.redLight};
+      }
     }
-  }
-`;
 
+    .new-note {
+      font-size: 30px;
+      cursor: pointer;
+      transition: .3s;
+      margin-left: 15px;
+      color: ${theme.colors.greenNormal};
 
-export const NotesHeaderTwo = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 0 10px 0 10px;
-  margin-bottom: 10px;
-  height: 32px;
-
-  .notes-trash {
-    align-self: flex-end;
-    font-size: 22px;
-    margin-right: 6px;
-    transition: .3s;
-    color: ${theme.colors.redNormal};
-    cursor: pointer;
-
-    :hover {
-      color: ${theme.colors.redLight};
+      :hover {
+        color: ${theme.colors.greenLight};
+      }
     }
   }
 `;
