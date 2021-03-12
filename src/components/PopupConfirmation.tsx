@@ -1,10 +1,13 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import {Overlay, Popup} from '@style/PopupConfirmationStyled';
 import {CustomSmallButton} from '@component/CustomSmallButton';
+import useOnClickOutside from '@hook/useOnClickOutside';
 
 
 const PopupConfirmation = (props) => {
     const [error, setError] = useState('');
+    const popupNode = useRef();
+    useOnClickOutside(popupNode, () => props.setShowConfirmationPopUp(false));
 
     // Cancel the action
     const onNo = () => {
@@ -22,7 +25,7 @@ const PopupConfirmation = (props) => {
     return (
         <>
             <Overlay>
-                <Popup>
+                <Popup ref={popupNode}>
                     <span className='confirmation-text'>{props.message}</span>
                     {error && <div className='delete-note-error'>{error}</div>}
                     <div className='buttons-wrapper'>

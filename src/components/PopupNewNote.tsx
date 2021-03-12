@@ -1,12 +1,15 @@
 import {Overlay, Popup, CreateNoteForm} from '@style/PopupNewNoteStyled';
 import {CustomSmallButton} from '@component/CustomSmallButton';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Formik, useField} from 'formik';
 import * as Yup from 'yup';
+import useOnClickOutside from '@hook/useOnClickOutside';
 
 
 const PopupNewNote = (props) => {
     const [error, setError] = useState('');
+    const popupNode = useRef();
+    useOnClickOutside(popupNode, () => cancel());
 
     // Create the new note if a name is given
     const createNewNote = (values) => {
@@ -24,7 +27,7 @@ const PopupNewNote = (props) => {
     return (
         <>
             <Overlay>
-                <Popup>
+                <Popup ref={popupNode}>
                     <div className='create-text'>New note name:</div>
                     <Formik
                         initialValues={{

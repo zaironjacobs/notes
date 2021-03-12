@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import theme from 'theme';
-import {Form} from "formik";
+import {Form} from 'formik';
 
 
 export const Overlay = styled.div`
@@ -16,7 +16,6 @@ export const Overlay = styled.div`
   bottom: 0;
   margin: auto;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 99999999999999999;
 `;
 
 
@@ -33,6 +32,7 @@ export const Popup = styled.div`
   border-radius: 20px;
   font-weight: 500;
   background: white;
+  z-index: 9999;
 
   .create-text {
     text-align: center;
