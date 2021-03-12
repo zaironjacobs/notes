@@ -7,6 +7,7 @@
 </div>
 
 ## Dependencies
+- [Node.js >= 14](https://nodejs.org)
 - [MySQL](https://dev.mysql.com/downloads/installer/)
 
 
