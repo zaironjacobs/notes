@@ -20,7 +20,7 @@ const Note = (props) => {
     const [note, setNote] = useState(null);
     const [noteName, setNoteName] = useState('');
     const [noteContent, setNoteContent] = useState('');
-    const [showDeleteNoteConfirmationPopup, setShowDeleteNoteConfirmationPopup] = useState(false);
+    const [showConfirmationPopUp, setShowConfirmationPopUp] = useState(false);
     const [editable, setEditable] = useState(false);
     const textAreaNode = useRef<HTMLInputElement>(null);
 
@@ -83,14 +83,13 @@ const Note = (props) => {
 
     // Delete the note
     const deleteNote = () => {
-        axios.delete(global.api.note, {data: {id: noteId}})
+        return axios.delete(global.api.note, {data: {noteIds: [noteId]}})
             .then(function (response: AxiosResponse) {
                 props.showNotification('Note deleted');
-                //props.setShowNotification(true);
                 router.push(global.paths.notes);
             })
-            .catch(function (error) {
-                console.log(error.response);
+            .catch((error) => {
+                return Promise.reject(error);
             });
     }
 
@@ -119,10 +118,10 @@ const Note = (props) => {
                 </Head>
                 {note ?
                     <PageWrapper>
-                        {showDeleteNoteConfirmationPopup &&
+                        {showConfirmationPopUp &&
                         <PopupConfirmation message='Are you sure you want to delete this note?'
                                            customFunction={deleteNote}
-                                           setShowPopUp={setShowDeleteNoteConfirmationPopup}
+                                           setShowConfirmationPopUp={setShowConfirmationPopUp}
                         />
                         }
                         <NoteHeaderOne>
@@ -148,7 +147,7 @@ const Note = (props) => {
                                 </div>
                                 <div className='note-save' onClick={saveNote}><i className='fas fa-check'/></div>
                                 <div className='note-trash' onClick={() => {
-                                    setShowDeleteNoteConfirmationPopup(true);
+                                    setShowConfirmationPopUp(true);
                                 }}>
                                     <i className='fas fa-trash'/>
                                 </div>

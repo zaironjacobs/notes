@@ -24,21 +24,27 @@ export const Popup = styled.div`
   justify-content: center;
   flex-direction: column;
   position: absolute;
-  padding: 10px;
   max-width: 325px;
   width: 100%;
-  height: 145px;
+  height: auto;
+  padding: 20px;
   border-radius: 20px;
   font-weight: 500;
   background: white;
 
   .confirmation-text {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
   }
 
   .buttons-wrapper {
     display: flex;
     justify-content: space-evenly;
+    margin-top: 10px;
+  }
+
+  .delete-note-error {
+    text-align: center;
+    color: ${theme.colors.redLight};
   }
 `;

@@ -46,9 +46,11 @@ export default withSession(async (req, res) => {
         }
 
         try {
-            const noteId = req.body.id;
-            const resultDeleteNote = await query(
-                `
+            const noteIds = req.body.noteIds;
+
+            for (const noteId of noteIds) {
+                const resultDeleteNote = await query(
+                    `
                         DELETE 
                         FROM notes
                         WHERE id =
@@ -57,14 +59,14 @@ export default withSession(async (req, res) => {
                                WHERE user_id = '${userFromSession.id}'
                                AND note_id = '${noteId}');
                     `
-            );
-            if (JSON.parse(JSON.stringify(resultDeleteNote)).affectedRows == 1) {
-                return res.status(200).json({message: 'Note deleted'});
-            } else {
-                return res.status(500).json({message: 'Could not delete note'});
+                );
+                if (JSON.parse(JSON.stringify(resultDeleteNote)).affectedRows !== 1) {
+                    return res.status(500).json({message: 'Error deleting note(s)'});
+                }
             }
+            return res.status(200).json({message: 'Note(s) deleted'});
         } catch (error) {
-            return res.status(401).json({message: 'Could not delete note'});
+            return res.status(401).json({message: 'Error deleting note(s)'});
         }
 
     }

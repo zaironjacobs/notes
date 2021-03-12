@@ -18,7 +18,7 @@ const Notes = (props) => {
     const user: {} = props.user;
     const [notes, setNotes] = useState(null);
     const [showNewNotePopup, setShowNewNotePopup] = useState(false);
-    const [showDeleteNoteConfirmationPopup, setShowDeleteNoteConfirmationPopup] = useState(false);
+    const [showConfirmationPopUp, setShowConfirmationPopUp] = useState(false);
     const [showTrash, setShowTrash] = useState(false);
     const [selectedNotesId, setSelectedNotesId] = useState([]);
     const [error, setError] = useState('');
@@ -70,21 +70,19 @@ const Notes = (props) => {
 
     // Delete all notes from selectedNotesId
     const deleteSelected = () => {
-        selectedNotesId.forEach((noteId) => {
-            axios.delete(global.api.note, {data: {id: noteId}})
-                .then((response: AxiosResponse) => {
-                    setSelectedNotesId([]);
-                    fetchNotes().then(notes => {
-                        setAllNotesChecked(notes, false);
-                        setNotes(notes);
-                        setShowDeleteNoteConfirmationPopup(false);
-                        props.showNotification('Notes deleted');
-                    });
-                })
-                .catch((error) => {
-                    console.log(error.response);
+        return axios.delete(global.api.note, {data: {noteIds: selectedNotesId}})
+            .then((response: AxiosResponse) => {
+                setSelectedNotesId([]);
+                fetchNotes().then(notes => {
+                    setAllNotesChecked(notes, false);
+                    setNotes(notes);
+                    setShowConfirmationPopUp(false);
+                    props.showNotification(response.data.message);
                 });
-        })
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            })
     }
 
     // Add the id of the selected notes to selectedNotesId
@@ -115,10 +113,10 @@ const Notes = (props) => {
                     <title>My notes – {global.siteName}</title>
                 </Head>
                 <PageWrapper>
-                    {showDeleteNoteConfirmationPopup &&
+                    {showConfirmationPopUp &&
                     <PopupConfirmation message='Delete all selected notes?'
                                        customFunction={deleteSelected}
-                                       setShowPopUp={setShowDeleteNoteConfirmationPopup}
+                                       setShowConfirmationPopUp={setShowConfirmationPopUp}
                     />
                     }
                     {showNewNotePopup &&
@@ -132,7 +130,7 @@ const Notes = (props) => {
                         <div className='notes-header-one-left'>
                             {showTrash &&
                             <div className='notes-trash' onClick={() => {
-                                setShowDeleteNoteConfirmationPopup(true);
+                                setShowConfirmationPopUp(true);
                             }}>
                                 <i className='fas fa-trash'/>
                             </div>
