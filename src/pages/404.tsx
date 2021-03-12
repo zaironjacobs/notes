@@ -3,11 +3,13 @@ import {NotFoundWrapper, Main, Button} from '@style/404Styled';
 import Head from 'next/head';
 import global from 'global';
 import Link from 'next/link';
+import Footer from '@component/Footer';
 
 
 const Custom404 = () => {
     return (
         <>
+            {/* Main */}
             <Main>
                 <Head>
                     <title>Page not found – {global.siteName}</title>
@@ -19,6 +21,9 @@ const Custom404 = () => {
                 </NotFoundWrapper>
                 <Button><Link href={global.paths.login}>🡠 Notes</Link></Button>
             </Main>
+
+            {/* Footer */}
+            <Footer/>
         </>
     );
 }

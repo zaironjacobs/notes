@@ -1,5 +1,4 @@
-import {MainContainer, NotesHeaderOne, Note} from '@style/NotesStyled';
-import {PageWrapper} from '@style/NotesStyled';
+import {Main, PageWrapper, NotesHeaderOne, Note} from '@style/NotesStyled';
 import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
@@ -11,6 +10,7 @@ import {useRouter} from 'next/router';
 import PopupNewNote from '@component/PopupNewNote';
 import PopupConfirmation from '@component/PopupConfirmation';
 import Head from 'next/head';
+import Footer from '@component/Footer';
 
 
 const Notes = (props) => {
@@ -108,7 +108,7 @@ const Notes = (props) => {
             <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
 
             {/* Main */}
-            <MainContainer>
+            <Main>
                 <Head>
                     <title>My notes – {global.siteName}</title>
                 </Head>
@@ -156,7 +156,10 @@ const Notes = (props) => {
                         </Note>
                     ))}
                 </PageWrapper>
-            </MainContainer>
+            </Main>
+
+            {/* Footer */}
+            <Footer/>
         </>
     )
 }

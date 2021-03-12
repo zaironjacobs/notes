@@ -11,6 +11,7 @@ import {useRouter} from 'next/router';
 import PopupConfirmation from '@component/PopupConfirmation';
 import axios, {AxiosResponse} from 'axios';
 import Head from 'next/head';
+import Footer from '@component/Footer';
 
 
 const Note = (props) => {
@@ -163,6 +164,8 @@ const Note = (props) => {
                     : null}
             </Main>
 
+            {/* Footer */}
+            <Footer/>
         </>
     )
 }

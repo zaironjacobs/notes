@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import global from 'global';
-import Footer from "@component/Footer";
 import React from 'react';
 
 
@@ -30,9 +29,6 @@ const Layout = ({children}) => {
 
             {/* Children */}
             {children}
-
-            {/* Footer */}
-            <Footer/>
         </>
     );
 }

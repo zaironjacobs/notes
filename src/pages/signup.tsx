@@ -12,6 +12,7 @@ import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
 import Head from 'next/head';
+import Footer from '@component/Footer';
 
 
 const SignUp = (props) => {
@@ -111,6 +112,9 @@ const SignUp = (props) => {
                     </div>
                 </Content>
             </Main>
+
+            {/* Footer */}
+            <Footer/>
         </>
     );
 }

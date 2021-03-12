@@ -3,7 +3,7 @@ import {Main as M, PageWrapper as PW} from '@style/GlobalStyle';
 import theme from 'theme';
 
 
-export const MainContainer = styled(M)``;
+export const Main = styled(M)``;
 
 
 export const PageWrapper = styled(PW)`
