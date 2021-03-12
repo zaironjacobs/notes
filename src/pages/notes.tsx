@@ -3,7 +3,7 @@ import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
-import axios, {AxiosResponse} from "axios";
+import axios, {AxiosResponse} from 'axios';
 import React, {useState, useEffect} from 'react';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
@@ -25,10 +25,14 @@ const Notes = (props) => {
 
     // After render, fetch the user's notes
     useEffect(() => {
-        fetchNotes().then(notes => {
-            setAllNotesChecked(notes, false);
-            setNotes(notes);
-        });
+        fetchNotes()
+            .then(notes => {
+                setAllNotesChecked(notes, false);
+                setNotes(notes);
+            })
+            .catch(error => {
+                setError(error.response.data.message);
+            });
     }, []);
 
     // After render or when selectedNotesId changes, show the trash icon or not
@@ -42,9 +46,8 @@ const Notes = (props) => {
             .then((response: AxiosResponse) => {
                 return response.data.notes;
             })
-            .catch((error) => {
-                setError(error.response.data.message);
-                return [];
+            .catch(error => {
+                return error;
             });
     }
 
@@ -63,7 +66,7 @@ const Notes = (props) => {
                 router.push(global.paths.note + '/' + Buffer.from(newNoteId).toString('base64')
                     + '?editable=true');
             })
-            .catch((error) => {
+            .catch(error => {
                 return Promise.reject(error);
             });
     }
@@ -73,16 +76,20 @@ const Notes = (props) => {
         return axios.delete(global.api.note, {data: {noteIds: selectedNotesId}})
             .then((response: AxiosResponse) => {
                 setSelectedNotesId([]);
-                fetchNotes().then(notes => {
-                    setAllNotesChecked(notes, false);
-                    setNotes(notes);
-                    setShowConfirmationPopUp(false);
-                    props.showNotification(response.data.message);
-                });
+                fetchNotes()
+                    .then(notes => {
+                        setAllNotesChecked(notes, false);
+                        setNotes(notes);
+                        setShowConfirmationPopUp(false);
+                        props.showNotification(response.data.message);
+                    })
+                    .catch(error => {
+                        setError(error.response.data.message);
+                    });
             })
             .catch((error) => {
                 return Promise.reject(error);
-            })
+            });
     }
 
     // Add the id of the selected notes to selectedNotesId
@@ -135,7 +142,10 @@ const Notes = (props) => {
                                 <i className='fas fa-trash'/>
                             </div>
                             }
-                            <i onClick={() => setShowNewNotePopup(true)} className='fas fa-plus-circle new-note'/>
+                            <div className='new-note'>
+                                <i onClick={() => setShowNewNotePopup(true)}
+                                   className='fas fa-plus-circle'/>
+                            </div>
                         </div>
                     </NotesHeaderOne>
                     {error && <div className='notes-server-error'>{error}</div>}

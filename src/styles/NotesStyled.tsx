@@ -10,7 +10,6 @@ export const PageWrapper = styled(PW)`
   max-width: 800px;
 
   .notes-server-error {
-    margin-left: 10px;
     color: ${theme.colors.redLight};
   }
 `;
@@ -32,21 +31,27 @@ export const NotesHeaderOne = styled.div`
     ${theme.media._768px} {
       font-size: 32px;
     }
-
   }
 
   .notes-header-one-left {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
 
     .notes-trash {
+      text-align: center;
       align-self: flex-end;
       font-size: 26px;
-      margin-right: 6px;
       transition: .3s;
       color: ${theme.colors.redNormal};
       cursor: pointer;
+
+      :after {
+        content: 'delete';
+        display: block;
+        font-size: 14px;
+      }
 
       :hover {
         color: ${theme.colors.redLight};
@@ -55,15 +60,21 @@ export const NotesHeaderOne = styled.div`
       ${theme.media._768px} {
         font-size: 32px;
       }
-
     }
 
     .new-note {
+      text-align: center;
       font-size: 30px;
       cursor: pointer;
       transition: .3s;
       margin-left: 15px;
       color: ${theme.colors.greenNormal};
+
+      ::after {
+        content: 'new';
+        display: block;
+        font-size: 14px;
+      }
 
       :hover {
         color: ${theme.colors.greenLight};
@@ -72,7 +83,6 @@ export const NotesHeaderOne = styled.div`
       ${theme.media._768px} {
         font-size: 38px;
       }
-
     }
   }
 `;

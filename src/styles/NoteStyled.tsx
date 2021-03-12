@@ -56,6 +56,7 @@ export const NoteHeaderTwo = styled.div`
   }
 
   .note-edit {
+    text-align: center;
     font-size: 22px;
     cursor: pointer;
     transition: .3s;
@@ -65,18 +66,31 @@ export const NoteHeaderTwo = styled.div`
       color: ${theme.colors.greyNormal};
     }
 
+    :after {
+      content: 'edit';
+      display: block;
+      font-size: 14px;
+    }
+
     ${theme.media._768px} {
       font-size: 32px;
     }
   }
 
   .note-save {
+    text-align: center;
     font-size: 22px;
     right: 0;
     color: ${theme.colors.greenNormal};
     cursor: pointer;
     transition: .3s;
-    margin-left: 20px;
+    margin-left: 15px;
+
+    :after {
+      content: 'save';
+      display: block;
+      font-size: 14px;
+    }
 
     :hover {
       color: ${theme.colors.greenLight}
@@ -88,12 +102,19 @@ export const NoteHeaderTwo = styled.div`
   }
 
   .note-trash {
+    text-align: center;
     font-size: 22px;
     right: 10px;
-    margin-left: 20px;
+    margin-left: 15px;
     transition: .3s;
     color: ${theme.colors.redNormal};
     cursor: pointer;
+
+    :after {
+      content: 'delete';
+      display: block;
+      font-size: 14px;
+    }
 
     :hover {
       color: ${theme.colors.redLight}
