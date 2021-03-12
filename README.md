@@ -3,7 +3,7 @@
 </h1>
 <br>
 <div align="center">
-<img alt="notes" src="" width="95%">
+<img alt="notes" src="https://i.imgur.com/ndDjiyr.png" width="95%">
 </div>
 
 ## Dependencies
