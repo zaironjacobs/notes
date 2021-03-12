@@ -16,7 +16,7 @@ export const Content = styled.div`
   padding: 0 10px 0 10px;
 
   .login-no-account {
-    margin-top: 20px;
+    margin: 20px 0 20px 0;
   }
 `;
 
