@@ -24,11 +24,11 @@ const Login = (props) => {
             email: values.email,
             password: values.password
         })
-            .then(function (response: AxiosResponse) {
+            .then((response: AxiosResponse) => {
                 setError('');
                 router.push(global.paths.notes);
             })
-            .catch(function (error) {
+            .catch((error) => {
                 setError(error.response.data.message);
             });
     };
@@ -115,7 +115,7 @@ const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) 
 
 export default Login;
 
-export const getServerSideProps = withSession(async function ({req, res}) {
+export const getServerSideProps = withSession(async ({req, res}) => {
     // If user exists, redirect to home
     const user = req.session.get('user');
     if (user) {

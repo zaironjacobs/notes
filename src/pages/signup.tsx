@@ -19,19 +19,25 @@ const SignUp = (props) => {
     const router = useRouter();
     const [error, setError] = useState('');
 
-    const submit = async (values, setError, router) => {
+    const submitForm = async (values) => {
+        if (values.password !== values.repeatPassword) {
+            setError('Passwords do not match');
+            return Promise.reject();
+        }
         await axios.post(global.api.signUp, {
             firstName: values.firstName,
             lastName: values.lastName,
             email: values.email,
-            password: values.password
+            password: values.password,
+            repeatPassword: values.repeatPassword
         })
-            .then(function (response: AxiosResponse) {
+            .then((response: AxiosResponse) => {
                 setError('');
                 router.push(global.paths.notes);
             })
-            .catch(function (error) {
+            .catch((error) => {
                 setError(error.response.data.message);
+                return Promise.reject();
             });
     };
 
@@ -56,7 +62,8 @@ const SignUp = (props) => {
                             firstName: '',
                             lastName: '',
                             email: '',
-                            password: ''
+                            password: '',
+                            repeatPassword: ''
                         }}
                         validationSchema={Yup.object({
                             firstName: Yup.string()
@@ -80,12 +87,22 @@ const SignUp = (props) => {
                                 .min(8, 'At least 8 characters')
                                 .max(30, 'No more than 30 characters')
                                 .required('Required'),
+
+                            repeatPassword: Yup.string()
+                                .min(8, 'At least 8 characters')
+                                .max(30, 'No more than 30 characters')
+                                .required('Required')
                         })}
                         onSubmit={(values, {setSubmitting, resetForm}) => {
                             (async () => {
-                                await submit(values, setError, router);
-                                setSubmitting(false);
-                                resetForm();
+                                await submitForm(values)
+                                    .then(() => {
+                                        setSubmitting(false);
+                                        resetForm();
+                                    })
+                                    .catch(() => {
+                                        setSubmitting(false);
+                                    });
                             })();
                         }}
                     >
@@ -100,6 +117,8 @@ const SignUp = (props) => {
                                                  placeholder='Email'/>
                                 <CustomTextInput label='Password' name='password' type='password'
                                                  placeholder='Password'/>
+                                <CustomTextInput label='Repeat password' name='repeatPassword' type='password'
+                                                 placeholder='Repeat password'/>
                                 <div className='sign-up-server-error'>{error}</div>
                                 <CustomButton type='submit'>
                                     {props.isSubmitting ? 'Please Wait...' : 'Create Account'}
@@ -135,7 +154,7 @@ const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) 
 
 export default SignUp;
 
-export const getServerSideProps = withSession(async function ({req, res}) {
+export const getServerSideProps = withSession(async ({req, res}) => {
     // If user exists, redirect to home
     const user = req.session.get('user');
     if (user) {

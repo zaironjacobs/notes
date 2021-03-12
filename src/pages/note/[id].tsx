@@ -50,10 +50,10 @@ const Note = (props) => {
     useEffect(() => {
         const fetchNote = async () => {
             return axios.post(global.api.note, {id: noteId})
-                .then(function (response: AxiosResponse) {
+                .then((response: AxiosResponse) => {
                     return response.data.note;
                 })
-                .catch(function (error) {
+                .catch((error) => {
                     router.push(global.paths.notfound404);
                 });
         }
@@ -72,11 +72,11 @@ const Note = (props) => {
     const saveNote = () => {
         if (editable && noteName !== '') {
             axios.put(global.api.note, {id: noteId, name: noteName, content: noteContent})
-                .then(function (response: AxiosResponse) {
+                .then((response: AxiosResponse) => {
                     setEditable(false);
                     props.showNotification('Note saved');
                 })
-                .catch(function (error) {
+                .catch((error) => {
                     console.log(error.response);
                 });
         }
@@ -85,7 +85,7 @@ const Note = (props) => {
     // Delete the note
     const deleteNote = () => {
         return axios.delete(global.api.note, {data: {noteIds: [noteId]}})
-            .then(function (response: AxiosResponse) {
+            .then((response: AxiosResponse) => {
                 props.showNotification('Note deleted');
                 router.push(global.paths.notes);
             })
@@ -172,7 +172,7 @@ const Note = (props) => {
 
 export default Note;
 
-export const getServerSideProps = withSession(async function ({req, res}) {
+export const getServerSideProps = withSession(async ({req, res}) => {
         // If user does not exist, redirect to login
         const user = req.session.get('user');
         if (!user) {

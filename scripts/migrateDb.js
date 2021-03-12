@@ -15,7 +15,7 @@ const db = mysql({
     },
 })
 
-async function query(q) {
+const query = async(q)=> {
     try {
         const results = await db.query(q);
         await db.end();
@@ -23,9 +23,9 @@ async function query(q) {
     } catch (e) {
         throw Error(e.message);
     }
-}
+};
 
-async function migrate() {
+const migrate = async () =>{
     try {
 
         await query(`

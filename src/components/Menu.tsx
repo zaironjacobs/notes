@@ -26,10 +26,10 @@ const Menu = (props) => {
     // Logout
     const logout = async () => {
         await axios.post(global.api.logout)
-            .then(function (response: AxiosResponse) {
+            .then((response: AxiosResponse) => {
                 router.push(global.paths.login);
             })
-            .catch(function (error) {
+            .catch((error) => {
                 console.log(error);
             });
     }

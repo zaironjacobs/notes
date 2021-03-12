@@ -1,7 +1,7 @@
 import {withIronSession} from 'next-iron-session';
 
 
-export default function withSession(handler) {
+const withSession = (handler) => {
     return withIronSession(handler, {
         cookieName: 'auth',
         password: process.env.SECRET,
@@ -13,3 +13,5 @@ export default function withSession(handler) {
         },
     });
 }
+
+export default withSession;
