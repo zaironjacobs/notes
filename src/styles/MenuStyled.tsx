@@ -72,10 +72,7 @@ export const Content = styled.nav`
       background-color: ${theme.colors.blueLight};
       border-radius: 50%;
       transition: .3s;
-
-      :hover {
-        text-decoration: unset;
-      }
+      text-decoration: unset;
 
       ${theme.media._768px} {
         font-size: 32px;
