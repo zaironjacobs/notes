@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import theme from 'theme';
 import {Form} from 'formik';
-import {Main} from "@style/GlobalStyle";
+import {Main as M} from "@style/GlobalStyle";
 
 
-export const MainContainer = styled(Main)``;
+export const Main = styled(M)``;
 
 
 export const Content = styled.div`

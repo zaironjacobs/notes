@@ -1,9 +1,7 @@
 import {SignUpForm, Content} from '@style/LoginStyled';
 import {CustomButton} from '@component/CustomButton';
 import {useRouter} from 'next/router';
-import {
-    MainContainer
-} from '@style/LoginStyled';
+import {Main} from '@style/LoginStyled';
 import {Formik, useField} from 'formik';
 import * as Yup from 'yup';
 import axios, {AxiosResponse} from 'axios';
@@ -45,7 +43,7 @@ const Login = (props) => {
             <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
 
             {/* Main */}
-            <MainContainer>
+            <Main>
                 <Head>
                     <title>Login – {global.siteName}</title>
                 </Head>
@@ -92,7 +90,7 @@ const Login = (props) => {
                         <Link href={global.paths.signUp}>Sign up</Link>
                     </div>
                 </Content>
-            </MainContainer>
+            </Main>
         </>
     );
 }

@@ -1,5 +1,5 @@
 import {MainContainer, NotesHeaderOne, Note} from '@style/NotesStyled';
-import {PageWrapper} from '@style/GlobalStyle';
+import {PageWrapper} from '@style/NotesStyled';
 import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
@@ -10,7 +10,6 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PopupNewNote from '@component/PopupNewNote';
 import PopupConfirmation from '@component/PopupConfirmation';
-import Notification from '@component/Notification';
 import Head from 'next/head';
 
 
@@ -22,8 +21,7 @@ const Notes = (props) => {
     const [showDeleteNoteConfirmationPopup, setShowDeleteNoteConfirmationPopup] = useState(false);
     const [showTrash, setShowTrash] = useState(false);
     const [selectedNotesId, setSelectedNotesId] = useState([]);
-    const [showNotification, setShowNotification] = useState(false);
-    const [notificationMessage, setNotificationMessage] = useState('');
+    const [error, setError] = useState('');
 
     // After render, fetch the user's notes
     useEffect(() => {
@@ -41,11 +39,11 @@ const Notes = (props) => {
     // Fetch all notes from the user
     const fetchNotes = async () => {
         return axios.post(global.api.notes)
-            .then(function (response: AxiosResponse) {
+            .then((response: AxiosResponse) => {
                 return response.data.notes;
             })
-            .catch(function (error) {
-                console.log(error.response);
+            .catch((error) => {
+                setError(error.response.data.message);
                 return [];
             });
     }
@@ -58,16 +56,15 @@ const Notes = (props) => {
     }
 
     // Create a new note
-    const newNote = (name) => {
+    const createNewNote = (name) => {
         return axios.post(global.api.createNote, {name: name, content: ''})
-            .then(function (response: AxiosResponse) {
+            .then((response: AxiosResponse) => {
                 const newNoteId = response.data.id;
                 router.push(global.paths.note + '/' + Buffer.from(newNoteId).toString('base64')
                     + '?editable=true');
             })
-            .catch(function (error) {
-                console.log(error.response);
-                return [];
+            .catch((error) => {
+                return Promise.reject(error);
             });
     }
 
@@ -75,7 +72,7 @@ const Notes = (props) => {
     const deleteSelected = () => {
         selectedNotesId.forEach((noteId) => {
             axios.delete(global.api.note, {data: {id: noteId}})
-                .then(function (response: AxiosResponse) {
+                .then((response: AxiosResponse) => {
                     setSelectedNotesId([]);
                     fetchNotes().then(notes => {
                         setAllNotesChecked(notes, false);
@@ -84,7 +81,7 @@ const Notes = (props) => {
                         props.showNotification('Notes deleted');
                     });
                 })
-                .catch(function (error) {
+                .catch((error) => {
                     console.log(error.response);
                 });
         })
@@ -112,9 +109,6 @@ const Notes = (props) => {
             {/* Header */}
             <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
 
-            {/* Bottom Notification */}
-            {<Notification message={notificationMessage} showMessage={showNotification}/>}
-
             {/* Main */}
             <MainContainer>
                 <Head>
@@ -129,7 +123,7 @@ const Notes = (props) => {
                     }
                     {showNewNotePopup &&
                     <PopupNewNote
-                        createNewNote={newNote}
+                        createNewNote={createNewNote}
                         setShowNewNotePopup={setShowNewNotePopup}
                     />
                     }
@@ -146,6 +140,7 @@ const Notes = (props) => {
                             <i onClick={() => setShowNewNotePopup(true)} className='fas fa-plus-circle new-note'/>
                         </div>
                     </NotesHeaderOne>
+                    {error && <div className='notes-server-error'>{error}</div>}
                     {notes !== null && notes.map((note, index: number) => (
                         <Note key={index}>
                             <input
@@ -170,7 +165,7 @@ const Notes = (props) => {
 
 export default Notes;
 
-export const getServerSideProps = withSession(async function ({req, res}) {
+export const getServerSideProps = withSession(async ({req, res}) => {
         // If user does not exist, redirect to login
         const user = req.session.get('user');
         if (!user) {

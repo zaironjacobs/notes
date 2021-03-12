@@ -1,10 +1,18 @@
 import styled from 'styled-components';
-import {Main} from '@style/GlobalStyle';
+import {Main as M, PageWrapper as PW} from '@style/GlobalStyle';
 import theme from 'theme';
 
 
-export const MainContainer = styled(Main)`
-  padding: 0 15px 0 15px;
+export const MainContainer = styled(M)``;
+
+
+export const PageWrapper = styled(PW)`
+  max-width: 800px;
+
+  .notes-server-error {
+    margin-left: 10px;
+    color: ${theme.colors.redLight};
+  }
 `;
 
 

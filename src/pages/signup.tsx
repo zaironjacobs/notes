@@ -2,9 +2,7 @@ import React, {useState} from 'react';
 import {useRouter} from 'next/router';
 import {CustomButton} from '@component/CustomButton';
 import {SignUpForm, Content} from '@style/SignUpStyled';
-import {
-    MainContainer
-} from '@style/SignUpStyled';
+import {Main} from '@style/SignUpStyled';
 import {Formik, useField} from 'formik';
 import Link from 'next/link';
 import * as Yup from 'yup';
@@ -47,7 +45,7 @@ const SignUp = (props) => {
             <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
 
             {/* Main */}
-            <MainContainer>
+            <Main>
                 <Head>
                     <title>Signup – {global.siteName}</title>
                 </Head>
@@ -112,7 +110,7 @@ const SignUp = (props) => {
                         <Link href={global.paths.login}>Log in</Link>
                     </div>
                 </Content>
-            </MainContainer>
+            </Main>
         </>
     );
 }

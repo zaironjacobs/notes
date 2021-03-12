@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {MainContainer, NoteHeaderOne, NoteHeaderTwo} from '@style/NoteStyled';
-import {PageWrapper} from '@style/GlobalStyle';
+import {Main, PageWrapper, NoteHeaderOne, NoteHeaderTwo} from '@style/NoteStyled';
 import {CustomTextArea} from '@component/CustomTextArea';
 import {CustomInput} from '@component/CustomInput';
 import global from 'global';
@@ -24,7 +23,6 @@ const Note = (props) => {
     const [showDeleteNoteConfirmationPopup, setShowDeleteNoteConfirmationPopup] = useState(false);
     const [editable, setEditable] = useState(false);
     const textAreaNode = useRef<HTMLInputElement>(null);
-
 
     // New note should be editable by default
     useEffect(() => {
@@ -115,7 +113,7 @@ const Note = (props) => {
             <Header menuOpen={props.menuOpen} setMenuOpen={props.setMenuOpen}/>
 
             {/* Main */}
-            <MainContainer>
+            <Main>
                 <Head>
                     <title>{note && noteName} – {global.siteName}</title>
                 </Head>
@@ -164,7 +162,7 @@ const Note = (props) => {
                         />
                     </PageWrapper>
                     : null}
-            </MainContainer>
+            </Main>
 
         </>
     )

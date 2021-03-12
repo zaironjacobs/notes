@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import theme from 'theme';
+import {Form} from "formik";
 
 
 export const Overlay = styled.div`
@@ -25,10 +26,10 @@ export const Popup = styled.div`
   align-items: center;
   flex-direction: column;
   position: absolute;
-  padding: 10px;
+  padding: 20px;
   max-width: 325px;
   width: 100%;
-  height: 175px;
+  height: auto;
   border-radius: 20px;
   font-weight: 500;
   background: white;
@@ -37,19 +38,38 @@ export const Popup = styled.div`
     text-align: center;
     margin-bottom: 15px;
   }
+`;
 
-  .input-note-name {
+
+export const CreateNoteForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+
+  .create-note-input {
     box-shadow: rgba(0, 0, 0, 0.07) 0 2px 4px 0 inset;
     border: 1px solid ${theme.colors.greyLight};
     border-radius: ${theme.borderRadius};
     padding: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
   }
 
   .buttons-wrapper {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
+    margin-top: 10px;
+  }
+
+  .create-note-form-error {
+    color: ${theme.colors.redLight};
+    text-align: center;
+    margin: 5px 0 5px;
+  }
+
+  .create-note-server-error {
+    text-align: center;
+    color: ${theme.colors.redLight};
+    margin: 5px 0 5px;
   }
 `;
 

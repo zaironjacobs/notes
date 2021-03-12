@@ -2,7 +2,7 @@ import {useEffect} from 'react';
 import {Content} from '@style/NotificationStyled';
 
 
-const Notification = (props, {children}) => {
+const Notification = (props) => {
 
     // Show the notification for 3 seconds
     useEffect(() => {
@@ -15,7 +15,6 @@ const Notification = (props, {children}) => {
 
     return (
         <>
-            {children}
             <Content isNotificationOn={props.isNotificationOn}>
                 {props.notification}
             </Content>

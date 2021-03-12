@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {GlobalStyle} from '@style/GlobalStyle';
 import Layout from '@component/Layout';
 import Notification from '@component/Notification';
-import Footer from "@component/Footer";
 
 
 const App = (props) => {
@@ -30,10 +29,6 @@ const App = (props) => {
                 <Notification notification={notification}
                               isNotificationOn={isNotificationOn}
                               setIsNotificationOn={setIsNotificationOn}/>
-
-                {/* Footer */}
-                <Footer/>
-
             </Layout>
         </>
     )

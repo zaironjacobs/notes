@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import {Main} from '@style/GlobalStyle';
+import {Main as M, PageWrapper as PW} from '@style/GlobalStyle';
 import theme from 'theme';
 
 
-export const MainContainer = styled(Main)`
-  padding: 0 15px 0 15px;
-`;
+export const Main = styled(M)``;
+
+
+export const PageWrapper = styled(PW)``;
 
 
 export const NoteHeaderOne = styled.div`

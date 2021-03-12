@@ -1,16 +1,19 @@
-import {Overlay, Popup} from '@style/PopupNewNoteStyled';
+import {Overlay, Popup, CreateNoteForm} from '@style/PopupNewNoteStyled';
 import {CustomSmallButton} from '@component/CustomSmallButton';
-import {useState} from 'react';
+import React, {useState} from 'react';
+import {Formik, useField} from 'formik';
+import * as Yup from 'yup';
 
 
 const PopupNewNote = (props) => {
-    const [noteName, setNoteName] = useState('');
+    const [error, setError] = useState('');
 
     // Create the new note if a name is given
-    const create = () => {
-        if (noteName !== '') {
-            props.createNewNote(noteName);
-        }
+    const createNewNote = (values) => {
+        props.createNewNote(values.name)
+            .catch((error) => {
+                setError(error.response.data.message);
+            });
     }
 
     // Cancel the action
@@ -18,27 +21,58 @@ const PopupNewNote = (props) => {
         props.setShowNewNotePopup(false);
     }
 
-    // Set the note name from the input
-    const dynamicSetNoteName = (event) => {
-        setNoteName(event.target.value);
-    }
-
     return (
         <>
             <Overlay>
                 <Popup>
                     <div className='create-text'>New note name:</div>
-                    <input className='input-note-name'
-                           placeholder='New note name'
-                           type='text'
-                           autoComplete='off'
-                           onChange={dynamicSetNoteName}/>
-                    <div className='buttons-wrapper'>
-                        <CustomSmallButton className='button' onClick={create}>Create</CustomSmallButton>
-                        <CustomSmallButton className='button' onClick={cancel}>Cancel</CustomSmallButton>
-                    </div>
+                    <Formik
+                        initialValues={{
+                            name: ''
+                        }}
+                        validationSchema={Yup.object({
+                            name: Yup.string()
+                                .max(30, 'No more than 30 characters')
+                                .required('Note name is required')
+                        })}
+                        onSubmit={(values, {setSubmitting, resetForm}) => {
+                            (async () => {
+                                createNewNote(values);
+                                setSubmitting(false);
+                                resetForm();
+                            })();
+                        }}
+                    >
+                        {props => (
+                            <CreateNoteForm>
+                                <CreateNoteInput label='Note name' name='name' type='text' placeholder='Note name'
+                                                 className='create-note-input' autoComplete='off'/>
+                                {error && <div className='create-note-server-error'>{error}</div>}
+                                <div className='buttons-wrapper'>
+                                    <CustomSmallButton type='submit'>
+                                        {props.isSubmitting ? 'Please Wait...' : 'Create'}
+                                    </CustomSmallButton>
+                                    <CustomSmallButton onClick={cancel}>
+                                        Cancel
+                                    </CustomSmallButton>
+                                </div>
+                            </CreateNoteForm>
+                        )}
+                    </Formik>
                 </Popup>
             </Overlay>
+        </>
+    )
+}
+
+
+const CreateNoteInput = ({label, ...props}: { [x: string]: any; name: string }) => {
+    const [field, meta] = useField(props);
+
+    return (
+        <>
+            <input className='create-note-input' {...field} {...props} />
+            {meta.error && <div className='create-note-form-error'>{meta.error}</div>}
         </>
     )
 }

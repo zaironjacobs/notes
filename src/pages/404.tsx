@@ -1,5 +1,5 @@
 import React from 'react';
-import {NotFoundWrapper, MainContainer, Button} from '@style/404Styled';
+import {NotFoundWrapper, Main, Button} from '@style/404Styled';
 import Head from 'next/head';
 import global from 'global';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import Link from 'next/link';
 const Custom404 = () => {
     return (
         <>
-            <MainContainer>
+            <Main>
                 <Head>
                     <title>Page not found – {global.siteName}</title>
                     <meta name='description' content='page not found'/>
@@ -18,7 +18,7 @@ const Custom404 = () => {
                     <div className='not-found-page'>Page Not Found</div>
                 </NotFoundWrapper>
                 <Button><Link href={global.paths.login}>🡠 Notes</Link></Button>
-            </MainContainer>
+            </Main>
         </>
     );
 }

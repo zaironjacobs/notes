@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import theme from 'theme';
-import {Main} from '@style/GlobalStyle';
+import {Main as M} from '@style/GlobalStyle';
 
 
-export const MainContainer = styled(Main)`
+export const Main = styled(M)`
   display: flex;
   justify-content: center;
   min-height: calc(100vh - ${theme.footer.height});

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from 'theme';
 
 
-export const Content = styled.div`
+export const Content = styled.footer`
   display: flex;
   flex-direction: column;
   align-items: center;
