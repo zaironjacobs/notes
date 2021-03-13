@@ -28,10 +28,16 @@ MYSQL_PORT=3306
 SECRET=0RRDkRscGkAMA3329tjOWAYn8hw0Qykp
 ```
 
-Optional: to change MySQL max allowed package size in my.ini:
+Optional: to change MySQL max allowed package size (my.ini):
 ```
 [mysqld]
 max_allowed_packet=20M
+```
+
+Optional: max size for system tablespace (my.ini):
+```
+[mysqld]
+innodb_data_file_path=ibdata1:10M:autoextend:max:2G
 ```
 
 Create a database called "notes" in MySQL before proceeding.
