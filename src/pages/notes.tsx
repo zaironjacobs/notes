@@ -1,4 +1,4 @@
-import {Main, PageWrapper, NotesHeaderOne, Note} from '@style/NotesStyled';
+import {Main, PageWrapper, NotesHeaderOne, MyNote} from '@style/NotesStyled';
 import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
@@ -6,27 +6,28 @@ import Header from '@component/Header';
 import axios, {AxiosResponse} from 'axios';
 import React, {useState, useEffect} from 'react';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
+import {NextRouter, useRouter} from 'next/router';
 import PopupNewNote from '@component/PopupNewNote';
 import PopupConfirmation from '@component/PopupConfirmation';
 import Head from 'next/head';
 import Footer from '@component/Footer';
+import UserInterface from '@interface/User';
+import NoteInterface from '@interface/Note';
 
 
 const Notes = (props) => {
-    const router = useRouter();
-    const user: {} = props.user;
-    const [notes, setNotes] = useState(null);
-    const [showNewNotePopup, setShowNewNotePopup] = useState(false);
-    const [showConfirmationPopUp, setShowConfirmationPopUp] = useState(false);
-    const [showTrash, setShowTrash] = useState(false);
-    const [selectedNotesId, setSelectedNotesId] = useState([]);
-    const [error, setError] = useState('');
+    const router: NextRouter = useRouter();
+    const [notes, setNotes] = useState<NoteInterface[]>(null);
+    const [showNewNotePopup, setShowNewNotePopup] = useState<boolean>(false);
+    const [showConfirmationPopUp, setShowConfirmationPopUp] = useState<boolean>(false);
+    const [showTrash, setShowTrash] = useState<boolean>(false);
+    const [selectedNotesId, setSelectedNotesId] = useState<string[]>([]);
+    const [error, setError] = useState<string>('');
 
     // After render, fetch the user's notes
     useEffect(() => {
         fetchNotes()
-            .then(notes => {
+            .then((notes: NoteInterface[]) => {
                 setAllNotesChecked(notes, false);
                 setNotes(notes);
             })
@@ -52,14 +53,14 @@ const Notes = (props) => {
     }
 
     // Set all notes to checked or not checked
-    const setAllNotesChecked = (notes, isChecked) => {
+    const setAllNotesChecked = (notes: NoteInterface[], isChecked: boolean) => {
         notes.forEach((note) => {
             note.isChecked = isChecked;
         })
     }
 
     // Create a new note
-    const createNewNote = (name) => {
+    const createNewNote = (name: string) => {
         return axios.post(global.api.createNote, {name: name, content: ''})
             .then((response: AxiosResponse) => {
                 const newNoteId = response.data.id;
@@ -93,7 +94,7 @@ const Notes = (props) => {
     }
 
     // Add the id of the selected notes to selectedNotesId
-    const onCheckBoxChange = (e, note) => {
+    const onCheckBoxChange = (e, note: NoteInterface) => {
         if (e.target.checked) {
             selectedNotesId.push(note.id);
             setSelectedNotesId(selectedNotesId.filter(id => id));
@@ -150,7 +151,7 @@ const Notes = (props) => {
                     </NotesHeaderOne>
                     {error && <div className='notes-server-error'>{error}</div>}
                     {notes !== null && notes.map((note, index: number) => (
-                        <Note key={index}>
+                        <MyNote key={index}>
                             <input
                                 className='note-checkbox'
                                 id={note.id}
@@ -163,7 +164,7 @@ const Notes = (props) => {
                             <Link href={global.paths.note + '/' + Buffer.from(note.id).toString('base64')}>
                                 <span className='note-name'>{note.name}</span>
                             </Link>
-                        </Note>
+                        </MyNote>
                     ))}
                 </PageWrapper>
             </Main>
@@ -178,7 +179,7 @@ export default Notes;
 
 export const getServerSideProps = withSession(async ({req, res}) => {
         // If user does not exist, redirect to login
-        const user = req.session.get('user');
+        const user: UserInterface = req.session.get('user');
         if (!user) {
             return {
                 redirect: {

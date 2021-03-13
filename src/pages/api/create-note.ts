@@ -1,13 +1,14 @@
 import {query} from '@lib/db';
 import withSession from '@lib/session';
 import {v4 as uuidv4} from 'uuid';
+import UserInterface from '@interface/User';
 
 
 export default withSession(async (req, res) => {
     // Create a new note
     if (req.method === 'POST') {
 
-        const userFromSession = req.session.get('user');
+        const userFromSession: UserInterface = req.session.get('user');
         if (!userFromSession.isLoggedIn) {
             return res.status(401).json({message: 'Could not create note'});
         }

@@ -1,6 +1,6 @@
 import {SignUpForm, Content} from '@style/LoginStyled';
 import {CustomButton} from '@component/CustomButton';
-import {useRouter} from 'next/router';
+import {NextRouter, useRouter} from 'next/router';
 import {Main} from '@style/LoginStyled';
 import {Formik, useField} from 'formik';
 import * as Yup from 'yup';
@@ -13,11 +13,12 @@ import Menu from '@component/Menu';
 import Header from '@component/Header';
 import Head from 'next/head';
 import Footer from '@component/Footer';
+import UserInterface from '@interface/User';
 
 
 const Login = (props) => {
-    const router = useRouter();
-    const [error, setError] = useState('');
+    const router: NextRouter = useRouter();
+    const [error, setError] = useState<string>('');
 
     const submit = async (values, setError, router) => {
         await axios.post(global.api.login, {
@@ -117,7 +118,7 @@ export default Login;
 
 export const getServerSideProps = withSession(async ({req, res}) => {
     // If user exists, redirect to home
-    const user = req.session.get('user');
+    const user: UserInterface = req.session.get('user');
     if (user) {
         return {
             redirect: {

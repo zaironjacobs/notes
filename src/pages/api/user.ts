@@ -1,5 +1,6 @@
 import {query} from '@lib/db';
 import withSession from '@lib/session';
+import UserInterface from '@interface/User';
 
 
 export default withSession(async (req, res) => {
@@ -20,7 +21,7 @@ export default withSession(async (req, res) => {
                     `
             );
             const user = resultSelectUser[0];
-            const responseUser = {
+            const responseUser: UserInterface = {
                 id: user.id,
                 firstName: user.first_name,
                 lastName: user.last_name,

@@ -1,6 +1,7 @@
 import {query} from '@lib/db';
 import {compare} from 'bcrypt';
 import withSession from '@lib/session';
+import UserInterface from '@interface/User';
 
 
 export default withSession(async (req, res) => {
@@ -17,7 +18,7 @@ export default withSession(async (req, res) => {
             const user = results[0];
             const match = await compare(password, user['password']);
             if (match) {
-                const responseUser = {
+                const responseUser: UserInterface = {
                     id: user.id,
                     firstName: user.first_name,
                     lastName: user.last_name,

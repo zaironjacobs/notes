@@ -88,7 +88,7 @@ export const NotesHeaderOne = styled.div`
 `;
 
 
-export const Note = styled.div`
+export const MyNote = styled.div`
   display: flex;
   align-items: center;
   width: 100%;

@@ -1,5 +1,7 @@
 import {query} from '@lib/db';
 import withSession from '@lib/session';
+import UserInterface from '@interface/User';
+import NoteInterface from '@interface/Note';
 
 
 export default withSession(async (req, res) => {
@@ -7,7 +9,7 @@ export default withSession(async (req, res) => {
     if (req.method === 'POST') {
         try {
 
-            const userFromSession = req.session.get('user');
+            const userFromSession: UserInterface = req.session.get('user');
             if (!userFromSession.isLoggedIn) {
                 return res.status(401).json({message: 'Could not fetch notes'});
             }
@@ -23,12 +25,13 @@ export default withSession(async (req, res) => {
                     ORDER BY created_at DESC;
                     `
             );
-            const responseNotes = [];
+            const responseNotes: NoteInterface[] = [];
             JSON.parse(JSON.stringify(resultSelectNotes)).forEach((note) => {
                 responseNotes.push({
                     id: note.id,
                     name: note.name,
                     content: note.content,
+                    isChecked: false
                 });
             });
             return res.status(200).json({message: 'Notes fetched', notes: responseNotes});

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useRouter} from 'next/router';
+import {NextRouter, useRouter} from 'next/router';
 import {CustomButton} from '@component/CustomButton';
 import {SignUpForm, Content} from '@style/SignUpStyled';
 import {Main} from '@style/SignUpStyled';
@@ -13,11 +13,12 @@ import Menu from '@component/Menu';
 import Header from '@component/Header';
 import Head from 'next/head';
 import Footer from '@component/Footer';
+import UserInterface from '@interface/User';
 
 
 const SignUp = (props) => {
-    const router = useRouter();
-    const [error, setError] = useState('');
+    const router: NextRouter = useRouter();
+    const [error, setError] = useState<string>('');
 
     const submitForm = async (values) => {
         if (values.password !== values.repeatPassword) {
@@ -156,7 +157,7 @@ export default SignUp;
 
 export const getServerSideProps = withSession(async ({req, res}) => {
     // If user exists, redirect to home
-    const user = req.session.get('user');
+    const user: UserInterface = req.session.get('user');
     if (user) {
         return {
             redirect: {

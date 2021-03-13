@@ -9,6 +9,7 @@ const App = (props) => {
     const [isNotificationOn, setIsNotificationOn] = useState(false);
     const [notification, setNotification] = useState('');
 
+    // Function for a component to show a notification
     const showNotification = (message) => {
         setNotification(message);
         setIsNotificationOn(true);
@@ -28,7 +29,8 @@ const App = (props) => {
                 {/* Bottom Notification */}
                 <Notification notification={notification}
                               isNotificationOn={isNotificationOn}
-                              setIsNotificationOn={setIsNotificationOn}/>
+                              setIsNotificationOn={setIsNotificationOn}
+                />
             </Layout>
         </>
     )

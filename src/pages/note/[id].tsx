@@ -7,22 +7,24 @@ import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
+import {NextRouter, useRouter} from 'next/router';
 import PopupConfirmation from '@component/PopupConfirmation';
 import axios, {AxiosResponse} from 'axios';
 import Head from 'next/head';
 import Footer from '@component/Footer';
+import NoteInterface from '@interface/Note';
+import UserInterface from '@interface/User';
 
 
 const Note = (props) => {
-    const router = useRouter();
+    const router: NextRouter = useRouter();
     const noteId: string = Buffer.from(router.query.id.toString(), 'base64').toString();
     const queryEditable: string | string[] = router.query.editable || '';
-    const [note, setNote] = useState(null);
-    const [noteName, setNoteName] = useState('');
-    const [noteContent, setNoteContent] = useState('');
-    const [showConfirmationPopUp, setShowConfirmationPopUp] = useState(false);
-    const [editable, setEditable] = useState(false);
+    const [note, setNote] = useState<NoteInterface>(null);
+    const [noteName, setNoteName] = useState<string>('');
+    const [noteContent, setNoteContent] = useState<string>('');
+    const [showConfirmationPopUp, setShowConfirmationPopUp] = useState<boolean>(false);
+    const [editable, setEditable] = useState<boolean>(false);
     const textAreaNode = useRef<HTMLInputElement>(null);
 
     // New note should be editable by default
@@ -71,7 +73,8 @@ const Note = (props) => {
     // Save the note
     const saveNote = () => {
         if (editable && noteName !== '') {
-            axios.put(global.api.note, {id: noteId, name: noteName, content: noteContent})
+            const note: NoteInterface = {id: noteId, name: noteName, content: noteContent, isChecked: false}
+            axios.put(global.api.note, {note: note})
                 .then((response: AxiosResponse) => {
                     setEditable(false);
                     props.showNotification('Note saved');
@@ -174,7 +177,7 @@ export default Note;
 
 export const getServerSideProps = withSession(async ({req, res}) => {
         // If user does not exist, redirect to login
-        const user = req.session.get('user');
+        const user: UserInterface = req.session.get('user');
         if (!user) {
             return {
                 redirect: {
