@@ -80,7 +80,7 @@ const Note = (props) => {
                     props.showNotification('Note saved');
                 })
                 .catch((error) => {
-                    console.log(error.response);
+                    props.showNotification(error.response.data.message);
                 });
         }
     }

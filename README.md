@@ -28,8 +28,13 @@ MYSQL_PORT=3306
 SECRET=0RRDkRscGkAMA3329tjOWAYn8hw0Qykp
 ```
 
-Create a database called "notes" in MySQL before proceeding.
+Optional: to change MySQL max allowed package size in my.ini:
+```
+[mysqld]
+max_allowed_packet=20M
+```
 
+Create a database called "notes" in MySQL before proceeding.
 
 To use:
 ```console

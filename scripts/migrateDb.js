@@ -43,7 +43,7 @@ const migrate = async () =>{
         CREATE TABLE IF NOT EXISTS notes (
             id VARCHAR(36) NOT NULL PRIMARY KEY,
             name VARCHAR(30) NOT NULL,
-            content TEXT NULL,
+            content MEDIUMTEXT NULL,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
         `);
