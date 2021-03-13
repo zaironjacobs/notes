@@ -51,7 +51,7 @@ const Note = (props) => {
     // Fetch note
     useEffect(() => {
         const fetchNote = async () => {
-            return axios.post(global.api.note, {id: noteId})
+            return axios.get(global.api.note, {params: {id: noteId}})
                 .then((response: AxiosResponse) => {
                     return response.data.note;
                 })

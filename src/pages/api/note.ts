@@ -6,7 +6,7 @@ import UserInterface from '@interface/User';
 
 export default withSession(async (req, res) => {
     // Retrieve a note
-    if (req.method === 'POST') {
+    if (req.method === 'GET') {
 
         const userFromSession: UserInterface = req.session.get('user');
         if (!userFromSession.isLoggedIn) {
@@ -14,7 +14,7 @@ export default withSession(async (req, res) => {
         }
 
         try {
-            const noteId: number = req.body.id;
+            const noteId: string = req.query.id;
             const resultSelectNote = await query(
                 `
                         SELECT id, name, content

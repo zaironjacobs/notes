@@ -43,7 +43,7 @@ const Notes = (props) => {
 
     // Fetch all notes from the user
     const fetchNotes = async () => {
-        return axios.post(global.api.notes)
+        return axios.get(global.api.notes)
             .then((response: AxiosResponse) => {
                 return response.data.notes;
             })

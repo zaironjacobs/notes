@@ -6,7 +6,7 @@ import NoteInterface from '@interface/Note';
 
 export default withSession(async (req, res) => {
     // Retrieve notes
-    if (req.method === 'POST') {
+    if (req.method === 'GET') {
         try {
 
             const userFromSession: UserInterface = req.session.get('user');
