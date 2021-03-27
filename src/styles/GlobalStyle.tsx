@@ -28,12 +28,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  ::selection {
-    color: ${theme.colors.white};
-    background: ${theme.colors.blueNormal};
-  }
-
-  ::-moz-selection {
+  ::selection, ::-moz-selection {
     color: ${theme.colors.white};
     background: ${theme.colors.blueNormal};
   }

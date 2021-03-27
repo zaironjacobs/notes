@@ -6,7 +6,13 @@ import theme from 'theme';
 export const Main = styled(M)``;
 
 
-export const PageWrapper = styled(PW)``;
+export const PageWrapper = styled(PW)`
+  .max-length {
+    padding: 5px 10px 10px 5px;
+    text-align: right;
+    font-size: 14px;
+  }
+`;
 
 
 export const NoteHeaderOne = styled.div`

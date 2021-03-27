@@ -21,11 +21,10 @@ const Note = (props) => {
     const noteId: string = Buffer.from(router.query.id.toString(), 'base64').toString();
     const queryEditable: string | string[] = router.query.editable || '';
     const [note, setNote] = useState<NoteInterface>(null);
-    const [noteName, setNoteName] = useState<string>('');
-    const [noteContent, setNoteContent] = useState<string>('');
     const [showConfirmationPopUp, setShowConfirmationPopUp] = useState<boolean>(false);
     const [editable, setEditable] = useState<boolean>(false);
     const textAreaNode = useRef<HTMLInputElement>(null);
+    const maxLength: number = 15000000; // note content size less than MEDIUMTEXT max size
 
     // New note should be editable by default
     useEffect(() => {
@@ -62,8 +61,6 @@ const Note = (props) => {
         fetchNote().then(note => {
             if (note) {
                 setNote(note);
-                setNoteName(note.name);
-                setNoteContent(note.content);
             } else {
                 router.push(global.paths.notfound404);
             }
@@ -72,9 +69,9 @@ const Note = (props) => {
 
     // Save the note
     const saveNote = () => {
-        if (editable && noteName !== '') {
-            const note: NoteInterface = {id: noteId, name: noteName, content: noteContent, isChecked: false}
-            axios.put(global.api.note, {note: note})
+        if (editable && note) {
+            const toSaveNote: NoteInterface = {id: noteId, name: note.name, content: note.content, isChecked: false}
+            axios.put(global.api.note, {note: toSaveNote})
                 .then((response: AxiosResponse) => {
                     setEditable(false);
                     props.showNotification('Note saved');
@@ -99,12 +96,16 @@ const Note = (props) => {
 
     // Dynamically change note name
     const changeNoteName = (event) => {
-        setNoteName(event.target.value);
+        let updatedNote = {...note};
+        updatedNote.name = event.target.value;
+        setNote(updatedNote);
     }
 
     // Dynamically change note content
     const changeNoteContent = (event) => {
-        setNoteContent(event.target.value);
+        let updatedNote = {...note};
+        updatedNote.content = event.target.value;
+        setNote(updatedNote);
     }
 
     return (
@@ -118,7 +119,7 @@ const Note = (props) => {
             {/* Main */}
             <Main>
                 <Head>
-                    <title>{note && noteName} – {global.siteName}</title>
+                    <title>{note && note.name} – {global.siteName}</title>
                 </Head>
                 {note ?
                     <PageWrapper>
@@ -136,7 +137,7 @@ const Note = (props) => {
                         <NoteHeaderTwo>
                             <div className='note-name-wrapper'>
                                 <CustomInput placeholder='Note name...'
-                                             value={noteName}
+                                             value={note.name}
                                              onChange={changeNoteName}
                                              type='text'
                                              autoComplete='off'
@@ -160,9 +161,11 @@ const Note = (props) => {
                         <CustomTextArea
                             placeholder='Your amazing ideas here...'
                             onChange={changeNoteContent}
-                            value={noteContent} disabled={!editable}
+                            value={note.content} disabled={!editable}
                             ref={textAreaNode}
+                            maxLength={maxLength}
                         />
+                        <div className='max-length'>{note.content.length >= maxLength ? 'Note full' : ''}</div>
                     </PageWrapper>
                     : null}
             </Main>
@@ -175,7 +178,11 @@ const Note = (props) => {
 
 export default Note;
 
-export const getServerSideProps = withSession(async ({req, res}) => {
+export const getServerSideProps = withSession(async (
+    {
+        req, res
+    }
+    ) => {
         // If user does not exist, redirect to login
         const user: UserInterface = req.session.get('user');
         if (!user) {

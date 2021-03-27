@@ -4,7 +4,7 @@ import theme from 'theme';
 
 export const CustomTextArea = styled.textarea`
   width: 100%;
-  height: calc(100vh - ${theme.header.mobileHeight} - 250px);
+  height: calc(100vh - ${theme.header.mobileHeight} - 265px);
   margin-top: 10px;
   resize: none;
   padding: 10px;
