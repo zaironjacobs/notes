@@ -167,7 +167,7 @@ const Note = (props) => {
                         />
                         <div className='max-length'>{note.content.length >= maxLength ? 'Note full' : ''}</div>
                     </PageWrapper>
-                    : null}
+                    : <div className='loading'>Loading....</div>}
             </Main>
 
             {/* Footer */}

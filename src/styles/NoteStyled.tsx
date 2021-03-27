@@ -3,7 +3,13 @@ import {Main as M, PageWrapper as PW} from '@style/GlobalStyle';
 import theme from 'theme';
 
 
-export const Main = styled(M)``;
+export const Main = styled(M)`
+  .loading {
+    text-align: center;
+    font-size: 24px;
+    padding-top: 20px;
+  }
+`;
 
 
 export const PageWrapper = styled(PW)`

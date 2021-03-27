@@ -150,7 +150,7 @@ const Notes = (props) => {
                         </div>
                     </NotesHeaderOne>
                     {error && <div className='notes-server-error'>{error}</div>}
-                    {notes !== null && notes.map((note, index: number) => (
+                    {notes ? notes.map((note, index: number) => (
                         <MyNote key={index}>
                             <input
                                 className='note-checkbox'
@@ -165,7 +165,7 @@ const Notes = (props) => {
                                 <span className='note-name'>{note.name}</span>
                             </Link>
                         </MyNote>
-                    ))}
+                    )) : <div className='loading'>Loading....</div>}
                 </PageWrapper>
             </Main>
 
