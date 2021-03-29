@@ -214,7 +214,7 @@ const Pagination = (props) => {
                      }}>{paginationBoxes[8].page}</div>
                 }
                 <div
-                    className={`box first-child ${enableNext ? '' : 'disabled-x-than'}`}
+                    className={`box last-child ${enableNext ? '' : 'disabled-x-than'}`}
                     onClick={next}>
                     <i className='fas fa-greater-than'/>
                 </div>
