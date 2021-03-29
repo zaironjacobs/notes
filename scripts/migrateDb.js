@@ -35,8 +35,8 @@ const migrate = async () =>{
             last_name VARCHAR(30) NOT NULL,
             email VARCHAR(30) NOT NULL UNIQUE,
             password VARCHAR(128) NOT NULL,
-            created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
+            created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+            updated_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6));
         `);
 
         await query(`
@@ -44,8 +44,8 @@ const migrate = async () =>{
             id VARCHAR(36) NOT NULL PRIMARY KEY,
             name VARCHAR(30) NOT NULL,
             content MEDIUMTEXT NULL,
-            created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
+            created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+            updated_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6));
         `);
 
         await query(`
@@ -53,8 +53,8 @@ const migrate = async () =>{
             id VARCHAR(36) NOT NULL PRIMARY KEY,
             user_id VARCHAR(36) NOT NULL,
             note_id VARCHAR(36) NOT NULL,
-            created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+            updated_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
             CONSTRAINT FOREIGN KEY (note_id) REFERENCES notes(id) ON DELETE CASCADE,
             CONSTRAINT FOREIGN KEY (user_id) REFERENCES users(id));
         `);
