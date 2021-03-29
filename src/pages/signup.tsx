@@ -86,12 +86,12 @@ const SignUp = (props) => {
 
                             password: Yup.string()
                                 .min(8, 'At least 8 characters')
-                                .max(30, 'No more than 30 characters')
+                                .max(128, 'No more than 128 characters')
                                 .required('Required'),
 
                             repeatPassword: Yup.string()
                                 .min(8, 'At least 8 characters')
-                                .max(30, 'No more than 30 characters')
+                                .max(128, 'No more than 128 characters')
                                 .required('Required')
                         })}
                         onSubmit={(values, {setSubmitting, resetForm}) => {
@@ -111,15 +111,15 @@ const SignUp = (props) => {
                             <SignUpForm>
                                 <h1 className='sign-up-title'>Sign Up</h1>
                                 <CustomTextInput label='First Name' name='firstName' type='text'
-                                                 placeholder='First Name'/>
+                                                 placeholder='First Name' maxLength={30}/>
                                 <CustomTextInput label='Last Name' name='lastName' type='text'
-                                                 placeholder='Last Name'/>
+                                                 placeholder='Last Name' maxLength={30}/>
                                 <CustomTextInput label='Email' name='email' type='email'
-                                                 placeholder='Email'/>
+                                                 placeholder='Email' maxLength={30}/>
                                 <CustomTextInput label='Password' name='password' type='password'
-                                                 placeholder='Password'/>
+                                                 placeholder='Password' maxLength={128}/>
                                 <CustomTextInput label='Repeat password' name='repeatPassword' type='password'
-                                                 placeholder='Repeat password'/>
+                                                 placeholder='Repeat password' maxLength={128}/>
                                 <div className='sign-up-server-error'>{error}</div>
                                 <CustomButton type='submit'>
                                     {props.isSubmitting ? 'Please Wait...' : 'Create Account'}

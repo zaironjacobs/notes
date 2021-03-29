@@ -13,6 +13,7 @@ import Head from 'next/head';
 import Footer from '@component/Footer';
 import UserInterface from '@interface/User';
 import NoteInterface from '@interface/Note';
+import Pagination from '@component/Pagination';
 
 
 const Notes = (props) => {
@@ -23,8 +24,11 @@ const Notes = (props) => {
     const [showTrash, setShowTrash] = useState<boolean>(false);
     const [selectedNotesId, setSelectedNotesId] = useState<string[]>([]);
     const [error, setError] = useState<string>('');
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(1);
+    const paginationLimit: number = 10;
 
-    // After render, fetch the user's notes
+    // Fetch the user notes
     useEffect(() => {
         fetchNotes()
             .then((notes: NoteInterface[]) => {
@@ -34,34 +38,41 @@ const Notes = (props) => {
             .catch(error => {
                 setError(error.response.data.message);
             });
+    }, [currentPage]);
+
+    // Calculate the initial total pages
+    useEffect(() => {
+        calculateTotalPages();
     }, []);
 
-    // After render or when selectedNotesId changes, show the trash icon or not
+    // Show the trash icon
     useEffect(() => {
         setShowTrash(selectedNotesId.length > 0);
     }, [selectedNotesId]);
 
-    // Fetch all notes from the user
-    const fetchNotes = async () => {
-        return axios.get(global.api.notes)
-            .then((response: AxiosResponse) => {
-                return response.data.notes;
-            })
-            .catch(error => {
-                return error;
-            });
-    }
-
-    // Set all notes to checked or not checked
+    // Uncheck or check notes
     const setAllNotesChecked = (notes: NoteInterface[], isChecked: boolean) => {
         notes.forEach((note) => {
             note.isChecked = isChecked;
-        })
+        });
+    }
+
+    // Calculate total pages
+    const calculateTotalPages = () => {
+        axios.get(global.api.notesCount)
+            .then((response: AxiosResponse) => {
+                const amount: number = response.data.amount;
+                const totalPages: number = amount / paginationLimit;
+                setTotalPages(Math.ceil(totalPages));
+            })
+            .catch(error => {
+                setTotalPages(1);
+            });
     }
 
     // Create a new note
     const createNewNote = (name: string) => {
-        return axios.post(global.api.createNote, {name: name, content: ''})
+        return axios.post(global.api.note, {name: name, content: ''})
             .then((response: AxiosResponse) => {
                 const newNoteId = response.data.id;
                 router.push(global.paths.note + '/' + Buffer.from(newNoteId).toString('base64')
@@ -87,9 +98,21 @@ const Notes = (props) => {
                     .catch(error => {
                         setError(error.response.data.message);
                     });
+                calculateTotalPages();
             })
             .catch((error) => {
                 return Promise.reject(error);
+            });
+    }
+
+    // Fetch notes from the user
+    const fetchNotes = () => {
+        return axios.get(global.api.notes + `?page=${currentPage}&limit=${paginationLimit}`)
+            .then((response: AxiosResponse) => {
+                return response.data.notes;
+            })
+            .catch(error => {
+                return error;
             });
     }
 
@@ -121,18 +144,21 @@ const Notes = (props) => {
                     <title>My notes – {global.siteName}</title>
                 </Head>
                 <PageWrapper>
+
+                    {/* Confirmation popup */}
                     {showConfirmationPopUp &&
                     <PopupConfirmation message='Delete all selected notes?'
                                        customFunction={deleteSelected}
                                        setShowConfirmationPopUp={setShowConfirmationPopUp}
                     />
                     }
+
+                    {/* New note popup */}
                     {showNewNotePopup &&
-                    <PopupNewNote
-                        createNewNote={createNewNote}
-                        setShowNewNotePopup={setShowNewNotePopup}
-                    />
+                    <PopupNewNote createNewNote={createNewNote} setShowNewNotePopup={setShowNewNotePopup}/>
                     }
+
+                    {/* Header One */}
                     <NotesHeaderOne>
                         <div className='my-notes'>My notes</div>
                         <div className='notes-header-one-left'>
@@ -149,7 +175,10 @@ const Notes = (props) => {
                             </div>
                         </div>
                     </NotesHeaderOne>
+
                     {error && <div className='notes-server-error'>{error}</div>}
+
+                    {/* Notes */}
                     {notes ? notes.map((note, index: number) => (
                         <MyNote key={index}>
                             <input
@@ -165,7 +194,16 @@ const Notes = (props) => {
                                 <span className='note-name'>{note.name}</span>
                             </Link>
                         </MyNote>
-                    )) : <div className='loading'>Loading....</div>}
+                    )) : <div className='loading'>Loading....</div>
+                    }
+
+                    {/* Pagination */}
+                    {notes && <Pagination
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        totalPages={totalPages}/>
+                    }
+
                 </PageWrapper>
             </Main>
 

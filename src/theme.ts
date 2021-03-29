@@ -11,6 +11,7 @@ export default {
         black: '#000000',
         white: '#FFFFFF',
 
+        blueLighter: '#b5deff',
         blueLight: '#5cb5f8',
         blueNormal: '#0687db',
         blueDark: '#005ea9',
@@ -42,7 +43,7 @@ export default {
     },
 
     footer: {
-        mobileHeight: '75px',
-        height: '75px'
+        mobileHeight: '95px',
+        height: '95px'
     }
 };

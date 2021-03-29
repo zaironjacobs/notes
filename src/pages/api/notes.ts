@@ -2,10 +2,11 @@ import {query} from '@lib/db';
 import withSession from '@lib/session';
 import UserInterface from '@interface/User';
 import NoteInterface from '@interface/Note';
+import {stat} from "fs";
 
 
 export default withSession(async (req, res) => {
-    // Retrieve notes
+    // Retrieve user notes
     if (req.method === 'GET') {
         try {
 
@@ -13,6 +14,10 @@ export default withSession(async (req, res) => {
             if (!userFromSession.isLoggedIn) {
                 return res.status(401).json({message: 'Could not fetch notes'});
             }
+
+            const currentPage: string = req.query.page;
+            const paginationLimit: string = req.query.limit;
+            const startLimit: number = parseInt(currentPage) * parseInt(paginationLimit) - parseInt(paginationLimit);
 
             const resultSelectNotes = await query(
                 `
@@ -22,7 +27,8 @@ export default withSession(async (req, res) => {
                           (SELECT note_id
                            FROM user_notes
                            WHERE user_id = '${userFromSession.id}')
-                    ORDER BY created_at DESC;
+                    ORDER BY created_at ASC
+                    LIMIT ${startLimit}, ${paginationLimit};
                     `
             );
             const responseNotes: NoteInterface[] = [];

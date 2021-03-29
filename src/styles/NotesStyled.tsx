@@ -6,7 +6,11 @@ import theme from 'theme';
 export const Main = styled(M)`
   .loading {
     text-align: center;
-    font-size: 24px;
+    font-size: 16px;
+
+    ${theme.media._480px} {
+      font-size: 24px;
+    }
   }
 `;
 

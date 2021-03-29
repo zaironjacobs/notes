@@ -34,7 +34,7 @@ const migrate = async () =>{
             first_name VARCHAR(30) NOT NULL,
             last_name VARCHAR(30) NOT NULL,
             email VARCHAR(30) NOT NULL UNIQUE,
-            password VARCHAR(72) NOT NULL,
+            password VARCHAR(128) NOT NULL,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
         `);

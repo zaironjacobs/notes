@@ -7,7 +7,7 @@ import useOnClickOutside from '@hook/useOnClickOutside';
 
 
 const PopupNewNote = (props) => {
-    const [error, setError] = useState('');
+    const [error, setError] = useState<string>('');
     const popupNode = useRef();
     useOnClickOutside(popupNode, () => cancel());
 
@@ -38,6 +38,7 @@ const PopupNewNote = (props) => {
                                 .max(30, 'No more than 30 characters')
                                 .required('Note name is required')
                         })}
+                        validateOnBlur={false}
                         onSubmit={(values, {setSubmitting, resetForm}) => {
                             (async () => {
                                 createNewNote(values);
@@ -48,8 +49,10 @@ const PopupNewNote = (props) => {
                     >
                         {props => (
                             <CreateNoteForm>
-                                <CreateNoteInput label='Note name' name='name' type='text' placeholder='Note name'
-                                                 className='create-note-input' autoComplete='off'/>
+                                <CreateNoteInput
+                                    label='Note name' name='name' type='text' placeholder='Note name'
+                                    className='create-note-input' autoComplete='off' maxLength={30} autoFocus
+                                />
                                 {error && <div className='create-note-server-error'>{error}</div>}
                                 <div className='buttons-wrapper'>
                                     <CustomSmallButton type='submit'>
@@ -74,7 +77,7 @@ const CreateNoteInput = ({label, ...props}: { [x: string]: any; name: string }) 
 
     return (
         <>
-            <input className='create-note-input' {...field} {...props} />
+            <input {...field} {...props} />
             {meta.error && <div className='create-note-form-error'>{meta.error}</div>}
         </>
     )

@@ -11,6 +11,7 @@ export const Content = styled.footer`
   height: ${theme.footer.mobileHeight};
   background-color: ${theme.colors.white};
   border-top: 1px solid ${theme.colors.greyLight};
+  padding: 15px 15px 15px 15px;
 
   .built-by {
     a {

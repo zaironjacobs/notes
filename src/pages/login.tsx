@@ -63,7 +63,7 @@ const Login = (props) => {
 
                             password: Yup.string()
                                 .min(8, 'At least 8 characters')
-                                .max(30, 'No more than 30 characters')
+                                .max(128, 'No more than 128 characters')
                                 .required('Required'),
                         })}
                         onSubmit={(values, {setSubmitting, resetForm}) => {
@@ -78,9 +78,9 @@ const Login = (props) => {
                             <SignUpForm>
                                 <h1 className='login-title'>Sign In</h1>
                                 <CustomTextInput label='Email' name='email' type='email'
-                                                 placeholder='Email'/>
+                                                 placeholder='Email' maxLength={30}/>
                                 <CustomTextInput label='Password' name='password' type='password'
-                                                 placeholder='Password'/>
+                                                 placeholder='Password' maxLength={128}/>
                                 <div className='login-server-error'>{error}</div>
                                 <CustomButton type='submit'>
                                     {props.isSubmitting ? 'Please Wait...' : 'Sign In'}

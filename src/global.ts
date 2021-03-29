@@ -16,7 +16,7 @@ export default {
         login: '/api/login',
         logout: '/api/logout',
         note: '/api/note',
-        createNote: '/api/create-note',
-        notes: '/api/notes'
+        notes: '/api/notes',
+        notesCount: '/api/notes-count'
     }
 };

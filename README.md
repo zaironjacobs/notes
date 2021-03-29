@@ -3,7 +3,9 @@
 </h1>
 <br>
 <div align="center">
-<img alt="notes" src="https://i.imgur.com/osfh50g.png" width="95%">
+<img alt="notes" src="https://i.imgur.com/HJ1fLnu.png" width="85%">
+<br/><br/>
+<img alt="notes" src="https://i.imgur.com/4PDkTvJ.png" width="85%">
 </div>
 
 ## Dependencies
@@ -26,6 +28,12 @@ MYSQL_USERNAME=username
 MYSQL_PASSWORD=password
 MYSQL_PORT=3306
 SECRET=0RRDkRscGkAMA3329tjOWAYn8hw0Qykp
+```
+
+Optional: MySQL configuration for max_allowed_packet:
+```
+[mysqld]
+max_allowed_packet=16M
 ```
 
 Create a database called "notes" in MySQL before proceeding.
