@@ -14,17 +14,19 @@ import Head from 'next/head';
 import Footer from '@component/Footer';
 import NoteInterface from '@interface/Note';
 import UserInterface from '@interface/User';
+import sha256 from 'crypto-js/sha256';
 
 
 const Note = (props) => {
     const router: NextRouter = useRouter();
     const noteId: string = Buffer.from(router.query.id.toString(), 'base64').toString();
-    const queryEditable: string | string[] = router.query.editable || '';
+    const queryEditable: string | string[] = router.query.editable;
     const [note, setNote] = useState<NoteInterface>(null);
     const [showConfirmationPopup, setShowConfirmationPopup] = useState<boolean>(false);
     const [editable, setEditable] = useState<boolean>(false);
     const textAreaNode = useRef<HTMLInputElement>(null);
     const maxLength: number = 15000000; // note content size less than MEDIUMTEXT max size
+    const [originalNoteHashDigest, setOriginalNoteHashDigest] = useState('');
 
     // New note should be editable by default
     useEffect(() => {
@@ -46,6 +48,7 @@ const Note = (props) => {
         const fetchNote = async () => {
             return axios.get(global.api.note, {params: {id: noteId}})
                 .then((response: AxiosResponse) => {
+                    setOriginalNoteHashDigest(sha256(response.data.note.content).toString());
                     return response.data.note;
                 })
                 .catch((error) => {
@@ -63,10 +66,17 @@ const Note = (props) => {
 
     // Save the note
     const saveNote = () => {
+        if (sha256(note.content).toString() === originalNoteHashDigest) {
+            setEditable(false);
+            props.showNotification('No changes made');
+            return;
+        }
+
         if (editable && note) {
-            const toSaveNote: NoteInterface = {id: noteId, name: note.name, content: note.content, isChecked: false}
-            axios.put(global.api.note, {note: toSaveNote})
+            const noteToSave: NoteInterface = {id: noteId, name: note.name, content: note.content, isChecked: false}
+            axios.put(global.api.note, {note: noteToSave})
                 .then((response: AxiosResponse) => {
+                    setOriginalNoteHashDigest(sha256(note.content).toString())
                     setEditable(false);
                     props.showNotification('Note saved');
                 })
