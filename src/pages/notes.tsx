@@ -87,7 +87,7 @@ const Notes = (props) => {
 
                         // Go to previous page
                         if (checkedNotesId.length == notesInView.length && currentPage > 1) {
-                            setCurrentPage(currentPage - 1);
+                            setCurrentPage(prevCurrentPage => prevCurrentPage - 1);
                         }
 
                         setNotesInView(response.data.notes);
