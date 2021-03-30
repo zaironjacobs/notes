@@ -47,7 +47,7 @@ const Pagination = (props) => {
                     <div className='box first-child disabled-x-than'>
                         <i className='fas fa-less-than'/>
                     </div>
-                    <div className='box isNaN'/>
+                    <div className='box isNaN'>1</div>
                     <div className='box first-child disabled-x-than'>
                         <i className='fas fa-greater-than'/>
                     </div>

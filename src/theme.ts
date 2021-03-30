@@ -11,7 +11,7 @@ export default {
         black: '#000000',
         white: '#FFFFFF',
 
-        blueLighter: '#b5deff',
+        blueLighter: '#86caff',
         blueLight: '#5cb5f8',
         blueNormal: '#0687db',
         blueDark: '#005ea9',

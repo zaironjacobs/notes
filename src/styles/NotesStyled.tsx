@@ -19,6 +19,7 @@ export const PageWrapper = styled(PW)`
   max-width: 800px;
 
   .notes-server-error {
+    text-align: center;
     color: ${theme.colors.redLight};
   }
 `;
@@ -92,6 +93,30 @@ export const NotesHeaderOne = styled.div`
       ${theme.media._768px} {
         font-size: 38px;
       }
+    }
+  }
+`;
+
+
+export const NotesHeaderTwo = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 45px;
+  margin-bottom: 10px;
+
+  .notes-checkbox {
+    cursor: pointer;
+    margin-right: 25px;
+  }
+
+  .notes-name {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 8px 3px 8px 3px;
+
+    ${theme.media._768px} {
+      font-size: 20px;
     }
   }
 `;

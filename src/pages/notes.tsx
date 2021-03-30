@@ -1,4 +1,4 @@
-import {Main, PageWrapper, NotesHeaderOne, MyNote} from '@style/NotesStyled';
+import {Main, PageWrapper, NotesHeaderOne, NotesHeaderTwo, MyNote} from '@style/NotesStyled';
 import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
@@ -18,46 +18,39 @@ import Pagination from '@component/Pagination';
 
 const Notes = (props) => {
     const router: NextRouter = useRouter();
-    const [notes, setNotes] = useState<NoteInterface[]>(null);
+    const [notesInView, setNotesInView] = useState<NoteInterface[]>([]);
+    const [checkedNotesId, setCheckedNotesId] = useState<string[]>([]);
     const [showNewNotePopup, setShowNewNotePopup] = useState<boolean>(false);
     const [showConfirmationPopUp, setShowConfirmationPopUp] = useState<boolean>(false);
     const [showTrash, setShowTrash] = useState<boolean>(false);
-    const [selectedNotesId, setSelectedNotesId] = useState<string[]>([]);
     const [error, setError] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [totalPages, setTotalPages] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(0);
     const paginationLimit: number = 10;
 
     // Fetch the user notes
     useEffect(() => {
         fetchNotes()
-            .then((notes: NoteInterface[]) => {
-                setAllNotesChecked(notes, false);
-                setNotes(notes);
+            .then((response: AxiosResponse) => {
+                setNotesInView(response.data.notes);
+                calculateTotalPages();
             })
             .catch(error => {
                 setError(error.response.data.message);
             });
     }, [currentPage]);
 
-    // Calculate the initial total pages
+    // On selectedNotesId change
     useEffect(() => {
-        calculateTotalPages();
-    }, []);
+        // Show the trash icon or not
+        if (checkedNotesId.length > 0) {
+            setShowTrash(true);
+        } else {
+            setShowTrash(false);
+        }
+    }, [checkedNotesId]);
 
-    // Show the trash icon
-    useEffect(() => {
-        setShowTrash(selectedNotesId.length > 0);
-    }, [selectedNotesId]);
-
-    // Uncheck or check notes
-    const setAllNotesChecked = (notes: NoteInterface[], isChecked: boolean) => {
-        notes.forEach((note) => {
-            note.isChecked = isChecked;
-        });
-    }
-
-    // Calculate total pages
+    // Calculate total pages to be shown
     const calculateTotalPages = () => {
         axios.get(global.api.notesCount)
             .then((response: AxiosResponse) => {
@@ -84,21 +77,26 @@ const Notes = (props) => {
     }
 
     // Delete all notes from selectedNotesId
-    const deleteSelected = () => {
-        return axios.delete(global.api.note, {data: {noteIds: selectedNotesId}})
+    const deleteSelectedNotes = () => {
+        return axios.delete(global.api.note, {data: {noteIds: checkedNotesId}})
             .then((response: AxiosResponse) => {
-                setSelectedNotesId([]);
+                props.showNotification(response.data.message);
                 fetchNotes()
-                    .then(notes => {
-                        setAllNotesChecked(notes, false);
-                        setNotes(notes);
+                    .then((response: AxiosResponse) => {
+                        calculateTotalPages();
+
+                        // Go to previous page
+                        if (checkedNotesId.length == notesInView.length && currentPage > 1) {
+                            setCurrentPage(currentPage - 1);
+                        }
+
+                        setNotesInView(response.data.notes);
                         setShowConfirmationPopUp(false);
-                        props.showNotification(response.data.message);
+                        setCheckedNotesId([]);
                     })
                     .catch(error => {
                         setError(error.response.data.message);
                     });
-                calculateTotalPages();
             })
             .catch((error) => {
                 return Promise.reject(error);
@@ -107,25 +105,43 @@ const Notes = (props) => {
 
     // Fetch notes from the user
     const fetchNotes = () => {
-        return axios.get(global.api.notes + `?page=${currentPage}&limit=${paginationLimit}`)
-            .then((response: AxiosResponse) => {
-                return response.data.notes;
-            })
-            .catch(error => {
-                return error;
-            });
+        return axios.get(global.api.notes + `?page=${currentPage}&limit=${paginationLimit}`);
     }
 
-    // Add the id of the selected notes to selectedNotesId
-    const onCheckBoxChange = (e, note: NoteInterface) => {
+    // Add the ids of the selected notes to selectedNotesId
+    const onNoteCheckBoxChange = (e, note: NoteInterface) => {
         if (e.target.checked) {
-            selectedNotesId.push(note.id);
-            setSelectedNotesId(selectedNotesId.filter(id => id));
             note.isChecked = true;
+            checkedNotesId.push(note.id);
+            setCheckedNotesId(checkedNotesId.filter(id => id));
         } else {
-            setSelectedNotesId(selectedNotesId.filter(id => id !== note.id));
+            setCheckedNotesId(checkedNotesId.filter(id => id !== note.id));
             note.isChecked = false;
         }
+    }
+
+    // Toggle all notes check
+    const toggleAllNotesCheck = () => {
+        if (checkedNotesId.length < 1) {
+            checkAllNotes(notesInView, true);
+            setCheckedNotesId(() => {
+                const selectedNotesId = [];
+                notesInView.forEach(note => {
+                    selectedNotesId.push(note.id);
+                });
+                return selectedNotesId;
+            });
+        } else {
+            checkAllNotes(notesInView, false);
+            setCheckedNotesId([]);
+        }
+    }
+
+    // Uncheck or check notes
+    const checkAllNotes = (notes: NoteInterface[], isChecked: boolean) => {
+        notes.forEach((note) => {
+            note.isChecked = isChecked;
+        });
     }
 
     return (
@@ -148,7 +164,7 @@ const Notes = (props) => {
                     {/* Confirmation popup */}
                     {showConfirmationPopUp &&
                     <PopupConfirmation message='Delete all selected notes?'
-                                       customFunction={deleteSelected}
+                                       customFunction={deleteSelectedNotes}
                                        setShowConfirmationPopUp={setShowConfirmationPopUp}
                     />
                     }
@@ -169,17 +185,32 @@ const Notes = (props) => {
                                 <i className='fas fa-trash'/>
                             </div>
                             }
-                            <div className='new-note'>
-                                <i onClick={() => setShowNewNotePopup(true)}
-                                   className='fas fa-plus-circle'/>
+                            <div className='new-note' onClick={() => setShowNewNotePopup(true)}>
+                                <i className='fas fa-plus-circle'/>
                             </div>
                         </div>
                     </NotesHeaderOne>
 
+                    {/* Header Two */}
+                    <NotesHeaderTwo>
+                        {notesInView.length > 0 &&
+                        <>
+                            <input
+                                className='notes-checkbox'
+                                id='notes-checkbox'
+                                type='checkbox'
+                                checked={checkedNotesId.length === notesInView.length}
+                                onChange={toggleAllNotesCheck}
+                            />
+                            <span className='notes-name'>Name</span>
+                        </>
+                        }
+                    </NotesHeaderTwo>
+
                     {error && <div className='notes-server-error'>{error}</div>}
 
                     {/* Notes */}
-                    {notes ? notes.map((note, index: number) => (
+                    {notesInView ? notesInView.map((note, index: number) => (
                         <MyNote key={index}>
                             <input
                                 className='note-checkbox'
@@ -187,7 +218,7 @@ const Notes = (props) => {
                                 type='checkbox'
                                 checked={note.isChecked}
                                 onChange={(e) => {
-                                    onCheckBoxChange(e, note);
+                                    onNoteCheckBoxChange(e, note);
                                 }}
                             />
                             <Link href={global.paths.note + '/' + Buffer.from(note.id).toString('base64')}>
@@ -198,7 +229,7 @@ const Notes = (props) => {
                     }
 
                     {/* Pagination */}
-                    {notes && <Pagination
+                    {notesInView && <Pagination
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
                         totalPages={totalPages}/>

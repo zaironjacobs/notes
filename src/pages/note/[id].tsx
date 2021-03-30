@@ -121,19 +121,26 @@ const Note = (props) => {
                 <Head>
                     <title>{note && note.name} – {global.siteName}</title>
                 </Head>
+
                 {note ?
                     <PageWrapper>
+
+                        {/* Confirmation popup */}
                         {showConfirmationPopUp &&
                         <PopupConfirmation message='Are you sure you want to delete this note?'
                                            customFunction={deleteNote}
                                            setShowConfirmationPopUp={setShowConfirmationPopUp}
                         />
                         }
+
+                        {/* Header One */}
                         <NoteHeaderOne>
                             <Link href={global.paths.notes}>
                                 <i className='fas fa-arrow-circle-left back'/>
                             </Link>
                         </NoteHeaderOne>
+
+                        {/* Header Two */}
                         <NoteHeaderTwo>
                             <div className='note-name-wrapper'>
                                 <CustomInput placeholder='Note name...'
@@ -158,6 +165,8 @@ const Note = (props) => {
                                 </div>
                             </div>
                         </NoteHeaderTwo>
+
+                        {/* TextArea */}
                         <CustomTextArea
                             placeholder='Your amazing ideas here...'
                             onChange={changeNoteContent}
@@ -165,9 +174,11 @@ const Note = (props) => {
                             ref={textAreaNode}
                             maxLength={maxLength}
                         />
+
                         <div className='max-length'>{note.content.length >= maxLength ? 'Note full' : ''}</div>
                     </PageWrapper>
-                    : <div className='loading'>Loading....</div>}
+                    : <div className='loading'>Loading....</div>
+                }
             </Main>
 
             {/* Footer */}
