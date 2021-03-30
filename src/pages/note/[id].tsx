@@ -6,7 +6,6 @@ import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
-import Link from 'next/link';
 import {NextRouter, useRouter} from 'next/router';
 import PopupConfirmation from '@component/PopupConfirmation';
 import axios, {AxiosResponse} from 'axios';
@@ -21,6 +20,7 @@ const Note = (props) => {
     const router: NextRouter = useRouter();
     const noteId: string = Buffer.from(router.query.id.toString(), 'base64').toString();
     const queryEditable: string | string[] = router.query.editable;
+    const previous: string | string[] = router.query.previous;
     const [note, setNote] = useState<NoteInterface>(null);
     const [showConfirmationPopup, setShowConfirmationPopup] = useState<boolean>(false);
     const [editable, setEditable] = useState<boolean>(false);
@@ -91,7 +91,7 @@ const Note = (props) => {
         return axios.delete(global.api.note, {data: {noteIds: [noteId]}})
             .then((response: AxiosResponse) => {
                 props.showNotification('Note deleted');
-                router.push(global.paths.notes);
+                goToPreviousPage();
             })
             .catch((error) => {
                 return Promise.reject(error);
@@ -115,6 +115,15 @@ const Note = (props) => {
     // Enable note editing
     const enableNoteEditing = () => {
         setEditable(true);
+    }
+
+    // Go to previous page
+    const goToPreviousPage = () => {
+        if (typeof previous === 'string') {
+            router.push(`${global.paths.notes}?page=${previous}`);
+        } else {
+            router.push(global.paths.notes);
+        }
     }
 
     return (
@@ -144,9 +153,7 @@ const Note = (props) => {
 
                         {/* Header One */}
                         <NoteHeaderOne>
-                            <Link href={global.paths.notes}>
-                                <i className='fas fa-arrow-circle-left back'/>
-                            </Link>
+                            <i className='fas fa-arrow-circle-left back' onClick={goToPreviousPage}/>
                         </NoteHeaderOne>
 
                         {/* Header Two */}
@@ -197,11 +204,7 @@ const Note = (props) => {
 
 export default Note;
 
-export const getServerSideProps = withSession(async (
-    {
-        req, res
-    }
-    ) => {
+export const getServerSideProps = withSession(async ({req, res}) => {
         // If user does not exist, redirect to login
         const user: UserInterface = req.session.get('user');
         if (!user) {

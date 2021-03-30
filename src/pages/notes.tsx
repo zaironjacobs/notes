@@ -4,7 +4,7 @@ import withSession from '@lib/session';
 import Menu from '@component/Menu';
 import Header from '@component/Header';
 import axios, {AxiosResponse} from 'axios';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Link from 'next/link';
 import {NextRouter, useRouter} from 'next/router';
 import PopupNewNote from '@component/PopupNewNote';
@@ -18,22 +18,50 @@ import Pagination from '@component/Pagination';
 
 const Notes = (props) => {
     const router: NextRouter = useRouter();
+    const page: string | string[] = router.query.page;
     const [notesInView, setNotesInView] = useState<NoteInterface[]>([]);
     const [checkedNotesId, setCheckedNotesId] = useState<string[]>([]);
     const [showNewNotePopup, setShowNewNotePopup] = useState<boolean>(false);
     const [showConfirmationPopup, setShowConfirmationPopup] = useState<boolean>(false);
     const [showTrash, setShowTrash] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(0);
+    const [didMount, setDidMount] = useState(false)
     const paginationLimit: number = 5;
 
-    // Fetch the user notes at first render and when the current page changes
+    // Set didMount to true upon mounting
     useEffect(() => {
+        setDidMount(true);
+    }, []);
+
+    // Set the current page
+    useEffect(() => {
+        fetchNotesAmount()
+            .then((response: AxiosResponse) => {
+                const newCurrentPage = Number(page);
+                if (!isNaN(Number(page))) {
+                    if (newCurrentPage > 0 && newCurrentPage <= calculateTotalPages(response.data.amount)) {
+                        setCurrentPage(newCurrentPage);
+                        return;
+                    }
+                }
+                setCurrentPage(1);
+            })
+            .catch(error => {
+                setCurrentPage(1);
+            });
+    }, []);
+
+    // Fetch the user notes when the current page changes (only after mounting)
+    useEffect(() => {
+        // Skip initial render
+        if (!didMount) return;
+
         fetchNotes()
             .then((response: AxiosResponse) => {
                 setNotesInView(response.data.notes);
-                calculateTotalPages();
+                fetchNotesCountAndSetTotalPages();
             })
             .catch(error => {
                 setError(error.response.data.message);
@@ -42,7 +70,9 @@ const Notes = (props) => {
 
     // On checkedNotesId change, show or hide the trash icon
     useEffect(() => {
-        // Show the trash icon or not
+        // Skip initial render
+        if (!didMount) return;
+
         if (checkedNotesId.length > 0) {
             setShowTrash(true);
         } else {
@@ -50,26 +80,40 @@ const Notes = (props) => {
         }
     }, [checkedNotesId]);
 
-    // Calculate total pages to be shown
-    const calculateTotalPages = () => {
-        axios.get(global.api.notesCount)
+    // Set total pages to be shown
+    const fetchNotesCountAndSetTotalPages = () => {
+        fetchNotesAmount()
             .then((response: AxiosResponse) => {
-                const amount: number = response.data.amount;
-                const totalPages: number = amount / paginationLimit;
-                setTotalPages(Math.ceil(totalPages));
+                setTotalPages(calculateTotalPages(response.data.amount));
             })
             .catch(error => {
                 setTotalPages(1);
             });
     }
 
+    // Calculate the total pages
+    const calculateTotalPages = (notesAmount) => {
+        return Math.ceil(notesAmount / paginationLimit);
+    }
+
+    // Get notes amount
+    const fetchNotesAmount = () => {
+        return axios.get(global.api.notesCount);
+    }
+
     // Create a new note
-    const createNewNote = (name: string) => {
+    const createNewNote = async (name: string) => {
+        let newTotalPages: number;
+        try {
+            const notesAmountResponse = await fetchNotesAmount();
+            newTotalPages = calculateTotalPages(notesAmountResponse.data.amount + 1);
+        } catch (error) {
+            newTotalPages = totalPages;
+        }
         return axios.post(global.api.note, {name: name, content: ''})
             .then((response: AxiosResponse) => {
                 const newNoteId = response.data.id;
-                router.push(global.paths.note + '/' + Buffer.from(newNoteId).toString('base64')
-                    + '?editable=true');
+                router.push(`${global.paths.note}/${Buffer.from(newNoteId).toString('base64')}?previous=${newTotalPages}&editable=true`);
             })
             .catch(error => {
                 return Promise.reject(error);
@@ -83,7 +127,7 @@ const Notes = (props) => {
                 props.showNotification(response.data.message);
                 fetchNotes()
                     .then((response: AxiosResponse) => {
-                        calculateTotalPages();
+                        fetchNotesCountAndSetTotalPages();
 
                         // Go to previous page
                         if (checkedNotesId.length == notesInView.length && currentPage > 1) {
@@ -210,7 +254,7 @@ const Notes = (props) => {
                     {error && <div className='notes-server-error'>{error}</div>}
 
                     {/* Notes */}
-                    {notesInView.length > 0 ? notesInView.map((note, index: number) => (
+                    {notesInView ? notesInView.map((note, index: number) => (
                         <MyNote key={index}>
                             <input
                                 className='note-checkbox'
@@ -221,7 +265,8 @@ const Notes = (props) => {
                                     onNoteCheckBoxChange(e, note);
                                 }}
                             />
-                            <Link href={`${global.paths.note}/${Buffer.from(note.id).toString('base64')}`}>
+                            <Link
+                                href={`${global.paths.note}/${Buffer.from(note.id).toString('base64')}?previous=${currentPage}`}>
                                 <span className='note-name'>{note.name}</span>
                             </Link>
                         </MyNote>
