@@ -28,7 +28,7 @@ const Notes = (props) => {
     const [totalPages, setTotalPages] = useState<number>(0);
     const paginationLimit: number = 5;
 
-    // Fetch the user notes
+    // Fetch the user notes at first render and when the current page changes
     useEffect(() => {
         fetchNotes()
             .then((response: AxiosResponse) => {
@@ -40,7 +40,7 @@ const Notes = (props) => {
             });
     }, [currentPage]);
 
-    // On selectedNotesId change
+    // On checkedNotesId change, show or hide the trash icon
     useEffect(() => {
         // Show the trash icon or not
         if (checkedNotesId.length > 0) {
@@ -108,7 +108,7 @@ const Notes = (props) => {
         return axios.get(global.api.notes + `?page=${currentPage}&limit=${paginationLimit}`);
     }
 
-    // Add the ids of the selected notes to selectedNotesId
+    // Add or remove the id of the selected note to selectedNotesId
     const onNoteCheckBoxChange = (e, note: NoteInterface) => {
         if (e.target.checked) {
             note.isChecked = true;
@@ -210,7 +210,7 @@ const Notes = (props) => {
                     {error && <div className='notes-server-error'>{error}</div>}
 
                     {/* Notes */}
-                    {notesInView ? notesInView.map((note, index: number) => (
+                    {notesInView.length > 0 ? notesInView.map((note, index: number) => (
                         <MyNote key={index}>
                             <input
                                 className='note-checkbox'
@@ -229,10 +229,12 @@ const Notes = (props) => {
                     }
 
                     {/* Pagination */}
-                    {notesInView && <Pagination
+                    {notesInView.length > 0 &&
+                    <Pagination
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
-                        totalPages={totalPages}/>
+                        totalPages={totalPages}
+                    />
                     }
 
                 </PageWrapper>

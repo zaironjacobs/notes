@@ -33,17 +33,11 @@ const Note = (props) => {
         }
     }, []);
 
-    // Set the focus on the textarea on queryEditable is true
+    // Set the focus on the textarea when editable is true
     useEffect(() => {
         if (textAreaNode.current !== null && editable === true) {
             textAreaNode.current.focus();
-        }
-    }, [textAreaNode.current]);
-
-    // Set the focus on the textarea when enabled is true
-    useEffect(() => {
-        if (textAreaNode.current !== null && editable === true) {
-            textAreaNode.current.focus();
+            textAreaNode.current.setSelectionRange(textAreaNode.current.value.length, textAreaNode.current.value.length);
         }
     }, [editable]);
 
@@ -108,6 +102,11 @@ const Note = (props) => {
         setNote(updatedNote);
     }
 
+    // Enable note editing
+    const enableNoteEditing = () => {
+        setEditable(true);
+    }
+
     return (
         <>
             {/* Menu */}
@@ -152,9 +151,7 @@ const Note = (props) => {
                                 />
                             </div>
                             <div className='note-options-wrapper'>
-                                <div className='note-edit' onClick={() => {
-                                    setEditable(true);
-                                }}>
+                                <div className='note-edit' onClick={enableNoteEditing}>
                                     <i className='fas fa-edit'/>
                                 </div>
                                 <div className='note-save' onClick={saveNote}><i className='fas fa-check'/></div>
@@ -173,6 +170,7 @@ const Note = (props) => {
                             value={note.content} disabled={!editable}
                             ref={textAreaNode}
                             maxLength={maxLength}
+                            autoFocus
                         />
 
                         <div className='max-length'>{note.content.length >= maxLength ? 'Note full' : ''}</div>
