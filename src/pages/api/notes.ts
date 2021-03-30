@@ -2,7 +2,6 @@ import {query} from '@lib/db';
 import withSession from '@lib/session';
 import UserInterface from '@interface/User';
 import NoteInterface from '@interface/Note';
-import {stat} from "fs";
 
 
 export default withSession(async (req, res) => {

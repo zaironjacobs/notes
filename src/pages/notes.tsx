@@ -21,7 +21,7 @@ const Notes = (props) => {
     const [notesInView, setNotesInView] = useState<NoteInterface[]>([]);
     const [checkedNotesId, setCheckedNotesId] = useState<string[]>([]);
     const [showNewNotePopup, setShowNewNotePopup] = useState<boolean>(false);
-    const [showConfirmationPopUp, setShowConfirmationPopUp] = useState<boolean>(false);
+    const [showConfirmationPopup, setShowConfirmationPopup] = useState<boolean>(false);
     const [showTrash, setShowTrash] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -91,7 +91,7 @@ const Notes = (props) => {
                         }
 
                         setNotesInView(response.data.notes);
-                        setShowConfirmationPopUp(false);
+                        setShowConfirmationPopup(false);
                         setCheckedNotesId([]);
                     })
                     .catch(error => {
@@ -161,15 +161,15 @@ const Notes = (props) => {
                 </Head>
                 <PageWrapper>
 
-                    {/* Confirmation popup */}
-                    {showConfirmationPopUp &&
+                    {/* Confirmation Popup */}
+                    {showConfirmationPopup &&
                     <PopupConfirmation message='Delete all selected notes?'
                                        customFunction={deleteSelectedNotes}
-                                       setShowConfirmationPopUp={setShowConfirmationPopUp}
+                                       setShowConfirmationPopup={setShowConfirmationPopup}
                     />
                     }
 
-                    {/* New note popup */}
+                    {/* New note Popup */}
                     {showNewNotePopup &&
                     <PopupNewNote createNewNote={createNewNote} setShowNewNotePopup={setShowNewNotePopup}/>
                     }
@@ -180,7 +180,7 @@ const Notes = (props) => {
                         <div className='notes-header-one-left'>
                             {showTrash &&
                             <div className='notes-trash' onClick={() => {
-                                setShowConfirmationPopUp(true);
+                                setShowConfirmationPopup(true);
                             }}>
                                 <i className='fas fa-trash'/>
                             </div>
@@ -221,7 +221,7 @@ const Notes = (props) => {
                                     onNoteCheckBoxChange(e, note);
                                 }}
                             />
-                            <Link href={global.paths.note + '/' + Buffer.from(note.id).toString('base64')}>
+                            <Link href={`${global.paths.note}/${Buffer.from(note.id).toString('base64')}`}>
                                 <span className='note-name'>{note.name}</span>
                             </Link>
                         </MyNote>

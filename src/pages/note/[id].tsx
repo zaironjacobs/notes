@@ -21,7 +21,7 @@ const Note = (props) => {
     const noteId: string = Buffer.from(router.query.id.toString(), 'base64').toString();
     const queryEditable: string | string[] = router.query.editable || '';
     const [note, setNote] = useState<NoteInterface>(null);
-    const [showConfirmationPopUp, setShowConfirmationPopUp] = useState<boolean>(false);
+    const [showConfirmationPopup, setShowConfirmationPopup] = useState<boolean>(false);
     const [editable, setEditable] = useState<boolean>(false);
     const textAreaNode = useRef<HTMLInputElement>(null);
     const maxLength: number = 15000000; // note content size less than MEDIUMTEXT max size
@@ -126,10 +126,10 @@ const Note = (props) => {
                     <PageWrapper>
 
                         {/* Confirmation popup */}
-                        {showConfirmationPopUp &&
+                        {showConfirmationPopup &&
                         <PopupConfirmation message='Are you sure you want to delete this note?'
                                            customFunction={deleteNote}
-                                           setShowConfirmationPopUp={setShowConfirmationPopUp}
+                                           setShowConfirmationPopup={setShowConfirmationPopup}
                         />
                         }
 
@@ -159,7 +159,7 @@ const Note = (props) => {
                                 </div>
                                 <div className='note-save' onClick={saveNote}><i className='fas fa-check'/></div>
                                 <div className='note-trash' onClick={() => {
-                                    setShowConfirmationPopUp(true);
+                                    setShowConfirmationPopup(true);
                                 }}>
                                     <i className='fas fa-trash'/>
                                 </div>

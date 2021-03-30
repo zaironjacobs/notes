@@ -7,11 +7,11 @@ import useOnClickOutside from '@hook/useOnClickOutside';
 const PopupConfirmation = (props) => {
     const [error, setError] = useState('');
     const popupNode = useRef();
-    useOnClickOutside(popupNode, () => props.setShowConfirmationPopUp(false));
+    useOnClickOutside(popupNode, () => props.setShowConfirmationPopup(false));
 
     // Cancel the action
     const onNo = () => {
-        props.setShowConfirmationPopUp(false);
+        props.setShowConfirmationPopup(false);
     }
 
     // Run the function on confirmation
