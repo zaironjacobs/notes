@@ -8,7 +8,7 @@ const withSession = (handler) => {
         cookieOptions: {
             secure: process.env.NODE_ENV !== 'development',
             sameSite: 'strict',
-            maxAge: 3600 * 6,
+            maxAge: 3600 * 24,
             path: '/'
         },
     });

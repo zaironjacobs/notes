@@ -26,7 +26,7 @@ const Notes = (props) => {
     const [error, setError] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(0);
-    const paginationLimit: number = 10;
+    const paginationLimit: number = 5;
 
     // Fetch the user notes
     useEffect(() => {
