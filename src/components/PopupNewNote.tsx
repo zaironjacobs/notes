@@ -43,7 +43,6 @@ const PopupNewNote = (props) => {
                             (async () => {
                                 createNewNote(values);
                                 setSubmitting(false);
-                                resetForm();
                             })();
                         }}
                     >
