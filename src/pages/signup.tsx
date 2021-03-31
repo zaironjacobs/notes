@@ -25,22 +25,27 @@ const SignUp = (props) => {
             setError('Passwords do not match');
             return Promise.reject();
         }
-        await axios.post(global.api.signUp, {
+        await signupPromise(values)
+            .then((response: AxiosResponse) => {
+                setError('');
+                router.push(global.paths.notes);
+            })
+            .catch((error: any) => {
+                setError(error.response.data.message);
+                return Promise.reject();
+            });
+    };
+
+    // Signup promise
+    const signupPromise = (values) => {
+        return axios.post(global.api.signUp, {
             firstName: values.firstName,
             lastName: values.lastName,
             email: values.email,
             password: values.password,
             repeatPassword: values.repeatPassword
-        })
-            .then((response: AxiosResponse) => {
-                setError('');
-                router.push(global.paths.notes);
-            })
-            .catch((error) => {
-                setError(error.response.data.message);
-                return Promise.reject();
-            });
-    };
+        });
+    }
 
     return (
         <>

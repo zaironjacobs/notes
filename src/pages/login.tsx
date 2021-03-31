@@ -21,18 +21,23 @@ const Login = (props) => {
     const [error, setError] = useState<string>('');
 
     const submit = async (values, setError, router) => {
-        await axios.post(global.api.login, {
-            email: values.email,
-            password: values.password
-        })
+        await submitLoginPromise(values)
             .then((response: AxiosResponse) => {
                 setError('');
                 router.push(global.paths.notes);
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 setError(error.response.data.message);
             });
     };
+
+    // submitLogin promise
+    const submitLoginPromise = (values) => {
+        return axios.post(global.api.login, {
+            email: values.email,
+            password: values.password
+        });
+    }
 
     return (
         <>

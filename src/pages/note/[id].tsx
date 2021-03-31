@@ -45,23 +45,14 @@ const Note = (props) => {
 
     // Fetch note
     useEffect(() => {
-        const fetchNote = async () => {
-            return axios.get(global.api.note, {params: {id: noteId}})
-                .then((response: AxiosResponse) => {
-                    setOriginalNoteHashDigest(sha256(response.data.note.content).toString());
-                    return response.data.note;
-                })
-                .catch((error) => {
-                    router.push(global.paths.notfound404);
-                });
-        }
-        fetchNote().then(note => {
-            if (note) {
-                setNote(note);
-            } else {
+        fetchNotePromise()
+            .then((response: AxiosResponse) => {
+                setOriginalNoteHashDigest(sha256(response.data.note.content).toString());
+                setNote(response.data.note);
+            })
+            .catch((error: any) => {
                 router.push(global.paths.notfound404);
-            }
-        });
+            });
     }, []);
 
     // Save the note
@@ -74,13 +65,13 @@ const Note = (props) => {
 
         if (editable && note) {
             const noteToSave: NoteInterface = {id: noteId, name: note.name, content: note.content, isChecked: false}
-            axios.put(global.api.note, {note: noteToSave})
+            saveNotePromise(noteToSave)
                 .then((response: AxiosResponse) => {
                     setOriginalNoteHashDigest(sha256(note.content).toString())
                     setEditable(false);
                     props.showNotification('Note saved');
                 })
-                .catch((error) => {
+                .catch((error: any) => {
                     props.showNotification(error.response.data.message);
                 });
         }
@@ -88,16 +79,30 @@ const Note = (props) => {
 
     // Delete the note
     const deleteNote = () => {
-        return axios.delete(global.api.note, {data: {noteIds: [noteId]}})
+        return deleteNotePromise()
             .then((response: AxiosResponse) => {
                 props.showNotification('Note deleted');
                 goToPreviousPage();
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 return Promise.reject(error);
             });
     }
 
+    // Fetch note promise
+    const fetchNotePromise = () => {
+        return axios.get(global.api.note, {params: {id: noteId}});
+    }
+
+    // Delete note promise
+    const deleteNotePromise = () => {
+        return axios.delete(global.api.note, {data: {noteIds: [noteId]}});
+    }
+
+    // Save note promise
+    const saveNotePromise = (noteToSave) => {
+        return axios.put(global.api.note, {note: noteToSave});
+    }
     // Dynamically change note name
     const changeNoteName = (event) => {
         let updatedNote = {...note};

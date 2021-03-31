@@ -37,7 +37,7 @@ const Notes = (props) => {
 
     // Set the current page
     useEffect(() => {
-        fetchNotesAmount()
+        fetchNotesAmountPromise()
             .then((response: AxiosResponse) => {
                 const newCurrentPage = Number(page);
                 if (!isNaN(Number(page))) {
@@ -48,7 +48,7 @@ const Notes = (props) => {
                 }
                 setCurrentPage(1);
             })
-            .catch(error => {
+            .catch((error: any) => {
                 setCurrentPage(1);
             });
     }, []);
@@ -58,12 +58,12 @@ const Notes = (props) => {
         // Skip initial render
         if (!didMount) return;
 
-        fetchNotes()
+        fetchNotesPromise()
             .then((response: AxiosResponse) => {
                 setNotesInView(response.data.notes);
                 fetchNotesCountAndSetTotalPages();
             })
-            .catch(error => {
+            .catch((error: any) => {
                 setError(error.response.data.message);
             });
     }, [currentPage]);
@@ -82,11 +82,11 @@ const Notes = (props) => {
 
     // Set total pages to be shown
     const fetchNotesCountAndSetTotalPages = () => {
-        fetchNotesAmount()
+        fetchNotesAmountPromise()
             .then((response: AxiosResponse) => {
                 setTotalPages(calculateTotalPages(response.data.amount));
             })
-            .catch(error => {
+            .catch((error: any) => {
                 setTotalPages(1);
             });
     }
@@ -96,39 +96,36 @@ const Notes = (props) => {
         return Math.ceil(notesAmount / paginationLimit);
     }
 
-    // Get notes amount
-    const fetchNotesAmount = () => {
-        return axios.get(global.api.notesCount);
-    }
-
     // Create a new note
     const createNewNote = async (name: string) => {
+
         let newTotalPages: number;
-        try {
-            const notesAmountResponse = await fetchNotesAmount();
-            newTotalPages = calculateTotalPages(notesAmountResponse.data.amount + 1);
-        } catch (error) {
+        fetchNotesAmountPromise()
+            .then(response => {
+                newTotalPages = calculateTotalPages(response.data.amount + 1);
+            }).catch((error: any) => {
             newTotalPages = totalPages;
-        }
-        return axios.post(global.api.note, {name: name, content: ''})
+        });
+
+        return createNotePromise(name)
             .then((response: AxiosResponse) => {
                 const newNoteId = response.data.id;
                 router.push(`${global.paths.note}/${Buffer.from(newNoteId).toString('base64')}?previous=${newTotalPages}&editable=true`);
             })
-            .catch(error => {
+            .catch((error: any) => {
                 return Promise.reject(error);
             });
     }
 
     // Delete all notes from selectedNotesId
     const deleteSelectedNotes = () => {
-        return axios.delete(global.api.note, {data: {noteIds: checkedNotesId}})
+        return deleteNotesPromise()
             .then((response: AxiosResponse) => {
                 props.showNotification(response.data.message);
-                fetchNotes()
+
+                fetchNotesPromise()
                     .then((response: AxiosResponse) => {
                         fetchNotesCountAndSetTotalPages();
-
                         // Go to previous page
                         if (checkedNotesId.length == notesInView.length && currentPage > 1) {
                             setCurrentPage(prevCurrentPage => prevCurrentPage - 1);
@@ -138,18 +135,34 @@ const Notes = (props) => {
                         setShowConfirmationPopup(false);
                         setCheckedNotesId([]);
                     })
-                    .catch(error => {
+                    .catch((error: any) => {
                         setError(error.response.data.message);
                     });
+
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 return Promise.reject(error);
             });
     }
 
-    // Fetch notes from the user
-    const fetchNotes = () => {
+    // Fetch notes from the user promise
+    const fetchNotesPromise = () => {
         return axios.get(global.api.notes + `?page=${currentPage}&limit=${paginationLimit}`);
+    }
+
+    // Fetch notes amount promise
+    const fetchNotesAmountPromise = () => {
+        return axios.get(global.api.notesCount);
+    }
+
+    // Delete notes promise
+    const deleteNotesPromise = () => {
+        return axios.delete(global.api.note, {data: {noteIds: checkedNotesId}})
+    }
+
+    // Create note promise
+    const createNotePromise = (name: string) => {
+        return axios.post(global.api.note, {name: name, content: ''});
     }
 
     // Add or remove the id of the selected note to selectedNotesId
