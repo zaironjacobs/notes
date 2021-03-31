@@ -99,12 +99,11 @@ const SignUp = (props) => {
                                 .max(128, 'No more than 128 characters')
                                 .required('Required')
                         })}
-                        onSubmit={(values, {setSubmitting, resetForm}) => {
+                        onSubmit={(values, {setSubmitting}) => {
                             (async () => {
                                 await submitForm(values)
                                     .then(() => {
                                         setSubmitting(false);
-                                        resetForm();
                                     })
                                     .catch(() => {
                                         setSubmitting(false);

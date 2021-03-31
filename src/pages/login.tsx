@@ -71,11 +71,10 @@ const Login = (props) => {
                                 .max(128, 'No more than 128 characters')
                                 .required('Required'),
                         })}
-                        onSubmit={(values, {setSubmitting, resetForm}) => {
+                        onSubmit={(values, {setSubmitting}) => {
                             (async () => {
                                 await submit(values, setError, router);
                                 setSubmitting(false);
-                                resetForm();
                             })();
                         }}
                     >

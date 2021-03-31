@@ -39,7 +39,7 @@ const PopupNewNote = (props) => {
                                 .required('Note name is required')
                         })}
                         validateOnBlur={false}
-                        onSubmit={(values, {setSubmitting, resetForm}) => {
+                        onSubmit={(values, {setSubmitting}) => {
                             (async () => {
                                 createNewNote(values);
                                 setSubmitting(false);
