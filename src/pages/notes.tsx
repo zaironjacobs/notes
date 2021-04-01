@@ -85,7 +85,7 @@ const Notes = (props) => {
                 </UserNote>
             ))
         );
-    };
+    }
 
     // Create a new note
     const createNewNote = (name: string) => {
@@ -217,7 +217,7 @@ const Notes = (props) => {
                     </NotesHeaderOne>
 
                     {/* Header Two */}
-                    {!notesError && notesData?.notes &&
+                    {!notesError && notesData?.notes.length > 0 &&
                     <NotesHeaderTwo>
                         <input
                             className='notes-checkbox'
@@ -234,7 +234,7 @@ const Notes = (props) => {
                     <UserNotes/>
 
                     {/* Pagination */}
-                    {notesData?.notes &&
+                    {notesData?.notes.length > 0 &&
                     <Pagination
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
