@@ -1,6 +1,8 @@
 export default {
     siteName: 'Notes',
 
+    paginationLimit: 5,
+
     paths: {
         index: '/',
         signUp: '/signup',

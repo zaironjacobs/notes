@@ -19,18 +19,20 @@ import sha256 from 'crypto-js/sha256';
 const Note = (props) => {
     const router: NextRouter = useRouter();
     const noteId: string = Buffer.from(router.query.id.toString(), 'base64').toString();
-    const queryEditable: string | string[] = router.query.editable;
-    const previous: string | string[] = router.query.previous;
+    const pageEditable: string = props.pageEditable;
+    const previousPage: string = props.previousPage;
     const [note, setNote] = useState<NoteInterface>(null);
     const [showConfirmationPopup, setShowConfirmationPopup] = useState<boolean>(false);
     const [editable, setEditable] = useState<boolean>(false);
     const textAreaNode = useRef<HTMLInputElement>(null);
-    const maxLength: number = 15000000; // note content size less than MEDIUMTEXT max size
-    const [originalNoteHashDigest, setOriginalNoteHashDigest] = useState('');
+    const textAreaMaxLength: number = 15000000; // note content size less than MEDIUMTEXT max size
+    const inputMaxLength: number = 30;
+    const [originalNoteContentHashDigest, setOriginalNoteContentHashDigest] = useState('');
+    const [originalNoteNameHashDigest, setOriginalNoteNameHashDigest] = useState('');
 
     // New note should be editable by default
     useEffect(() => {
-        if (queryEditable === 'true') {
+        if (pageEditable === 'true') {
             setEditable(true);
         }
     }, []);
@@ -47,7 +49,8 @@ const Note = (props) => {
     useEffect(() => {
         fetchNotePromise()
             .then((response: AxiosResponse) => {
-                setOriginalNoteHashDigest(sha256(response.data.note.content).toString());
+                setOriginalNoteNameHashDigest(sha256(response.data.note.name).toString());
+                setOriginalNoteContentHashDigest(sha256(response.data.note.content).toString());
                 setNote(response.data.note);
             })
             .catch((error: any) => {
@@ -55,9 +58,11 @@ const Note = (props) => {
             });
     }, []);
 
-    // Save the note
+    // Save note
     const saveNote = () => {
-        if (sha256(note.content).toString() === originalNoteHashDigest) {
+        const noteNameHasNotChanged = sha256(note.name).toString() === originalNoteNameHashDigest;
+        const noteContentHasNotChanged = sha256(note.content).toString() === originalNoteContentHashDigest;
+        if (noteNameHasNotChanged && noteContentHasNotChanged) {
             setEditable(false);
             props.showNotification('No changes made');
             return;
@@ -67,7 +72,8 @@ const Note = (props) => {
             const noteToSave: NoteInterface = {id: noteId, name: note.name, content: note.content, isChecked: false}
             saveNotePromise(noteToSave)
                 .then((response: AxiosResponse) => {
-                    setOriginalNoteHashDigest(sha256(note.content).toString())
+                    setOriginalNoteNameHashDigest(sha256(note.name).toString())
+                    setOriginalNoteContentHashDigest(sha256(note.content).toString())
                     setEditable(false);
                     props.showNotification('Note saved');
                 })
@@ -77,12 +83,12 @@ const Note = (props) => {
         }
     }
 
-    // Delete the note
-    const deleteNote = () => {
+    // Delete note
+    const deleteNote = async () => {
         return deleteNotePromise()
-            .then((response: AxiosResponse) => {
+            .then(async (response: AxiosResponse) => {
                 props.showNotification('Note deleted');
-                goToPreviousPage();
+                router.push(global.paths.notes);
             })
             .catch((error: any) => {
                 return Promise.reject(error);
@@ -103,6 +109,7 @@ const Note = (props) => {
     const saveNotePromise = (noteToSave) => {
         return axios.put(global.api.note, {note: noteToSave});
     }
+
     // Dynamically change note name
     const changeNoteName = (event) => {
         let updatedNote = {...note};
@@ -124,8 +131,8 @@ const Note = (props) => {
 
     // Go to previous page
     const goToPreviousPage = () => {
-        if (typeof previous === 'string') {
-            router.push(`${global.paths.notes}?page=${previous}`);
+        if (typeof previousPage === 'string' && !isNaN(Number(previousPage))) {
+            router.push(`${global.paths.notes}?page=${previousPage}`);
         } else {
             router.push(global.paths.notes);
         }
@@ -170,6 +177,7 @@ const Note = (props) => {
                                              type='text'
                                              autoComplete='off'
                                              disabled={!editable}
+                                             maxLength={inputMaxLength}
                                 />
                             </div>
                             <div className='note-options-wrapper'>
@@ -191,11 +199,11 @@ const Note = (props) => {
                             onChange={changeNoteContent}
                             value={note.content} disabled={!editable}
                             ref={textAreaNode}
-                            maxLength={maxLength}
+                            maxLength={textAreaMaxLength}
                             autoFocus
                         />
 
-                        <div className='max-length'>{note.content.length >= maxLength ? 'Note full' : ''}</div>
+                        <div className='max-length'>{note.content.length >= textAreaMaxLength ? 'Note full' : ''}</div>
                     </PageWrapper>
                     : <div className='loading'>Loading....</div>
                 }
@@ -209,7 +217,7 @@ const Note = (props) => {
 
 export default Note;
 
-export const getServerSideProps = withSession(async ({req, res}) => {
+export const getServerSideProps = withSession(async ({req, res, query}) => {
         // If user does not exist, redirect to login
         const user: UserInterface = req.session.get('user');
         if (!user) {
@@ -221,7 +229,16 @@ export const getServerSideProps = withSession(async ({req, res}) => {
             }
         }
 
-        // Else return the user object
-        return {props: {user}};
+        let previousPage = query.previous;
+        if (previousPage === undefined) {
+            previousPage = null;
+        }
+
+        let pageEditable = query.editable;
+        if (pageEditable === undefined) {
+            pageEditable = null;
+        }
+
+        return {props: {user, previousPage, pageEditable}};
     }
 );

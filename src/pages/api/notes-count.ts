@@ -3,6 +3,22 @@ import withSession from '@lib/session';
 import UserInterface from '@interface/User';
 
 
+// Get notes count
+export async function getNotesCount(user) {
+    let resultCountNotes = await query(
+        `
+            SELECT COUNT(id)
+            FROM notes
+            WHERE id = ANY
+                  (SELECT note_id
+                   FROM user_notes
+                   WHERE user_id = '${user.id}');
+           `
+    );
+
+    return {count: JSON.parse(JSON.stringify(resultCountNotes))[0]['COUNT(id)']};
+}
+
 export default withSession(async (req, res) => {
     // Count amount of notes a user has
     if (req.method === 'GET') {
@@ -13,18 +29,9 @@ export default withSession(async (req, res) => {
                 return res.status(401).json({message: 'Could not fetch notes'});
             }
 
-            let resultCountNotes = await query(
-                `
-                    SELECT COUNT(id)
-                    FROM notes
-                    WHERE id = ANY
-                          (SELECT note_id
-                           FROM user_notes
-                           WHERE user_id = '${userFromSession.id}');
-                   `
-            );
-            resultCountNotes = JSON.parse(JSON.stringify(resultCountNotes))[0]['COUNT(id)']
-            return res.status(200).json({message: 'Notes counted', amount: resultCountNotes});
+            const result = await getNotesCount(userFromSession);
+
+            return res.status(200).json({message: 'Notes counted', count: result.count});
         } catch (error) {
             return res.status(500).json({message: 'Could not count notes'});
         }

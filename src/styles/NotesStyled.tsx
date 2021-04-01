@@ -4,9 +4,19 @@ import theme from 'theme';
 
 
 export const Main = styled(M)`
-  .loading {
+  .notes-loading {
     text-align: center;
     font-size: 16px;
+
+    ${theme.media._480px} {
+      font-size: 24px;
+    }
+  }
+
+  .notes-server-error {
+    text-align: center;
+    font-size: 16px;
+    color: ${theme.colors.redLight};
 
     ${theme.media._480px} {
       font-size: 24px;
@@ -17,11 +27,6 @@ export const Main = styled(M)`
 
 export const PageWrapper = styled(PW)`
   max-width: 800px;
-
-  .notes-server-error {
-    text-align: center;
-    color: ${theme.colors.redLight};
-  }
 `;
 
 
@@ -122,7 +127,7 @@ export const NotesHeaderTwo = styled.div`
 `;
 
 
-export const MyNote = styled.div`
+export const UserNote = styled.div`
   display: flex;
   align-items: center;
   width: 100%;

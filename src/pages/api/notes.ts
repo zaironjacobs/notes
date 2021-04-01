@@ -4,6 +4,34 @@ import UserInterface from '@interface/User';
 import NoteInterface from '@interface/Note';
 
 
+// Get notes
+export async function getNotes(user, page, paginationLimit) {
+    const start: number = parseInt(page) * parseInt(paginationLimit) - parseInt(paginationLimit);
+
+    const resultSelectNotes = await query(
+        `
+                    SELECT id, name, content
+                    FROM notes
+                    WHERE id = ANY
+                          (SELECT note_id
+                           FROM user_notes
+                           WHERE user_id = '${user.id}')
+                    ORDER BY created_at ASC
+                    LIMIT ${start}, ${paginationLimit};
+                    `
+    );
+    const response: NoteInterface[] = [];
+    JSON.parse(JSON.stringify(resultSelectNotes)).forEach((note) => {
+        response.push({
+            id: note.id,
+            name: note.name,
+            content: note.content,
+            isChecked: false
+        });
+    });
+    return {notes: response};
+}
+
 export default withSession(async (req, res) => {
     // Retrieve user notes
     if (req.method === 'GET') {
@@ -14,32 +42,12 @@ export default withSession(async (req, res) => {
                 return res.status(401).json({message: 'Could not fetch notes'});
             }
 
-            const currentPage: string = req.query.page;
-            const paginationLimit: string = req.query.limit;
-            const startLimit: number = parseInt(currentPage) * parseInt(paginationLimit) - parseInt(paginationLimit);
+            const page: string = req.query.page;
+            const limit: string = req.query.limit;
 
-            const resultSelectNotes = await query(
-                `
-                    SELECT id, name, content
-                    FROM notes
-                    WHERE id = ANY
-                          (SELECT note_id
-                           FROM user_notes
-                           WHERE user_id = '${userFromSession.id}')
-                    ORDER BY created_at ASC
-                    LIMIT ${startLimit}, ${paginationLimit};
-                    `
-            );
-            const responseNotes: NoteInterface[] = [];
-            JSON.parse(JSON.stringify(resultSelectNotes)).forEach((note) => {
-                responseNotes.push({
-                    id: note.id,
-                    name: note.name,
-                    content: note.content,
-                    isChecked: false
-                });
-            });
-            return res.status(200).json({message: 'Notes fetched', notes: responseNotes});
+            const result = await getNotes(userFromSession, page, limit);
+
+            return res.status(200).json({message: 'Notes fetched', notes: result.notes});
         } catch (error) {
             return res.status(500).json({message: 'Could not fetch notes'});
         }
