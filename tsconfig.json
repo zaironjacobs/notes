@@ -6,7 +6,7 @@
       "@style/*": ["styles/*"],
       "@component/*": ["components/*"],
       "@interface/*": ["interfaces/*"],
-      "@lib/*": ["lib/*"],
+      "@lib/*": ["libs/*"],
       "@util/*": ["utils/*"],
       "@hook/*": ["hooks/*"],
       "@api/*": ["pages/api/*"]
