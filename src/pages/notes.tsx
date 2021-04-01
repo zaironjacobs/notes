@@ -55,7 +55,7 @@ const Notes = (props) => {
         if (notesError) {
             return (
                 <>
-                    <div className='notes-server-error'>Error</div>
+                    <div className='notes-server-error'>Error loading notes</div>
                 </>
             );
         }
@@ -91,12 +91,12 @@ const Notes = (props) => {
     const createNewNote = (name: string) => {
         return createNotePromise(name)
             .then(async (response: AxiosResponse) => {
-                const newNotesCountResponse = await mutateNotesCountData();
-                const newNoteId = response.data.id;
-                const page: number = calculateTotalPages(newNotesCountResponse.count);
-                router.push(`${global.paths.note}/${Buffer.from(newNoteId).toString('base64')}?previous=${page}&editable=true`);
+                const newNotesCountData: { count: number } = await mutateNotesCountData();
+                const newNoteId: string = response.data.id;
+                const page: number = calculateTotalPages(newNotesCountData.count);
+                await router.push(`${global.paths.note}/${Buffer.from(newNoteId).toString('base64')}?previous=${page}&editable=true`);
             })
-            .catch((error: any) => {
+            .catch((error) => {
                 return Promise.reject(error);
             });
     }
@@ -118,7 +118,7 @@ const Notes = (props) => {
                 setCheckedNotesId([]);
             })
 
-            .catch((error: any) => {
+            .catch((error) => {
                 return Promise.reject(error);
             });
     }

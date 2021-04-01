@@ -30,7 +30,7 @@ const SignUp = (props) => {
                 setError('');
                 router.push(global.paths.notes);
             })
-            .catch((error: any) => {
+            .catch((error) => {
                 setError(error.response.data.message);
                 return Promise.reject();
             });

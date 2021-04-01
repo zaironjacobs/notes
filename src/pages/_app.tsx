@@ -17,8 +17,8 @@ const App = (props) => {
         // If the status code is not in the range 200-299,
         // we still try to parse and throw it.
         if (res.status < 200 && res.status > 299) {
-            const error: any = new Error('An error occurred while fetching the data.')
-            // Attach extra info to the error object.
+            const error: any = new Error('An error occurred while fetching data.')
+            // Extra info
             error.info = await res.data;
             error.status = res.status;
             throw error;

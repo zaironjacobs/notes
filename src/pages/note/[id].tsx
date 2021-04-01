@@ -27,10 +27,10 @@ const Note = (props) => {
     const textAreaNode = useRef<HTMLInputElement>(null);
     const textAreaMaxLength: number = 15000000; // note content size less than MEDIUMTEXT max size
     const inputMaxLength: number = 30;
-    const [originalNoteContentHashDigest, setOriginalNoteContentHashDigest] = useState('');
-    const [originalNoteNameHashDigest, setOriginalNoteNameHashDigest] = useState('');
+    const [originalNoteContentHashDigest, setOriginalNoteContentHashDigest] = useState<string>('');
+    const [originalNoteNameHashDigest, setOriginalNoteNameHashDigest] = useState<string>('');
 
-    // New note should be editable by default
+    // Make note editable
     useEffect(() => {
         if (pageEditable === 'true') {
             setEditable(true);
@@ -53,8 +53,8 @@ const Note = (props) => {
                 setOriginalNoteContentHashDigest(sha256(response.data.note.content).toString());
                 setNote(response.data.note);
             })
-            .catch((error: any) => {
-                router.push(global.paths.notfound404);
+            .catch(async (error) => {
+                await router.push(global.paths.notfound404);
             });
     }, []);
 
@@ -77,7 +77,7 @@ const Note = (props) => {
                     setEditable(false);
                     props.showNotification('Note saved');
                 })
-                .catch((error: any) => {
+                .catch((error) => {
                     props.showNotification(error.response.data.message);
                 });
         }
@@ -88,9 +88,9 @@ const Note = (props) => {
         return deleteNotePromise()
             .then(async (response: AxiosResponse) => {
                 props.showNotification('Note deleted');
-                router.push(global.paths.notes);
+                await router.push(global.paths.notes);
             })
-            .catch((error: any) => {
+            .catch((error) => {
                 return Promise.reject(error);
             });
     }
@@ -106,20 +106,20 @@ const Note = (props) => {
     }
 
     // Save note promise
-    const saveNotePromise = (noteToSave) => {
+    const saveNotePromise = (noteToSave: NoteInterface) => {
         return axios.put(global.api.note, {note: noteToSave});
     }
 
     // Dynamically change note name
     const changeNoteName = (event) => {
-        let updatedNote = {...note};
+        let updatedNote: NoteInterface = {...note};
         updatedNote.name = event.target.value;
         setNote(updatedNote);
     }
 
     // Dynamically change note content
     const changeNoteContent = (event) => {
-        let updatedNote = {...note};
+        let updatedNote: NoteInterface = {...note};
         updatedNote.content = event.target.value;
         setNote(updatedNote);
     }
@@ -130,11 +130,11 @@ const Note = (props) => {
     }
 
     // Go to previous page
-    const goToPreviousPage = () => {
+    const goToPreviousPage = async () => {
         if (typeof previousPage === 'string' && !isNaN(Number(previousPage))) {
-            router.push(`${global.paths.notes}?page=${previousPage}`);
+            await router.push(`${global.paths.notes}?page=${previousPage}`);
         } else {
-            router.push(global.paths.notes);
+            await router.push(global.paths.notes);
         }
     }
 
