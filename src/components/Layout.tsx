@@ -17,9 +17,10 @@ const Layout = ({children}) => {
                 <link rel="manifest" href='/site.webmanifest'/>
                 <meta name='description' content='Notes'/>
                 <link rel='preconnect' href='https://fonts.gstatic.com'/>
-                <link href='https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap'
+                <link href='https://fonts.googleapis.com/css2?family=Audiowide&display=swap'
                       rel='stylesheet'/>
-                <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet"/>
+                <link href='https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap'
+                      rel='stylesheet'/>
                 <link
                     rel='stylesheet'
                     href='https://use.fontawesome.com/releases/v5.15.1/css/all.css'

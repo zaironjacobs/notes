@@ -29,6 +29,7 @@ export const PageWrapper = styled(PW)`
 
 export const NoteHeaderOne = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   padding: 0 10px 0 10px;
@@ -49,35 +50,20 @@ export const NoteHeaderOne = styled.div`
       font-size: 38px;
     }
   }
-`;
-
-
-export const NoteHeaderTwo = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 0 10px 0 0;
-  justify-content: space-between;
-
-  .note-name-wrapper {
-    max-width: 1200px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-right: 20px;
-  }
 
   .note-options-wrapper {
     display: flex;
+    justify-content: end;
     position: relative;
   }
 
   .note-edit {
     text-align: center;
-    font-size: 22px;
+    font-size: 24px;
+    font-weight: 600;
     cursor: pointer;
     transition: .3s;
+    margin-left: 25px;
     color: ${theme.colors.greyDark};
 
     :hover {
@@ -97,12 +83,13 @@ export const NoteHeaderTwo = styled.div`
 
   .note-save {
     text-align: center;
-    font-size: 22px;
+    font-size: 24px;
+    font-weight: 600;
     right: 0;
     color: ${theme.colors.greenNormal};
     cursor: pointer;
     transition: .3s;
-    margin-left: 15px;
+    margin-left: 25px;
 
     :after {
       content: 'save';
@@ -121,9 +108,10 @@ export const NoteHeaderTwo = styled.div`
 
   .note-trash {
     text-align: center;
-    font-size: 22px;
+    font-weight: 600;
+    font-size: 24px;
     right: 10px;
-    margin-left: 15px;
+    margin-left: 25px;
     transition: .3s;
     color: ${theme.colors.redNormal};
     cursor: pointer;
@@ -141,5 +129,20 @@ export const NoteHeaderTwo = styled.div`
     ${theme.media._768px} {
       font-size: 32px;
     }
+  }
+`;
+
+
+export const NoteHeaderTwo = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+
+  .note-name-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 `;

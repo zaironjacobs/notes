@@ -21,7 +21,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body, input, textarea, button {
-    font-family: ${theme.fonts.ubuntu}, sans-serif;
+    font-family: ${theme.fonts.openSans}, sans-serif;
   }
 
   *, *::after, *::before {
@@ -66,5 +66,5 @@ export const Main = styled.main`
 export const PageWrapper = styled.div`
   max-width: 1100px;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 35px;
 `;

@@ -33,8 +33,8 @@ export default {
     borderRadius: '5px',
 
     fonts: {
-        ubuntu: 'Ubuntu',
-        audiowide: 'Audiowide'
+        audiowide: 'Audiowide',
+        openSans: 'Open Sans'
     },
 
     header: {

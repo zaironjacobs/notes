@@ -57,7 +57,8 @@ export const NotesHeaderOne = styled.div`
     .notes-trash {
       text-align: center;
       align-self: flex-end;
-      font-size: 26px;
+      font-size: 24px;
+      font-weight: 600;
       transition: .3s;
       color: ${theme.colors.redNormal};
       cursor: pointer;
@@ -73,16 +74,17 @@ export const NotesHeaderOne = styled.div`
       }
 
       ${theme.media._768px} {
-        font-size: 32px;
+        font-size: 34px;
       }
     }
 
     .note-upload {
       text-align: center;
-      font-size: 30px;
+      font-weight: 600;
+      font-size: 24px;
       cursor: pointer;
       transition: .3s;
-      margin-left: 15px;
+      margin-left: 25px;
       color: ${theme.colors.greyDark};
 
       ::after {
@@ -96,16 +98,17 @@ export const NotesHeaderOne = styled.div`
       }
 
       ${theme.media._768px} {
-        font-size: 36px;
+        font-size: 34px;
       }
     }
 
     .note-new {
       text-align: center;
-      font-size: 30px;
+      font-size: 24px;
+      font-weight: 600;
       cursor: pointer;
       transition: .3s;
-      margin-left: 15px;
+      margin-left: 25px;
       color: ${theme.colors.greenNormal};
 
       ::after {
@@ -119,7 +122,7 @@ export const NotesHeaderOne = styled.div`
       }
 
       ${theme.media._768px} {
-        font-size: 38px;
+        font-size: 34px;
       }
     }
   }
@@ -144,7 +147,7 @@ export const NotesHeaderTwo = styled.div`
 
   .notes-name {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     padding: 8px 3px 8px 3px;
 
     ${theme.media._768px} {
@@ -174,6 +177,7 @@ export const UserNote = styled.div`
   }
 
   .note-name {
+    font-weight: 600;
     width: 100%;
     padding: 8px 3px 8px 3px;
     cursor: pointer;

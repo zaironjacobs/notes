@@ -166,6 +166,17 @@ const Note = (props) => {
                         {/* Header One */}
                         <NoteHeaderOne>
                             <i className='fas fa-arrow-circle-left back' onClick={goToPreviousPage}/>
+                            <div className='note-options-wrapper'>
+                                <div className='note-edit' onClick={enableNoteEditing}>
+                                    <i className='fas fa-edit'/>
+                                </div>
+                                <div className='note-save' onClick={saveNote}><i className='fas fa-check'/></div>
+                                <div className='note-trash' onClick={() => {
+                                    setShowConfirmationPopup(true);
+                                }}>
+                                    <i className='fas fa-trash'/>
+                                </div>
+                            </div>
                         </NoteHeaderOne>
 
                         {/* Header Two */}
@@ -179,17 +190,6 @@ const Note = (props) => {
                                            disabled={!editable}
                                            maxLength={global.maxNoteNameLength}
                                 />
-                            </div>
-                            <div className='note-options-wrapper'>
-                                <div className='note-edit' onClick={enableNoteEditing}>
-                                    <i className='fas fa-edit'/>
-                                </div>
-                                <div className='note-save' onClick={saveNote}><i className='fas fa-check'/></div>
-                                <div className='note-trash' onClick={() => {
-                                    setShowConfirmationPopup(true);
-                                }}>
-                                    <i className='fas fa-trash'/>
-                                </div>
                             </div>
                         </NoteHeaderTwo>
 
