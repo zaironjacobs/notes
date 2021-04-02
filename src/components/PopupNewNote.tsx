@@ -1,5 +1,5 @@
 import {Overlay, Popup, CreateNoteForm} from '@style/PopupNewNoteStyled';
-import {CustomSmallButton} from '@component/CustomSmallButton';
+import {PopupButton} from '@component/PopupButton';
 import React, {useRef, useState} from 'react';
 import {Formik, useField} from 'formik';
 import * as Yup from 'yup';
@@ -54,12 +54,12 @@ const PopupNewNote = (props) => {
                                 />
                                 {error && <div className='create-note-server-error'>{error}</div>}
                                 <div className='buttons-wrapper'>
-                                    <CustomSmallButton type='submit'>
+                                    <PopupButton type='submit'>
                                         {props.isSubmitting ? 'Please Wait...' : 'Create'}
-                                    </CustomSmallButton>
-                                    <CustomSmallButton onClick={cancel}>
+                                    </PopupButton>
+                                    <PopupButton onClick={cancel}>
                                         Cancel
-                                    </CustomSmallButton>
+                                    </PopupButton>
                                 </div>
                             </CreateNoteForm>
                         )}

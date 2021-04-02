@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from 'theme';
 
 
-export const CustomTextArea = styled.textarea`
+export const NoteTextArea = styled.textarea`
   width: 100%;
   height: calc(100vh - ${theme.header.mobileHeight} - 265px);
   margin-top: 10px;

@@ -77,7 +77,30 @@ export const NotesHeaderOne = styled.div`
       }
     }
 
-    .new-note {
+    .note-upload {
+      text-align: center;
+      font-size: 30px;
+      cursor: pointer;
+      transition: .3s;
+      margin-left: 15px;
+      color: ${theme.colors.greyDark};
+
+      ::after {
+        content: 'upload';
+        display: block;
+        font-size: 14px;
+      }
+
+      :hover {
+        color: ${theme.colors.greyNormal};
+      }
+
+      ${theme.media._768px} {
+        font-size: 36px;
+      }
+    }
+
+    .note-new {
       text-align: center;
       font-size: 30px;
       cursor: pointer;
@@ -99,6 +122,10 @@ export const NotesHeaderOne = styled.div`
         font-size: 38px;
       }
     }
+  }
+
+  #input-note-upload {
+    display: none;
   }
 `;
 

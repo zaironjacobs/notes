@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from 'theme';
 
 
-export const CustomInput = styled.input`
+export const NoteInput = styled.input`
   font-size: 18px;
   height: 45px;
   width: 100%;

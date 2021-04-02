@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from 'theme';
 
 
-export const CustomSmallButton = styled.button`
+export const PopupButton = styled.button`
   cursor: pointer;
   border: none;
   height: 35px;

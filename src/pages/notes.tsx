@@ -133,6 +133,11 @@ const Notes = (props) => {
         return axios.post(global.api.note, {name: name, content: ''});
     }
 
+    // Upload a note
+    const uploadNote = (event) => {
+        console.log(event.tagret.files[0]);
+    }
+
     // Add or remove the id of the selected note to selectedNotesId
     const onNoteCheckBoxChange = (e, note: NoteInterface) => {
         if (e.target.checked) {
@@ -210,7 +215,18 @@ const Notes = (props) => {
                                 <i className='fas fa-trash'/>
                             </div>
                             }
-                            <div className='new-note' onClick={() => setShowNewNotePopup(true)}>
+
+
+
+                            <label className='note-upload'>
+                                <i className='fas fa-file-upload'/>
+                                <input id='input-note-upload' type='file' name='note-upload' onChange={uploadNote}/>
+                            </label>
+
+
+
+
+                            <div className='note-new' onClick={() => setShowNewNotePopup(true)}>
                                 <i className='fas fa-plus-circle'/>
                             </div>
                         </div>

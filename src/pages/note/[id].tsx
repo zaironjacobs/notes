@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Main, PageWrapper, NoteHeaderOne, NoteHeaderTwo} from '@style/NoteStyled';
-import {CustomTextArea} from '@component/CustomTextArea';
-import {CustomInput} from '@component/CustomInput';
+import {NoteTextArea} from '@component/NoteTextArea';
+import {NoteInput} from '@component/NoteInput';
 import global from 'global';
 import withSession from '@lib/session';
 import Menu from '@component/Menu';
@@ -60,15 +60,15 @@ const Note = (props) => {
 
     // Save note
     const saveNote = () => {
-        const noteNameHasNotChanged = sha256(note.name).toString() === originalNoteNameHashDigest;
-        const noteContentHasNotChanged = sha256(note.content).toString() === originalNoteContentHashDigest;
-        if (noteNameHasNotChanged && noteContentHasNotChanged) {
-            setEditable(false);
-            props.showNotification('No changes made');
-            return;
-        }
-
         if (editable && note) {
+            const noteNameHasNotChanged = sha256(note.name).toString() === originalNoteNameHashDigest;
+            const noteContentHasNotChanged = sha256(note.content).toString() === originalNoteContentHashDigest;
+            if (noteNameHasNotChanged && noteContentHasNotChanged) {
+                setEditable(false);
+                props.showNotification('No changes made');
+                return;
+            }
+
             const noteToSave: NoteInterface = {id: noteId, name: note.name, content: note.content, isChecked: false}
             saveNotePromise(noteToSave)
                 .then(() => {
@@ -126,7 +126,9 @@ const Note = (props) => {
 
     // Enable note editing
     const enableNoteEditing = () => {
-        setEditable(true);
+        if (!editable) {
+            setEditable(true);
+        }
     }
 
     // Go to previous page
@@ -171,13 +173,13 @@ const Note = (props) => {
                         {/* Header Two */}
                         <NoteHeaderTwo>
                             <div className='note-name-wrapper'>
-                                <CustomInput placeholder='Note name...'
-                                             value={note.name}
-                                             onChange={changeNoteName}
-                                             type='text'
-                                             autoComplete='off'
-                                             disabled={!editable}
-                                             maxLength={inputMaxLength}
+                                <NoteInput placeholder='Note name...'
+                                           value={note.name}
+                                           onChange={changeNoteName}
+                                           type='text'
+                                           autoComplete='off'
+                                           disabled={!editable}
+                                           maxLength={inputMaxLength}
                                 />
                             </div>
                             <div className='note-options-wrapper'>
@@ -194,7 +196,7 @@ const Note = (props) => {
                         </NoteHeaderTwo>
 
                         {/* TextArea */}
-                        <CustomTextArea
+                        <NoteTextArea
                             placeholder='Your amazing ideas here...'
                             onChange={changeNoteContent}
                             value={note.content} disabled={!editable}

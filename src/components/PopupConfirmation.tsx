@@ -1,6 +1,6 @@
 import {useRef, useState} from 'react';
 import {Overlay, Popup} from '@style/PopupConfirmationStyled';
-import {CustomSmallButton} from '@component/CustomSmallButton';
+import {PopupButton} from '@component/PopupButton';
 import useOnClickOutside from '@hook/useOnClickOutside';
 
 
@@ -29,8 +29,8 @@ const PopupConfirmation = (props) => {
                     <span className='confirmation-text'>{props.message}</span>
                     {error && <div className='delete-note-error'>{error}</div>}
                     <div className='buttons-wrapper'>
-                        <CustomSmallButton className='confirmation-button' onClick={onYes}>Yes</CustomSmallButton>
-                        <CustomSmallButton className='confirmation-button' onClick={onNo}>No</CustomSmallButton>
+                        <PopupButton className='confirmation-button' onClick={onYes}>Yes</PopupButton>
+                        <PopupButton className='confirmation-button' onClick={onNo}>No</PopupButton>
                     </div>
                 </Popup>
             </Overlay>

@@ -1,5 +1,5 @@
 import {SignUpForm, Content} from '@style/LoginStyled';
-import {CustomButton} from '@component/CustomButton';
+import {MainButton} from '@component/MainButton';
 import {NextRouter, useRouter} from 'next/router';
 import {Main} from '@style/LoginStyled';
 import {Formik, useField} from 'formik';
@@ -86,9 +86,9 @@ const Login = (props) => {
                                 <CustomTextInput label='Password' name='password' type='password'
                                                  placeholder='Password' maxLength={128}/>
                                 <div className='login-server-error'>{error}</div>
-                                <CustomButton type='submit'>
+                                <MainButton type='submit'>
                                     {props.isSubmitting ? 'Please Wait...' : 'Sign In'}
-                                </CustomButton>
+                                </MainButton>
                             </SignUpForm>
                         )}
                     </Formik>

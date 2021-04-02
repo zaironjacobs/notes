@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {NextRouter, useRouter} from 'next/router';
-import {CustomButton} from '@component/CustomButton';
+import {MainButton} from '@component/MainButton';
 import {SignUpForm, Content} from '@style/SignUpStyled';
 import {Main} from '@style/SignUpStyled';
 import {Formik, useField} from 'formik';
@@ -125,9 +125,9 @@ const SignUp = (props) => {
                                 <CustomTextInput label='Repeat password' name='repeatPassword' type='password'
                                                  placeholder='Repeat password' maxLength={128}/>
                                 <div className='sign-up-server-error'>{error}</div>
-                                <CustomButton type='submit'>
+                                <MainButton type='submit'>
                                     {props.isSubmitting ? 'Please Wait...' : 'Create Account'}
-                                </CustomButton>
+                                </MainButton>
                             </SignUpForm>
                         )}
                     </Formik>

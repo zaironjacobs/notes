@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from 'theme';
 
 
-export const CustomButton = styled.button`
+export const MainButton = styled.button`
   display: flex;
   height: 50px;
   justify-content: center;
