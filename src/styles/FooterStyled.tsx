@@ -17,6 +17,10 @@ export const Content = styled.footer`
     a {
       color: ${theme.colors.greyDark};
       text-decoration: none;
+
+      :hover {
+        color: ${theme.colors.blueLight};
+      }
     }
   }
 
@@ -27,6 +31,10 @@ export const Content = styled.footer`
       color: ${theme.colors.greyDark};
       font-size: 25px;
       transition: .3s;
+
+      :hover {
+        color: ${theme.colors.blueLight};
+      }
     }
   }
 `;
