@@ -17,7 +17,9 @@ export const Main = styled(M)`
 
 
 export const PageWrapper = styled(PW)`
-  .max-length {
+  max-width: 1300px;
+
+  .note-max-length {
     padding: 5px 10px 10px 5px;
     text-align: right;
     font-size: 14px;
@@ -58,11 +60,11 @@ export const NoteHeaderTwo = styled.div`
   justify-content: space-between;
 
   .note-name-wrapper {
+    max-width: 1200px;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    max-width: 950px;
-    width: 100%;
     margin-right: 20px;
   }
 

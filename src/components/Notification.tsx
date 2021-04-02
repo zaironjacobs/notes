@@ -4,12 +4,12 @@ import {Content} from '@style/NotificationStyled';
 
 const Notification = (props) => {
 
-    // Show the notification for 3 seconds
+    // Show the notification for 5 seconds
     useEffect(() => {
         if (props.isNotificationOn) {
             setTimeout(() => {
                 props.setIsNotificationOn(false);
-            }, 3000);
+            }, 5000);
         }
     }, [props.isNotificationOn]);
 

@@ -124,7 +124,7 @@ export const NotesHeaderOne = styled.div`
     }
   }
 
-  #input-note-upload {
+  .input-note-upload {
     display: none;
   }
 `;

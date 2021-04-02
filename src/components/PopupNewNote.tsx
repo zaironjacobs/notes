@@ -4,6 +4,7 @@ import React, {useRef, useState} from 'react';
 import {Formik, useField} from 'formik';
 import * as Yup from 'yup';
 import useOnClickOutside from '@hook/useOnClickOutside';
+import global from 'global';
 
 
 const PopupNewNote = (props) => {
@@ -35,7 +36,7 @@ const PopupNewNote = (props) => {
                         }}
                         validationSchema={Yup.object({
                             name: Yup.string()
-                                .max(30, 'No more than 30 characters')
+                                .max(global.maxNoteNameLength, 'No more than 30 characters')
                                 .required('Note name is required')
                         })}
                         validateOnBlur={false}

@@ -25,8 +25,6 @@ const Note = (props) => {
     const [showConfirmationPopup, setShowConfirmationPopup] = useState<boolean>(false);
     const [editable, setEditable] = useState<boolean>(false);
     const textAreaNode = useRef<HTMLInputElement>(null);
-    const textAreaMaxLength: number = 15000000; // note content size less than MEDIUMTEXT max size
-    const inputMaxLength: number = 30;
     const [originalNoteContentHashDigest, setOriginalNoteContentHashDigest] = useState<string>('');
     const [originalNoteNameHashDigest, setOriginalNoteNameHashDigest] = useState<string>('');
 
@@ -179,7 +177,7 @@ const Note = (props) => {
                                            type='text'
                                            autoComplete='off'
                                            disabled={!editable}
-                                           maxLength={inputMaxLength}
+                                           maxLength={global.maxNoteNameLength}
                                 />
                             </div>
                             <div className='note-options-wrapper'>
@@ -201,11 +199,13 @@ const Note = (props) => {
                             onChange={changeNoteContent}
                             value={note.content} disabled={!editable}
                             ref={textAreaNode}
-                            maxLength={textAreaMaxLength}
+                            maxLength={global.maxNoteContent}
                             autoFocus
                         />
 
-                        <div className='max-length'>{note.content.length >= textAreaMaxLength ? 'Note full' : ''}</div>
+                        <div
+                            className='note-max-length'>{note.content.length >= global.maxNoteContent ? 'Note full' : ''}
+                        </div>
                     </PageWrapper>
                     : <div className='loading'>Loading....</div>
                 }

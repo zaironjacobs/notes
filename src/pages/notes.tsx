@@ -89,7 +89,7 @@ const Notes = (props) => {
 
     // Create a new note
     const createNewNote = (name: string) => {
-        return createNotePromise(name)
+        return createNotePromise(name, '')
             .then(async (response: AxiosResponse) => {
                 const newNotesCountData: { count: number } = await mutateNotesCountData();
                 const newNoteId: string = response.data.id;
@@ -106,8 +106,7 @@ const Notes = (props) => {
         return deleteNotesPromise()
             .then(async (response: AxiosResponse) => {
                 props.showNotification(response.data.message);
-                await mutateNotesData();
-                await mutateNotesCountData();
+                await refreshNotes();
 
                 // Go to previous page
                 if (checkedNotesId.length == notesData.notes.length && currentPage > 1) {
@@ -129,13 +128,51 @@ const Notes = (props) => {
     }
 
     // Create note promise
-    const createNotePromise = (name: string) => {
-        return axios.post(global.api.note, {name: name, content: ''});
+    const createNotePromise = (name: string, content) => {
+        return axios.post(global.api.note, {name: name, content: content});
     }
 
     // Upload a note
     const uploadNote = (event) => {
-        console.log(event.tagret.files[0]);
+        const file = event.target.files[0];
+        const fileName: string = file.name.substr(0, file.name.lastIndexOf('.'));
+        const fileType: string = file.type;
+        const fileSize: number = parseInt(file.size);
+        if (fileName.length > global.maxNoteNameLength) {
+            props.showNotification('Could not upload text file, file name exceeds 30 characters');
+            return
+        }
+        if (fileSize > global.maxNoteContent) {
+            props.showNotification('Could not upload text file, maximum file size exceeded');
+            return;
+        }
+        if (fileType !== 'text/plain') {
+            props.showNotification('Only text files are supported');
+            return;
+        }
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = async (event) => {
+            const fileContent: string | ArrayBuffer = event.target.result;
+            const note = {noteName: fileName, noteContent: fileContent};
+            try {
+                await createNotePromise(note.noteName, note.noteContent);
+                await refreshNotes();
+                props.showNotification('Text file uploaded');
+            } catch (error) {
+                props.showNotification('Could not upload file');
+            }
+        };
+        reader.onerror = () => {
+            props.showNotification('Could not upload file');
+            return;
+        }
+    }
+
+    // Refresh notes
+    const refreshNotes = async () => {
+        await mutateNotesData();
+        await mutateNotesCountData();
     }
 
     // Add or remove the id of the selected note to selectedNotesId
@@ -215,17 +252,13 @@ const Notes = (props) => {
                                 <i className='fas fa-trash'/>
                             </div>
                             }
-
-
-
                             <label className='note-upload'>
                                 <i className='fas fa-file-upload'/>
-                                <input id='input-note-upload' type='file' name='note-upload' onChange={uploadNote}/>
+                                <input className='input-note-upload'
+                                       type='file'
+                                       onChange={uploadNote}
+                                />
                             </label>
-
-
-
-
                             <div className='note-new' onClick={() => setShowNewNotePopup(true)}>
                                 <i className='fas fa-plus-circle'/>
                             </div>
