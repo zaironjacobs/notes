@@ -26,7 +26,7 @@ export const Main = styled(M)`
 
 
 export const PageWrapper = styled(PW)`
-  max-width: 800px;
+  max-width: 700px;
 `;
 
 

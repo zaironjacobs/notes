@@ -37,7 +37,7 @@ export const NoteHeaderOne = styled.div`
   height: 40px;
 
   .back {
-    font-size: 30px;
+    font-size: 36px;
     color: ${theme.colors.blueNormal};
     cursor: pointer;
     transition: .3s;
@@ -47,7 +47,7 @@ export const NoteHeaderOne = styled.div`
     }
 
     ${theme.media._768px} {
-      font-size: 38px;
+      font-size: 40px;
     }
   }
 
