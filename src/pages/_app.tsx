@@ -3,7 +3,7 @@ import {GlobalStyle} from '@style/GlobalStyle';
 import Layout from '@component/Layout';
 import Notification from '@component/Notification';
 import {SWRConfig} from 'swr';
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 
 const App = (props) => {
@@ -11,20 +11,21 @@ const App = (props) => {
     const [isNotificationOn, setIsNotificationOn] = useState(false);
     const [notification, setNotification] = useState('');
 
+    // Fetcher for SWR
     const fetcher = async url => {
-        const res = await axios.get(url);
+        const response: AxiosResponse = await axios.get(url);
 
         // If the status code is not in the range 200-299,
         // we still try to parse and throw it.
-        if (res.status < 200 && res.status > 299) {
+        if (response.status < 200 && response.status > 299) {
             const error: any = new Error('An error occurred while fetching data.')
             // Extra info
-            error.info = await res.data;
-            error.status = res.status;
+            error.info = await response.data;
+            error.status = response.status;
             throw error;
         }
 
-        return res.data;
+        return response.data;
     }
 
     // Show notification

@@ -14,7 +14,7 @@ import Footer from '@component/Footer';
 import UserInterface from '@interface/User';
 import NoteInterface from '@interface/Note';
 import Pagination from '@component/Pagination';
-import useSWR from 'swr'
+import useSWR from 'swr';
 import {getNotesCount} from '@api/notes-count';
 
 
@@ -55,7 +55,7 @@ const Notes = (props) => {
         if (notesError) {
             return (
                 <>
-                    <div className='notes-server-error'>Error loading notes</div>
+                    <div className='notes-server-error'>Error</div>
                 </>
             );
         }

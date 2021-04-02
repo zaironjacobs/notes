@@ -4,7 +4,7 @@ import {NextRouter, useRouter} from 'next/router';
 import {Main} from '@style/LoginStyled';
 import {Formik, useField} from 'formik';
 import * as Yup from 'yup';
-import axios, {AxiosResponse} from 'axios';
+import axios from 'axios';
 import global from 'global';
 import Link from 'next/link';
 import React, {useState} from 'react';
@@ -22,7 +22,7 @@ const Login = (props) => {
 
     const submit = async (values, setError, router) => {
         await submitLoginPromise(values)
-            .then((response: AxiosResponse) => {
+            .then(() => {
                 setError('');
                 router.push(global.paths.notes);
             })
@@ -111,11 +111,11 @@ const CustomTextInput = ({label, ...props}: { [x: string]: any; name: string }) 
         <>
             {/*<label className='login-label' htmlFor={props.id || props.name}>{label}</label>*/}
             <input className='login-input' {...field} {...props} />
-            {meta.touched && meta.error ? (
+            {(meta.touched && meta.error) ? (
                 <div className='login-form-error'>{meta.error}</div>
             ) : null}
         </>
-    )
+    );
 }
 
 export default Login;

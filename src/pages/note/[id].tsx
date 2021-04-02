@@ -53,7 +53,7 @@ const Note = (props) => {
                 setOriginalNoteContentHashDigest(sha256(response.data.note.content).toString());
                 setNote(response.data.note);
             })
-            .catch(async (error) => {
+            .catch(async () => {
                 await router.push(global.paths.notfound404);
             });
     }, []);
@@ -71,7 +71,7 @@ const Note = (props) => {
         if (editable && note) {
             const noteToSave: NoteInterface = {id: noteId, name: note.name, content: note.content, isChecked: false}
             saveNotePromise(noteToSave)
-                .then((response: AxiosResponse) => {
+                .then(() => {
                     setOriginalNoteNameHashDigest(sha256(note.name).toString())
                     setOriginalNoteContentHashDigest(sha256(note.content).toString())
                     setEditable(false);
@@ -86,7 +86,7 @@ const Note = (props) => {
     // Delete note
     const deleteNote = async () => {
         return deleteNotePromise()
-            .then(async (response: AxiosResponse) => {
+            .then(async () => {
                 props.showNotification('Note deleted');
                 await router.push(global.paths.notes);
             })

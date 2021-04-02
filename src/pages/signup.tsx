@@ -34,7 +34,7 @@ const SignUp = (props) => {
                 setError(error.response.data.message);
                 return Promise.reject();
             });
-    };
+    }
 
     // Signup promise
     const signupPromise = (values) => {
