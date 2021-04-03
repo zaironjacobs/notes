@@ -168,7 +168,7 @@ const Notes = (props) => {
             try {
                 props.notificationDispatch(
                     {
-                        type: global.notificationActions.PERM_NOTIFICATION,
+                        type: global.notificationActions.SHOW_NOTIFICATION,
                         payload: {message: 'Uploading text file...', timeout: -1}
                     });
                 await createNotePromise(note.noteName, note.noteContent);
