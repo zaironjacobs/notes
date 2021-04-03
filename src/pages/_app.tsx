@@ -1,15 +1,38 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import {GlobalStyle} from '@style/GlobalStyle';
 import Layout from '@component/Layout';
 import Notification from '@component/Notification';
 import {SWRConfig} from 'swr';
 import axios, {AxiosResponse} from 'axios';
+import global from 'global';
 
 
 const App = (props) => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [isNotificationOn, setIsNotificationOn] = useState(false);
-    const [notification, setNotification] = useState('');
+
+    // Reducer for notification
+    const initialState = {message: '', isOn: false, timeout: 0};
+    const notificationReducer = (notificationState, notificationAction) => {
+        switch (notificationAction.type) {
+            case global.notificationActions.TEMP_NOTIFICATION:
+                return {
+                    message: notificationAction.payload.message,
+                    isOn: true,
+                    timeout: notificationAction.payload.timeout
+                };
+            case global.notificationActions.PERM_NOTIFICATION:
+                return {
+                    message: notificationAction.payload.message,
+                    isOn: true,
+                    timeout: notificationAction.payload.timeout
+                };
+            case global.notificationActions.CLOSE_NOTIFICATION:
+                return initialState;
+            default:
+                return initialState;
+        }
+    }
+    const [notificationState, notificationDispatch] = useReducer(notificationReducer, initialState);
 
     // Fetcher for SWR
     const fetcher = async url => {
@@ -28,12 +51,6 @@ const App = (props) => {
         return response.data;
     }
 
-    // Show notification
-    const showNotification = (message) => {
-        setNotification(message);
-        setIsNotificationOn(true);
-    }
-
     return (
         <>
             <GlobalStyle/>
@@ -43,13 +60,13 @@ const App = (props) => {
                         {...props.pageProps}
                         menuOpen={menuOpen}
                         setMenuOpen={setMenuOpen}
-                        showNotification={showNotification}
+                        notificationDispatch={notificationDispatch}
                     />
 
                     {/* Bottom Notification */}
-                    <Notification notification={notification}
-                                  isNotificationOn={isNotificationOn}
-                                  setIsNotificationOn={setIsNotificationOn}
+                    <Notification
+                        notificationState={notificationState}
+                        notificationDispatch={notificationDispatch}
                     />
                 </Layout>
             </SWRConfig>

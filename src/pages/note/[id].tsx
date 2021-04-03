@@ -63,7 +63,11 @@ const Note = (props) => {
             const noteContentHasNotChanged = sha256(note.content).toString() === originalNoteContentHashDigest;
             if (noteNameHasNotChanged && noteContentHasNotChanged) {
                 setEditable(false);
-                props.showNotification('No changes made');
+                props.notificationDispatch(
+                    {
+                        type: global.notificationActions.TEMP_NOTIFICATION,
+                        payload: {message: 'No changes made', timeout: global.notificationTimeout}
+                    });
                 return;
             }
 
@@ -73,10 +77,18 @@ const Note = (props) => {
                     setOriginalNoteNameHashDigest(sha256(note.name).toString())
                     setOriginalNoteContentHashDigest(sha256(note.content).toString())
                     setEditable(false);
-                    props.showNotification('Note saved');
+                    props.notificationDispatch(
+                        {
+                            type: global.notificationActions.TEMP_NOTIFICATION,
+                            payload: {message: 'Note saved', timeout: global.notificationTimeout}
+                        });
                 })
                 .catch((error) => {
-                    props.showNotification(error.response.data.message);
+                    props.notificationDispatch(
+                        {
+                            type: global.notificationActions.TEMP_NOTIFICATION,
+                            payload: {message: error.response.data.message, timeout: global.notificationTimeout}
+                        });
                 });
         }
     }
@@ -85,7 +97,11 @@ const Note = (props) => {
     const deleteNote = async () => {
         return deleteNotePromise()
             .then(async () => {
-                props.showNotification('Note deleted');
+                props.notificationDispatch(
+                    {
+                        type: global.notificationActions.TEMP_NOTIFICATION,
+                        payload: {message: 'Note deleted', timeout: global.notificationTimeout}
+                    });
                 await router.push(global.paths.notes);
             })
             .catch((error) => {

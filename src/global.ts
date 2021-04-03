@@ -25,5 +25,13 @@ export default {
         note: '/api/note',
         notes: '/api/notes',
         notesCount: '/api/notes-count'
+    },
+
+    notificationTimeout: 5000,
+
+    notificationActions: {
+        TEMP_NOTIFICATION: 'temp_notification',
+        PERM_NOTIFICATION: 'perm_notification',
+        CLOSE_NOTIFICATION: 'close_notification'
     }
 };

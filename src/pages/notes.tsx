@@ -103,17 +103,27 @@ const Notes = (props) => {
 
     // Delete all notes from selectedNotesId
     const deleteSelectedNotes = () => {
+        let notificationMessage: string = '';
+        if (checkedNotesId.length > 1) {
+            notificationMessage = 'Notes deleted'
+        } else {
+            notificationMessage = 'Note deleted'
+        }
         return deleteNotesPromise()
             .then(async (response: AxiosResponse) => {
-                props.showNotification(response.data.message);
                 await refreshNotes();
+                props.notificationDispatch(
+                    {
+                        type: global.notificationActions.TEMP_NOTIFICATION,
+                        payload: {message: notificationMessage, timeout: global.notificationTimeout}
+                    });
+                setShowConfirmationPopup(false);
 
-                // Go to previous page
+                // Go to previous page if current page becomes empty
                 if (checkedNotesId.length == notesData.notes.length && currentPage > 1) {
                     setCurrentPage(prevCurrentPage => prevCurrentPage - 1);
                 }
 
-                setShowConfirmationPopup(false);
                 setCheckedNotesId([]);
             })
 
@@ -156,15 +166,32 @@ const Notes = (props) => {
             const fileContent: string | ArrayBuffer = event.target.result;
             const note = {noteName: fileName, noteContent: fileContent};
             try {
+                props.notificationDispatch(
+                    {
+                        type: global.notificationActions.PERM_NOTIFICATION,
+                        payload: {message: 'Uploading text file...', timeout: -1}
+                    });
                 await createNotePromise(note.noteName, note.noteContent);
                 await refreshNotes();
-                props.showNotification('Text file uploaded');
+                props.notificationDispatch(
+                    {
+                        type: global.notificationActions.TEMP_NOTIFICATION,
+                        payload: {message: 'Text file uploaded', timeout: global.notificationTimeout}
+                    });
             } catch (error) {
-                props.showNotification('Could not upload file');
+                props.notificationDispatch(
+                    {
+                        type: global.notificationActions.TEMP_NOTIFICATION,
+                        payload: {message: 'Could not upload file', timeout: global.notificationTimeout}
+                    });
             }
         };
         reader.onerror = () => {
-            props.showNotification('Could not upload file');
+            props.notificationDispatch(
+                {
+                    type: global.notificationActions.TEMP_NOTIFICATION,
+                    payload: {message: 'Could not upload file', timeout: global.notificationTimeout}
+                });
             return;
         }
     }

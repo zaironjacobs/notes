@@ -1,22 +1,27 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {Content} from '@style/NotificationStyled';
+import global from 'global';
 
 
 const Notification = (props) => {
+    const [windowTimeout, setWindowTimeout] = useState(null);
 
-    // Show the notification for 5 seconds
     useEffect(() => {
-        if (props.isNotificationOn) {
-            setTimeout(() => {
-                props.setIsNotificationOn(false);
-            }, 5000);
+        if (windowTimeout !== null) {
+            clearTimeout(windowTimeout);
         }
-    }, [props.isNotificationOn]);
+        if (props.notificationState.isOn && props.notificationState.timeout > 0) {
+            setWindowTimeout(setTimeout(() => {
+                props.notificationDispatch({type: global.notificationActions.CLOSE_NOTIFICATION});
+                setWindowTimeout(null);
+            }, props.notificationState.timeout));
+        }
+    }, [props.notificationState]);
 
     return (
         <>
-            <Content isNotificationOn={props.isNotificationOn}>
-                {props.notification}
+            <Content isNotificationOn={props.notificationState.isOn}>
+                {props.notificationState.message}
             </Content>
         </>
     )
