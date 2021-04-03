@@ -5,12 +5,17 @@ import NoteInterface from '@interface/Note';
 
 
 // Get notes
-export async function getNotes(user, page, paginationLimit) {
+export async function getNotes(user: UserInterface, page: string, paginationLimit: string, includeContent: string) {
     const start: number = parseInt(page) * parseInt(paginationLimit) - parseInt(paginationLimit);
+
+    let content: string = 'content';
+    if (includeContent === 'false') {
+        content = null;
+    }
 
     const resultSelectNotes = await query(
         `
-                    SELECT id, name, content
+                    SELECT id, name, ${content}
                     FROM notes
                     WHERE id = ANY
                           (SELECT note_id
@@ -44,8 +49,9 @@ export default withSession(async (req, res) => {
 
             const page: string = req.query.page;
             const limit: string = req.query.limit;
+            const includeContent: string = req.query.includeContent;
 
-            const result = await getNotes(userFromSession, page, limit);
+            const result = await getNotes(userFromSession, page, limit, includeContent);
 
             return res.status(200).json({message: 'Notes fetched', notes: result.notes});
         } catch (error) {

@@ -33,7 +33,7 @@ const Notes = (props) => {
 
     const {
         data: notesData, error: notesError, mutate: mutateNotesData
-    } = useSWR(`${global.api.notes}?page=${currentPage}&limit=${global.paginationLimit}`);
+    } = useSWR(`${global.api.notes}?page=${currentPage}&limit=${global.paginationLimit}&includeContent=false`);
 
     // On notesCountData change, update total pages shown
     useEffect(() => {
