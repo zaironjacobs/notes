@@ -65,7 +65,7 @@ const Note = (props) => {
                 setEditable(false);
                 props.notificationDispatch(
                     {
-                        type: global.notificationActions.TEMP_NOTIFICATION,
+                        type: global.notificationActions.SHOW_NOTIFICATION,
                         payload: {message: 'No changes made', timeout: global.notificationTimeout}
                     });
                 return;
@@ -79,14 +79,14 @@ const Note = (props) => {
                     setEditable(false);
                     props.notificationDispatch(
                         {
-                            type: global.notificationActions.TEMP_NOTIFICATION,
+                            type: global.notificationActions.SHOW_NOTIFICATION,
                             payload: {message: 'Note saved', timeout: global.notificationTimeout}
                         });
                 })
                 .catch((error) => {
                     props.notificationDispatch(
                         {
-                            type: global.notificationActions.TEMP_NOTIFICATION,
+                            type: global.notificationActions.SHOW_NOTIFICATION,
                             payload: {message: error.response.data.message, timeout: global.notificationTimeout}
                         });
                 });
@@ -99,7 +99,7 @@ const Note = (props) => {
             .then(async () => {
                 props.notificationDispatch(
                     {
-                        type: global.notificationActions.TEMP_NOTIFICATION,
+                        type: global.notificationActions.SHOW_NOTIFICATION,
                         payload: {message: 'Note deleted', timeout: global.notificationTimeout}
                     });
                 await router.push(global.paths.notes);

@@ -114,7 +114,7 @@ const Notes = (props) => {
                 await refreshNotes();
                 props.notificationDispatch(
                     {
-                        type: global.notificationActions.TEMP_NOTIFICATION,
+                        type: global.notificationActions.SHOW_NOTIFICATION,
                         payload: {message: notificationMessage, timeout: global.notificationTimeout}
                     });
                 setShowConfirmationPopup(false);
@@ -175,13 +175,13 @@ const Notes = (props) => {
                 await refreshNotes();
                 props.notificationDispatch(
                     {
-                        type: global.notificationActions.TEMP_NOTIFICATION,
+                        type: global.notificationActions.SHOW_NOTIFICATION,
                         payload: {message: 'Text file uploaded', timeout: global.notificationTimeout}
                     });
             } catch (error) {
                 props.notificationDispatch(
                     {
-                        type: global.notificationActions.TEMP_NOTIFICATION,
+                        type: global.notificationActions.SHOW_NOTIFICATION,
                         payload: {message: 'Could not upload file', timeout: global.notificationTimeout}
                     });
             }
@@ -189,7 +189,7 @@ const Notes = (props) => {
         reader.onerror = () => {
             props.notificationDispatch(
                 {
-                    type: global.notificationActions.TEMP_NOTIFICATION,
+                    type: global.notificationActions.SHOW_NOTIFICATION,
                     payload: {message: 'Could not upload file', timeout: global.notificationTimeout}
                 });
             return;

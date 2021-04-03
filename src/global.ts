@@ -30,8 +30,7 @@ export default {
     notificationTimeout: 5000,
 
     notificationActions: {
-        TEMP_NOTIFICATION: 'temp_notification',
-        PERM_NOTIFICATION: 'perm_notification',
+        SHOW_NOTIFICATION: 'show_notification',
         CLOSE_NOTIFICATION: 'close_notification'
     }
 };

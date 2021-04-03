@@ -5,34 +5,29 @@ import Notification from '@component/Notification';
 import {SWRConfig} from 'swr';
 import axios, {AxiosResponse} from 'axios';
 import global from 'global';
+import NotificationStateInterface from '@interface/NotificationState';
 
 
 const App = (props) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     // Reducer for notification
-    const initialState = {message: '', isOn: false, timeout: 0};
     const notificationReducer = (notificationState, notificationAction) => {
+        const newNotificationState: NotificationStateInterface = {message: '', isOn: false, timeout: 0};
         switch (notificationAction.type) {
-            case global.notificationActions.TEMP_NOTIFICATION:
-                return {
-                    message: notificationAction.payload.message,
-                    isOn: true,
-                    timeout: notificationAction.payload.timeout
-                };
-            case global.notificationActions.PERM_NOTIFICATION:
-                return {
-                    message: notificationAction.payload.message,
-                    isOn: true,
-                    timeout: notificationAction.payload.timeout
-                };
+            case global.notificationActions.SHOW_NOTIFICATION:
+                newNotificationState.message = notificationAction.payload.message;
+                newNotificationState.isOn = true;
+                newNotificationState.timeout = notificationAction.payload.timeout;
+                return newNotificationState;
             case global.notificationActions.CLOSE_NOTIFICATION:
-                return initialState;
+                return newNotificationState;
             default:
-                return initialState;
+                return newNotificationState;
         }
     }
-    const [notificationState, notificationDispatch] = useReducer(notificationReducer, initialState);
+    const initialNotificationState: NotificationStateInterface = {message: '', isOn: false, timeout: 0};
+    const [notificationState, notificationDispatch] = useReducer(notificationReducer, initialNotificationState);
 
     // Fetcher for SWR
     const fetcher = async url => {
