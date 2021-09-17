@@ -16,7 +16,7 @@ export default withSession(async (req, res) => {
             }
             const resultInsertUser = await query(
                 `
-                    INSERT INTO users (id, first_name, last_name, email, password)
+                    INSERT INTO user (id, first_name, last_name, email, password)
                     VALUES ('${uuidv4()}', '${firstName}', '${lastName}', '${email}', '${password_hashed}');
                 `,
             );

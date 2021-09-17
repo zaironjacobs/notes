@@ -18,14 +18,11 @@ export default withSession(async (req, res) => {
             const noteId: string = req.query.id;
             const resultSelectNote = await query(
                 `
-                        SELECT id, name, content
-                        FROM notes
-                        WHERE id =
-                              (SELECT note_id
-                               FROM user_notes
-                               WHERE user_id = '${userFromSession.id}'
-                               AND note_id = '${noteId}');
-                    `
+                    SELECT id, name, content
+                    FROM note
+                    WHERE id = '${noteId}'
+                      AND user_id = '${userFromSession.id}';
+                `
             );
             const note = resultSelectNote[0];
             const responseNote: NoteInterface = {
@@ -55,13 +52,10 @@ export default withSession(async (req, res) => {
             for (const noteId of noteIds) {
                 const resultDeleteNote = await query(
                     `
-                        DELETE 
-                        FROM notes
-                        WHERE id =
-                              (SELECT note_id
-                               FROM user_notes
-                               WHERE user_id = '${userFromSession.id}'
-                               AND note_id = '${noteId}');
+                        DELETE
+                        FROM note
+                        WHERE id = '${noteId}'
+                          AND user_id = '${userFromSession.id}';
                     `
                 );
                 if (JSON.parse(JSON.stringify(resultDeleteNote)).affectedRows !== 1) {
@@ -87,14 +81,12 @@ export default withSession(async (req, res) => {
             const note: NoteInterface = req.body.note;
             const resultUpdateNote = await query(
                 `
-                        UPDATE notes
-                        SET name = '${note.name}', content = '${note.content}'
-                        WHERE id =
-                              (SELECT note_id
-                              FROM user_notes
-                              WHERE user_id = '${userFromSession.id}'
-                              AND note_id = '${note.id}');
-                    `
+                    UPDATE note
+                    SET name    = '${note.name}',
+                        content = '${note.content}'
+                    WHERE id = '${note.id}'
+                      AND user_id = '${userFromSession.id}';
+                `
             );
             if (JSON.parse(JSON.stringify(resultUpdateNote)).affectedRows == 1) {
                 return res.status(201).json({message: 'Note updated'});
@@ -119,17 +111,9 @@ export default withSession(async (req, res) => {
             const newNoteId = uuidv4();
             const resultInsertNoteId = await query(
                 `
-                        INSERT INTO notes (id, name, content)
-                        VALUES ('${newNoteId}', '${name}', '${content}');
-                    `,
-            );
-            const newUserNotesId = uuidv4();
-            const resultInsertUserNote = await query(
-                `
-                    INSERT INTO user_notes (id, user_id, note_id)
-                    VALUES (?, ?, ?)
+                    INSERT INTO note (id, user_id, name, content)
+                    VALUES ('${newNoteId}', '${userFromSession.id}', '${name}', '${content}');
                 `,
-                [newUserNotesId, userFromSession.id, newNoteId]
             );
             return res.status(201).json({message: 'Success', id: newNoteId});
         } catch (error) {

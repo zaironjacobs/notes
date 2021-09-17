@@ -11,8 +11,8 @@ export default withSession(async (req, res) => {
             const results = await query(
                 `
                     SELECT id, first_name, last_name, email, password
-                    FROM users
-                    WHERE EMAIL = '${email}';
+                    FROM user
+                    WHERE email = '${email}';
                 `,
             );
             const user = results[0];

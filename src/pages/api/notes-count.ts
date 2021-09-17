@@ -3,17 +3,14 @@ import withSession from '@lib/session';
 import UserInterface from '@interface/User';
 
 
-// Get notes count
+// Get notes count function
 export async function getNotesCount(user) {
     let resultCountNotes = await query(
         `
             SELECT COUNT(id)
-            FROM notes
-            WHERE id = ANY
-                  (SELECT note_id
-                   FROM user_notes
-                   WHERE user_id = '${user.id}');
-           `
+            FROM note
+            WHERE user_id = '${user.id}';
+        `
     );
 
     return {count: JSON.parse(JSON.stringify(resultCountNotes))[0]['COUNT(id)']};

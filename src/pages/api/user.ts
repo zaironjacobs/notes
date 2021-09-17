@@ -15,10 +15,10 @@ export default withSession(async (req, res) => {
         try {
             const resultSelectUser = await query(
                 `
-                        SELECT first_name, last_name, email
-                        FROM users
-                        WHERE id = '${userFromSession.id}';
-                    `
+                    SELECT first_name, last_name, email
+                    FROM user
+                    WHERE id = '${userFromSession.id}';
+                `
             );
             const user = resultSelectUser[0];
             const responseUser: UserInterface = {

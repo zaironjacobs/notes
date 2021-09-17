@@ -4,7 +4,7 @@ import UserInterface from '@interface/User';
 import NoteInterface from '@interface/Note';
 
 
-// Get notes
+// Get notes function
 export async function getNotes(user: UserInterface, page: string, paginationLimit: string, includeContent: string) {
     const start: number = parseInt(page) * parseInt(paginationLimit) - parseInt(paginationLimit);
 
@@ -15,15 +15,12 @@ export async function getNotes(user: UserInterface, page: string, paginationLimi
 
     const resultSelectNotes = await query(
         `
-                    SELECT id, name, ${content}
-                    FROM notes
-                    WHERE id = ANY
-                          (SELECT note_id
-                           FROM user_notes
-                           WHERE user_id = '${user.id}')
-                    ORDER BY created_at ASC
-                    LIMIT ${start}, ${paginationLimit};
-                    `
+            SELECT id, name, ${content}
+            FROM note
+            WHERE user_id = '${user.id}'
+            ORDER BY created_at ASC
+            LIMIT ${start}, ${paginationLimit};
+        `
     );
     const response: NoteInterface[] = [];
     JSON.parse(JSON.stringify(resultSelectNotes)).forEach((note) => {
