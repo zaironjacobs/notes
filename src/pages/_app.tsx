@@ -1,11 +1,11 @@
 import React, {useReducer, useState} from 'react';
 import {GlobalStyle} from '@style/GlobalStyle';
-import Layout from '@component/Layout';
-import Notification from '@component/Notification';
+import Layout from '@components/Layout';
+import Notification from '@components/Notification';
 import {SWRConfig} from 'swr';
 import axios, {AxiosResponse} from 'axios';
 import global from 'global';
-import NotificationStateInterface from '@interface/NotificationState';
+import NotificationStateInterface from '@interfaces/NotificationState';
 
 
 const App = (props) => {

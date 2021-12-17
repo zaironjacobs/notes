@@ -1,8 +1,8 @@
-import {query} from '@lib/db';
-import withSession from '@lib/session';
+import {query} from '@libs/db';
+import withSession from '@libs/session';
 import {v4 as uuidv4} from 'uuid';
-import NoteInterface from '@interface/Note';
-import UserInterface from '@interface/User';
+import NoteInterface from '@interfaces/Note';
+import UserInterface from '@interfaces/User';
 
 
 export default withSession(async (req, res) => {

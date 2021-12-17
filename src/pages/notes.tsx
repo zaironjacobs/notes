@@ -1,19 +1,19 @@
 import {Main, UserNote, NotesHeaderOne, NotesHeaderTwo, PageWrapper} from '@style/NotesStyled';
 import global from 'global';
-import withSession from '@lib/session';
-import Menu from '@component/Menu';
-import Header from '@component/Header';
+import withSession from '@libs/session';
+import Menu from '@components/Menu';
+import Header from '@components/Header';
 import axios, {AxiosResponse} from 'axios';
 import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import {NextRouter, useRouter} from 'next/router';
-import PopupNewNote from '@component/PopupNewNote';
-import PopupConfirmation from '@component/PopupConfirmation';
+import PopupNewNote from '@components/PopupNewNote';
+import PopupConfirmation from '@components/PopupConfirmation';
 import Head from 'next/head';
-import Footer from '@component/Footer';
-import UserInterface from '@interface/User';
-import NoteInterface from '@interface/Note';
-import Pagination from '@component/Pagination';
+import Footer from '@components/Footer';
+import UserInterface from '@interfaces/User';
+import NoteInterface from '@interfaces/Note';
+import Pagination from '@components/Pagination';
 import useSWR from 'swr';
 import {getNotesCount} from '@api/notes-count';
 

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import global from 'global';
 import axios, {AxiosResponse} from 'axios';
 import {useRouter} from 'next/router';
-import useOnClickOutside from '@hook/useOnClickOutside';
+import useOnClickOutside from '@hooks/useOnClickOutside';
 import {useRef} from 'react';
 
 

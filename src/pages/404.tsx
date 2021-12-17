@@ -3,7 +3,7 @@ import {NotFoundWrapper, Main, Button} from '@style/404Styled';
 import Head from 'next/head';
 import global from 'global';
 import Link from 'next/link';
-import Footer from '@component/Footer';
+import Footer from '@components/Footer';
 
 
 const Custom404 = () => {

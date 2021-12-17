@@ -1,7 +1,7 @@
 import {useRef, useState} from 'react';
 import {Overlay, Popup} from '@style/PopupConfirmationStyled';
-import {PopupButton} from '@component/PopupButton';
-import useOnClickOutside from '@hook/useOnClickOutside';
+import {PopupButton} from '@components/PopupButton';
+import useOnClickOutside from '@hooks/useOnClickOutside';
 
 
 const PopupConfirmation = (props) => {

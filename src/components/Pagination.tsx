@@ -1,5 +1,5 @@
 import {Content} from '@style/PaginationStyled';
-import PaginationBoxInterface from '@interface/PaginationBox';
+import PaginationBoxInterface from '@interfaces/PaginationBox';
 import {useState, useEffect} from 'react';
 
 

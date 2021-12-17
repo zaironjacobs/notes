@@ -1,9 +1,9 @@
 import {Overlay, Popup, CreateNoteForm} from '@style/PopupNewNoteStyled';
-import {PopupButton} from '@component/PopupButton';
+import {PopupButton} from '@components/PopupButton';
 import React, {useRef, useState} from 'react';
 import {Formik, useField} from 'formik';
 import * as Yup from 'yup';
-import useOnClickOutside from '@hook/useOnClickOutside';
+import useOnClickOutside from '@hooks/useOnClickOutside';
 import global from 'global';
 
 

@@ -1,5 +1,5 @@
 import {SignUpForm, Content} from '@style/LoginStyled';
-import {MainButton} from '@component/MainButton';
+import {MainButton} from '@components/MainButton';
 import {NextRouter, useRouter} from 'next/router';
 import {Main} from '@style/LoginStyled';
 import {Formik, useField} from 'formik';
@@ -8,12 +8,12 @@ import axios from 'axios';
 import global from 'global';
 import Link from 'next/link';
 import React, {useState} from 'react';
-import withSession from '@lib/session';
-import Menu from '@component/Menu';
-import Header from '@component/Header';
+import withSession from '@libs/session';
+import Menu from '@components/Menu';
+import Header from '@components/Header';
 import Head from 'next/head';
-import Footer from '@component/Footer';
-import UserInterface from '@interface/User';
+import Footer from '@components/Footer';
+import UserInterface from '@interfaces/User';
 
 
 const Login = (props) => {

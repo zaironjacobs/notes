@@ -3,13 +3,27 @@
     "target": "es6",
     "baseUrl": "src",
     "paths": {
-      "@style/*": ["styles/*"],
-      "@component/*": ["components/*"],
-      "@interface/*": ["interfaces/*"],
-      "@lib/*": ["libs/*"],
-      "@util/*": ["utils/*"],
-      "@hook/*": ["hooks/*"],
-      "@api/*": ["pages/api/*"]
+      "@style/*": [
+        "styles/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@interfaces/*": [
+        "interfaces/*"
+      ],
+      "@libs/*": [
+        "libs/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@hooks/*": [
+        "hooks/*"
+      ],
+      "@api/*": [
+        "pages/api/*"
+      ]
     },
     "lib": [
       "dom",

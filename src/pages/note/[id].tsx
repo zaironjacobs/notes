@@ -1,18 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Main, PageWrapper, NoteHeaderOne, NoteHeaderTwo} from '@style/NoteStyled';
-import {NoteTextArea} from '@component/NoteTextArea';
-import {NoteInput} from '@component/NoteInput';
+import {NoteTextArea} from '@components/NoteTextArea';
+import {NoteInput} from '@components/NoteInput';
 import global from 'global';
-import withSession from '@lib/session';
-import Menu from '@component/Menu';
-import Header from '@component/Header';
+import withSession from '@libs/session';
+import Menu from '@components/Menu';
+import Header from '@components/Header';
 import {NextRouter, useRouter} from 'next/router';
-import PopupConfirmation from '@component/PopupConfirmation';
+import PopupConfirmation from '@components/PopupConfirmation';
 import axios, {AxiosResponse} from 'axios';
 import Head from 'next/head';
-import Footer from '@component/Footer';
-import NoteInterface from '@interface/Note';
-import UserInterface from '@interface/User';
+import Footer from '@components/Footer';
+import NoteInterface from '@interfaces/Note';
+import UserInterface from '@interfaces/User';
 import sha256 from 'crypto-js/sha256';
 
 

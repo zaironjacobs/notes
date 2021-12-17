@@ -1,7 +1,7 @@
-import {query} from '@lib/db';
+import {query} from '@libs/db';
 import {compare} from 'bcrypt';
-import withSession from '@lib/session';
-import UserInterface from '@interface/User';
+import withSession from '@libs/session';
+import UserInterface from '@interfaces/User';
 
 
 export default withSession(async (req, res) => {

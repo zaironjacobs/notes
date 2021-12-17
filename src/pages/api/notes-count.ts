@@ -1,6 +1,6 @@
-import {query} from '@lib/db';
-import withSession from '@lib/session';
-import UserInterface from '@interface/User';
+import {query} from '@libs/db';
+import withSession from '@libs/session';
+import UserInterface from '@interfaces/User';
 
 
 // Get notes count function

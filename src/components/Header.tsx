@@ -1,5 +1,5 @@
 import {Content} from '@style/HeaderStyled';
-import Burger from '@component/Burger';
+import Burger from '@components/Burger';
 import Link from 'next/link';
 import global from 'global';
 

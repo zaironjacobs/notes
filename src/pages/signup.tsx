@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {NextRouter, useRouter} from 'next/router';
-import {MainButton} from '@component/MainButton';
+import {MainButton} from '@components/MainButton';
 import {SignUpForm, Content} from '@style/SignUpStyled';
 import {Main} from '@style/SignUpStyled';
 import {Formik, useField} from 'formik';
@@ -8,12 +8,12 @@ import Link from 'next/link';
 import * as Yup from 'yup';
 import axios, {AxiosResponse} from 'axios';
 import global from 'global';
-import withSession from '@lib/session';
-import Menu from '@component/Menu';
-import Header from '@component/Header';
+import withSession from '@libs/session';
+import Menu from '@components/Menu';
+import Header from '@components/Header';
 import Head from 'next/head';
-import Footer from '@component/Footer';
-import UserInterface from '@interface/User';
+import Footer from '@components/Footer';
+import UserInterface from '@interfaces/User';
 
 
 const SignUp = (props) => {

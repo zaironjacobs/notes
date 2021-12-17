@@ -1,6 +1,6 @@
-import {query} from '@lib/db';
+import {query} from '@libs/db';
 import {hash} from 'bcrypt';
-import withSession from '@lib/session';
+import withSession from '@libs/session';
 import {v4 as uuidv4} from 'uuid';
 
 
