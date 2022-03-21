@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-import {Main as M} from '@style/GlobalStyle';
+import styled from 'styled-components'
+import { Main as M } from '@style/GlobalStyle'
 
-
-export const MainContainer = styled(M)``;
-
+export const MainContainer = styled(M)``

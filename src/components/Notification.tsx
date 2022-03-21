@@ -1,30 +1,31 @@
-import {useEffect, useState} from 'react';
-import {Content} from '@style/NotificationStyled';
-import global from 'global';
-
+import { useEffect, useState } from 'react'
+import { Content } from '@style/NotificationStyled'
+import global from 'global'
 
 const Notification = (props) => {
-    const [windowTimeout, setWindowTimeout] = useState(null);
+    const [windowTimeout, setWindowTimeout] = useState(null)
+    const { notificationState, notificationDispatch } = props
+
+    const windowTimeoutIsNull = windowTimeout !== null
 
     useEffect(() => {
-        if (windowTimeout !== null) {
-            clearTimeout(windowTimeout);
+        if (notificationState.isOn && notificationState.timeout > 0) {
+            setWindowTimeout(
+                setTimeout(() => {
+                    notificationDispatch({
+                        type: global.notificationActions.CLOSE_NOTIFICATION,
+                    })
+                    setWindowTimeout(null)
+                }, notificationState.timeout)
+            )
         }
-        if (props.notificationState.isOn && props.notificationState.timeout > 0) {
-            setWindowTimeout(setTimeout(() => {
-                props.notificationDispatch({type: global.notificationActions.CLOSE_NOTIFICATION});
-                setWindowTimeout(null);
-            }, props.notificationState.timeout));
-        }
-    }, [props.notificationState]);
+    }, [notificationState, notificationDispatch])
 
     return (
         <>
-            <Content isNotificationOn={props.notificationState.isOn}>
-                {props.notificationState.message}
-            </Content>
+            <Content isNotificationOn={props.notificationState.isOn}>{props.notificationState.message}</Content>
         </>
     )
 }
 
-export default Notification;
+export default Notification

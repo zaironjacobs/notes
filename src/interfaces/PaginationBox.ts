@@ -1,5 +1,5 @@
 export default interface PaginationInterface {
-    page: number | string,
-    isActive: boolean,
-    isNaN: boolean;
+    page: number | string
+    isActive: boolean
+    isNaN: boolean
 }

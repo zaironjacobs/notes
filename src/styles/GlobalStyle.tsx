@@ -1,6 +1,5 @@
-import styled, {createGlobalStyle} from 'styled-components';
-import theme from 'theme';
-
+import styled, { createGlobalStyle } from 'styled-components'
+import theme from 'theme'
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -50,21 +49,19 @@ export const GlobalStyle = createGlobalStyle`
   h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
   }
-`;
-
+`
 
 export const Main = styled.main`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  padding: 0 15px 0 15px;
-  min-height: calc(100vh - ${theme.header.mobileHeight} - ${theme.footer.mobileHeight});
-`;
-
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 15px 0 15px;
+    min-height: calc(100vh - ${theme.header.mobileHeight} - ${theme.footer.mobileHeight});
+`
 
 export const PageWrapper = styled.div`
-  max-width: 1100px;
-  width: 100%;
-  margin-top: 35px;
-`;
+    max-width: 1100px;
+    width: 100%;
+    margin-top: 35px;
+`

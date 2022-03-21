@@ -1,5 +1,4 @@
-import {withIronSession} from 'next-iron-session';
-
+import { withIronSession } from 'next-iron-session'
 
 const withSession = (handler) => {
     return withIronSession(handler, {
@@ -9,9 +8,9 @@ const withSession = (handler) => {
             secure: process.env.NODE_ENV !== 'development',
             sameSite: 'strict',
             maxAge: 3600 * 24,
-            path: '/'
+            path: '/',
         },
-    });
+    })
 }
 
-export default withSession;
+export default withSession

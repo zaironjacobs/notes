@@ -14,7 +14,7 @@ export default {
         login: '/login',
         note: '/note',
         notes: '/notes',
-        notfound404: '/404'
+        notfound404: '/404',
     },
 
     api: {
@@ -24,13 +24,13 @@ export default {
         logout: '/api/logout',
         note: '/api/note',
         notes: '/api/notes',
-        notesCount: '/api/notes-count'
+        notesCount: '/api/notes-count',
     },
 
     notificationTimeout: 5000,
 
     notificationActions: {
         SHOW_NOTIFICATION: 'show_notification',
-        CLOSE_NOTIFICATION: 'close_notification'
-    }
-};
+        CLOSE_NOTIFICATION: 'close_notification',
+    },
+}

@@ -1,17 +1,14 @@
-import {useEffect} from 'react';
-import {NextRouter, useRouter} from 'next/router';
-import global from 'global';
-
+import { useEffect } from 'react'
+import { NextRouter, useRouter } from 'next/router'
+import global from 'global'
 
 const Index = () => {
-    const router: NextRouter = useRouter();
+    const router: NextRouter = useRouter()
     useEffect(() => {
-        router.push(global.paths.login);
-    }, []);
+        router.push(global.paths.login)
+    })
 
-    return (
-        <></>
-    )
+    return <></>
 }
 
-export default Index;
+export default Index

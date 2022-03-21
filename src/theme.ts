@@ -1,10 +1,9 @@
 export default {
-
     media: {
         _480px: '@media (min-width: 480px)',
         _768px: '@media (min-width: 768px)',
         _992px: '@media (min-width: 992px)',
-        _1200px: '@media (min-width: 1200px)'
+        _1200px: '@media (min-width: 1200px)',
     },
 
     colors: {
@@ -34,16 +33,16 @@ export default {
 
     fonts: {
         audiowide: 'Audiowide',
-        openSans: 'Open Sans'
+        openSans: 'Open Sans',
     },
 
     header: {
         mobileHeight: '65px',
-        height: '75px'
+        height: '75px',
     },
 
     footer: {
         mobileHeight: '95px',
-        height: '95px'
-    }
-};
+        height: '95px',
+    },
+}

@@ -1,9 +1,9 @@
-const path = require('path');
-const envPath = path.resolve(process.cwd(), '.env.local');
+const path = require('path')
+const envPath = path.resolve(process.cwd(), '.env.local')
 
-require('dotenv').config({path: envPath});
+require('dotenv').config({ path: envPath })
 
-const mysql = require('serverless-mysql');
+const mysql = require('serverless-mysql')
 
 const db = mysql({
     config: {
@@ -17,17 +17,16 @@ const db = mysql({
 
 const query = async (q) => {
     try {
-        const results = await db.query(q);
-        await db.end();
-        return results;
+        const results = await db.query(q)
+        await db.end()
+        return results
     } catch (e) {
-        throw Error(e.message);
+        throw Error(e.message)
     }
-};
+}
 
 const migrate = async () => {
     try {
-
         await query(`
             CREATE TABLE IF NOT EXISTS user
             (
@@ -39,7 +38,7 @@ const migrate = async () => {
                 created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
                 updated_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
             );
-        `);
+        `)
 
         await query(`
             CREATE TABLE IF NOT EXISTS note
@@ -51,14 +50,14 @@ const migrate = async () => {
                 created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
                 updated_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
             );
-        `);
+        `)
 
-        console.log('migration ran successfully');
+        console.log('migration ran successfully')
     } catch (e) {
-        console.error('could not run migration');
-        console.error(e);
-        process.exit(1);
+        console.error('could not run migration')
+        console.error(e)
+        process.exit(1)
     }
 }
 
-migrate().then(() => process.exit());
+migrate().then(() => process.exit())
