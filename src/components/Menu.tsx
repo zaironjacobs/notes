@@ -1,4 +1,4 @@
-import { Content, Overlay } from '@style/MenuStyled'
+import { Content, Overlay } from '@styles/MenuStyled'
 import Link from 'next/link'
 import global from 'global'
 import axios, { AxiosResponse } from 'axios'

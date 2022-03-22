@@ -1,4 +1,4 @@
-import { Button } from '@style/BurgerStyled'
+import { Button } from '@styles/BurgerStyled'
 
 const Burger = (props) => {
     return (

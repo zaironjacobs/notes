@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from 'react'
-import { GlobalStyle } from '@style/GlobalStyle'
+import { GlobalStyle } from '@styles/GlobalStyle'
 import Layout from '@components/Layout'
 import Notification from '@components/Notification'
 import { SWRConfig } from 'swr'

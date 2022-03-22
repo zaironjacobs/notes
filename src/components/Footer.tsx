@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Content } from '@style/FooterStyled'
+import { Content } from '@styles/FooterStyled'
 
 const Footer = () => {
     return (

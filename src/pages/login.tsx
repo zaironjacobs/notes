@@ -1,4 +1,4 @@
-import { Content, Main, SignUpForm } from '@style/LoginStyled'
+import { Content, Main, SignUpForm } from '@styles/LoginStyled'
 import { MainButton } from '@components/MainButton'
 import { NextRouter, useRouter } from 'next/router'
 import { Formik, useField } from 'formik'

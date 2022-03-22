@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Main as M, PageWrapper as PW } from '@style/GlobalStyle'
+import { Main as M, PageWrapper as PW } from '@styles/GlobalStyle'
 import theme from 'theme'
 
 export const Main = styled(M)`

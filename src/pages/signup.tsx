@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { MainButton } from '@components/MainButton'
-import { Content, Main, SignUpForm } from '@style/SignUpStyled'
+import { Content, Main, SignUpForm } from '@styles/SignUpStyled'
 import { Formik, useField } from 'formik'
 import Link from 'next/link'
 import * as Yup from 'yup'

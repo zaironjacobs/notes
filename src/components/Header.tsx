@@ -1,4 +1,4 @@
-import { Content } from '@style/HeaderStyled'
+import { Content } from '@styles/HeaderStyled'
 import Burger from '@components/Burger'
 import Link from 'next/link'
 import global from 'global'

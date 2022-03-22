@@ -3,7 +3,7 @@
     "target": "es6",
     "baseUrl": "src",
     "paths": {
-      "@style/*": [
+      "@styles/*": [
         "styles/*"
       ],
       "@components/*": [

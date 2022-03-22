@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Content } from '@style/NotificationStyled'
+import { Content } from '@styles/NotificationStyled'
 import global from 'global'
 
 const Notification = (props) => {

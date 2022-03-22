@@ -1,4 +1,4 @@
-import { CreateNoteForm, Overlay, Popup } from '@style/PopupNewNoteStyled'
+import { CreateNoteForm, Overlay, Popup } from '@styles/PopupNewNoteStyled'
 import { PopupButton } from '@components/PopupButton'
 import React, { useRef, useState } from 'react'
 import { Formik, useField } from 'formik'

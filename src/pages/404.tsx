@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Main, NotFoundWrapper } from '@style/404Styled'
+import { Button, Main, NotFoundWrapper } from '@styles/404Styled'
 import Head from 'next/head'
 import global from 'global'
 import Link from 'next/link'

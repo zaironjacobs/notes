@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Main, NoteHeaderOne, NoteHeaderTwo, PageWrapper } from '@style/NoteStyled'
+import { Main, NoteHeaderOne, NoteHeaderTwo, PageWrapper } from '@styles/NoteStyled'
 import { NoteTextArea } from '@components/NoteTextArea'
 import { NoteInput } from '@components/NoteInput'
 import global from 'global'

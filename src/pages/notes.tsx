@@ -1,4 +1,4 @@
-import { Main, NotesHeaderOne, NotesHeaderTwo, PageWrapper, UserNote } from '@style/NotesStyled'
+import { Main, NotesHeaderOne, NotesHeaderTwo, PageWrapper, UserNote } from '@styles/NotesStyled'
 import global from 'global'
 import withSession from '@libs/session'
 import Menu from '@components/Menu'

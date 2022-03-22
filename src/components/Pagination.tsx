@@ -1,4 +1,4 @@
-import { Content } from '@style/PaginationStyled'
+import { Content } from '@styles/PaginationStyled'
 import PaginationBoxInterface from '@interfaces/PaginationBox'
 import { useEffect, useState } from 'react'
 

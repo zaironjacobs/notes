@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Overlay, Popup } from '@style/PopupConfirmationStyled'
+import { Overlay, Popup } from '@styles/PopupConfirmationStyled'
 import { PopupButton } from '@components/PopupButton'
 import useOnClickOutside from '@hooks/useOnClickOutside'
 
