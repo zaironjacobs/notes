@@ -9,18 +9,21 @@
 </div>
 
 ## Dependencies
+
 - [Node.js >= 14](https://nodejs.org)
 - [MySQL](https://dev.mysql.com/downloads/installer/)
 
-
 ## Download
+
 ```console
-$ git clone https://github.com/zaironjacobs/notes
+git clone https://github.com/zaironjacobs/notes
 ```
 
 ## Usage
+
 Copy the file .env.local.example to .env.local and fill in the environment variables.
 Example:
+
 ```
 MYSQL_HOST=localhost
 MYSQL_DATABASE=notes
@@ -31,6 +34,7 @@ SECRET=0RRDkRscGkAMA3329tjOWAYn8hw0Qykp
 ```
 
 Optional: MySQL configuration for max_allowed_packet:
+
 ```
 [mysqld]
 max_allowed_packet=16M
@@ -38,10 +42,15 @@ max_allowed_packet=16M
 
 Create a database called "notes" in MySQL before proceeding.
 
-To use:
+```bash
+npm install
+```
+
+## Run
+
 ```console
-$ cd notes
-$ npm install
-$ npm run migrate
-$ npm run build && npm run start
+npm install
+npm run migrate
+npm run build
+npm run start -- -p [PORT_NUMBER]
 ```
