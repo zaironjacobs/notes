@@ -44,13 +44,12 @@ Create a database called "notes" in MySQL before proceeding.
 
 ```bash
 npm install
+npm run migrate
+npm run build
 ```
 
 ## Run
 
 ```console
-npm install
-npm run migrate
-npm run build
 npm run start -- -p [PORT_NUMBER]
 ```
