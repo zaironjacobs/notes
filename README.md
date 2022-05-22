@@ -42,6 +42,8 @@ max_allowed_packet=16M
 
 Create a database called "notes" in MySQL before proceeding.
 
+## Install
+
 ```bash
 npm install
 npm run migrate
