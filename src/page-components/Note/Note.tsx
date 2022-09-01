@@ -1,12 +1,13 @@
 import { NextRouter, useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
-import { INote, INoteUpdate } from '@interfaces'
+import { INoteUpdate } from '@interfaces'
 import { global } from '@global'
 import {
     Back,
     Form,
     Loading,
     NoteEdit,
+    NoteFull,
     NoteHeader,
     NoteInput,
     NoteLock,
@@ -43,58 +44,47 @@ export const Note = () => {
     const base64NoteId = router.query.id as string
     const noteId = Buffer.from(base64NoteId, 'base64').toString()
     const [showDeleteNoteConfirmationModal, setShowDeleteNoteConfirmationModal] = useState<boolean>(false)
-    const [note, setNote] = useState<INote>(undefined as any)
     const editable = router.query.editable as string
     const [noteIsEditable, setNoteIsEditable] = useState<boolean>(editable?.toLowerCase() === 'true' || false)
+    const [noteIsFull, setNoteIsFull] = useState<boolean>(false)
     const user = useContext(UserContext)
 
-    const {
-        register,
-        setFocus,
-        reset,
-        watch,
-        formState: { errors },
-    } = useForm<INoteFormValues>({
+    const { register, setFocus, reset, getValues, watch } = useForm<INoteFormValues>({
         resolver: yupResolver(schema),
     })
-
-    // Set form initial values
-    useEffect(() => {
-        if (note) {
-            reset({ name: note.name, content: note.content })
-        }
-    }, [reset, note])
 
     // Set focus
     useEffect(() => {
         // setFocus('content')
     }, [setFocus])
 
+    const noteQuery = useQuery(['noteQuery', user.id], () => getNote(noteId), {
+        onSuccess: (note) => {
+            reset({ name: note.name, content: note.content })
+        },
+        refetchOnWindowFocus: false,
+    })
+
     useEffect(() => {
         const subscription = watch((data) => {
-            const noteFormValues: INoteFormValues = {
-                name: data.name || '',
-                content: data.content || '',
+            if (data.content) {
+                if (data.content.length >= global.maxNoteContent) {
+                    setNoteIsFull(true)
+                } else {
+                    setNoteIsFull(false)
+                }
             }
-            onSubmitForm(noteFormValues)
         })
         return () => subscription.unsubscribe()
     }, [watch])
-
-    useQuery(['noteQuery', user.id], () => getNote(noteId), {
-        onSuccess: (note) => {
-            setNote(note)
-        },
-        refetchOnWindowFocus: false
-    })
 
     // Save note
     const saveNote = () => {
         if (noteIsEditable) {
             const noteUpdate: INoteUpdate = {
                 id: noteId,
-                name: note.name,
-                content: note.content,
+                name: getValues('name'),
+                content: getValues('content'),
             }
             noteUpdateMutation.mutate(noteUpdate)
         }
@@ -158,23 +148,14 @@ export const Note = () => {
         setShowDeleteNoteConfirmationModal(false)
     }
 
-    // Submit form
-    function onSubmitForm(noteFormValues: INoteFormValues) {
-        setNote((prev) => {
-            prev.name = noteFormValues.name
-            prev.content = noteFormValues.content
-            return prev
-        })
-    }
-
     return (
         <>
             <Head>
-                <title>{`${note?.name || ''} – ${global.siteName}`}</title>
+                <title>{`${noteQuery.data?.name || ''} – ${global.siteName}`}</title>
             </Head>
 
             <Wrapper>
-                {note && (
+                {noteQuery.data && (
                     <>
                         {/* Confirmation modal */}
                         {showDeleteNoteConfirmationModal && (
@@ -228,9 +209,10 @@ export const Note = () => {
                                 {...register('content')}
                             />
                         </Form>
+                        {noteIsFull && <NoteFull>Note full</NoteFull>}
                     </>
                 )}
-                {!note && <Loading className="loading">Loading....</Loading>}
+                {!noteQuery.data && <Loading className="loading">Loading....</Loading>}
             </Wrapper>
         </>
     )

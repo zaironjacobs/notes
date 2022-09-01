@@ -192,3 +192,8 @@ export const Back = styled(FontAwesomeIcon)`
         font-size: 40px;
     }
 `
+
+export const NoteFull = styled.div`
+    margin-top: 0.5rem;
+    color: ${theme.colors.redLight};
+`
