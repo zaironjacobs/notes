@@ -10,7 +10,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL
  */
 export async function signUp(userCreate: IUserCreate) {
     await axios({
-        url: `${apiUrl}/api/sign-up`,
+        url: `${apiUrl}/sign-up`,
         method: 'post',
         data: { userCreate },
     })
@@ -24,7 +24,7 @@ export async function signUp(userCreate: IUserCreate) {
  */
 export async function login(email: string, password: string) {
     await axios({
-        url: `${apiUrl}/api/login`,
+        url: `${apiUrl}/login`,
         method: 'post',
         data: { email, password },
     })
@@ -35,7 +35,7 @@ export async function login(email: string, password: string) {
  */
 export async function logout() {
     await axios({
-        url: `${apiUrl}/api/logout`,
+        url: `${apiUrl}/logout`,
         method: 'post',
     })
 }
@@ -47,7 +47,7 @@ export async function logout() {
  */
 export async function getUser() {
     const { data }: AxiosResponse<IUser> = await axios({
-        url: `${apiUrl}/api/users/me`,
+        url: `${apiUrl}/users/me`,
         method: 'get',
     })
 
@@ -62,7 +62,7 @@ export async function getUser() {
  */
 export async function getNote(id: string) {
     const { data }: AxiosResponse<INote> = await axios({
-        url: `${apiUrl}/api/notes/${id}`,
+        url: `${apiUrl}/notes/${id}`,
         method: 'get',
     })
 
@@ -79,7 +79,7 @@ export async function getNote(id: string) {
  */
 export async function getNotes(page: number, limit: number, includeContent: boolean) {
     const { data }: AxiosResponse<INote[]> = await axios({
-        url: `${apiUrl}/api/notes?page=${page}&limit=${limit}&includeContent=${includeContent}`,
+        url: `${apiUrl}/notes?page=${page}&limit=${limit}&includeContent=${includeContent}`,
         method: 'get',
     })
 
@@ -93,7 +93,7 @@ export async function getNotes(page: number, limit: number, includeContent: bool
  */
 export async function getNotesCount() {
     const { data }: AxiosResponse<number> = await axios({
-        url: `${apiUrl}/api/notes/count`,
+        url: `${apiUrl}/notes/count`,
         method: 'get',
     })
 
@@ -108,7 +108,7 @@ export async function getNotesCount() {
  */
 export async function postNote(noteCreate: INoteCreate) {
     const { data }: AxiosResponse<string> = await axios({
-        url: `${apiUrl}/api/notes`,
+        url: `${apiUrl}/notes`,
         data: noteCreate,
         method: 'post',
     })
@@ -123,7 +123,7 @@ export async function postNote(noteCreate: INoteCreate) {
  */
 export async function updateNote(noteUpdate: INoteUpdate) {
     await axios({
-        url: `${apiUrl}/api/notes/${noteUpdate.id}`,
+        url: `${apiUrl}/notes/${noteUpdate.id}`,
         data: noteUpdate,
         method: 'put',
     })
@@ -136,7 +136,7 @@ export async function updateNote(noteUpdate: INoteUpdate) {
  */
 export async function deleteNote(id: string) {
     await axios({
-        url: `${apiUrl}/api/notes/${id}`,
+        url: `${apiUrl}/notes/${id}`,
         method: 'delete',
     })
 }
