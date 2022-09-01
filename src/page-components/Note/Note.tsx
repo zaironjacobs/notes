@@ -35,7 +35,7 @@ interface INoteFormValues {
 }
 
 const schema = yup.object().shape({
-    name: yup.string().required('Required'),
+    name: yup.string().max(global.maxNoteNameLength).required('Required'),
     content: yup.string().max(global.maxNoteContent),
 })
 
