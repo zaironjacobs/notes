@@ -13,12 +13,6 @@
 - [Node.js >= 14](https://nodejs.org)
 - [MySQL](https://dev.mysql.com/downloads/installer/)
 
-## Download
-
-```console
-git clone https://github.com/zaironjacobs/notes
-```
-
 ## Usage
 
 Copy the file .env.local.example to .env.local and fill in the environment variables.
@@ -32,15 +26,6 @@ MYSQL_PASSWORD=password
 MYSQL_PORT=3306
 SECRET=1234567890
 ```
-
-Optional: MySQL configuration for max_allowed_packet:
-
-```
-[mysqld]
-max_allowed_packet=16M
-```
-
-Create a database called "notes" in MySQL before proceeding.
 
 ## Install
 
