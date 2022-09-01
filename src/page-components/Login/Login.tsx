@@ -31,6 +31,7 @@ export const Login = () => {
         formState: { errors },
     } = useForm<ILoginFormValues>({
         resolver: yupResolver(schema),
+        defaultValues: { email: process.env.NEXT_PUBLIC_DEMO_EMAIL, password: process.env.NEXT_PUBLIC_DEMO_PASSWORD },
     })
 
     const loginMutation = useMutation(
