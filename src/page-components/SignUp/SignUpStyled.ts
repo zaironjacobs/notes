@@ -22,7 +22,7 @@ export const Input = styled.input`
     height: 45px;
     padding: 8px;
     border-radius: ${theme.borderRadius};
-    border: 1px solid ${theme.colors.greyDark};
+    border: 1px solid ${theme.colors.grayDark};
     margin-top: 20px;
 
     :first-of-type {

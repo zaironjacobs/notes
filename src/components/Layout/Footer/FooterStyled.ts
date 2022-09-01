@@ -10,7 +10,7 @@ export const Content = styled.footer`
     width: 100%;
     height: ${theme.footer.mobileHeight};
     background-color: ${theme.colors.white};
-    border-top: 1px solid ${theme.colors.greyLight};
+    border-top: 1px solid ${theme.colors.grayLight};
     padding: 15px 15px 15px 15px;
 `
 
@@ -19,7 +19,7 @@ export const GitHubIconWrapper = styled.div`
 `
 
 export const GitHubIcon = styled(FontAwesomeIcon)`
-    color: ${theme.colors.greyDark};
+    color: ${theme.colors.grayDark};
     font-size: 25px;
     transition: 0.3s;
 
@@ -29,7 +29,7 @@ export const GitHubIcon = styled(FontAwesomeIcon)`
 `
 
 export const BuiltBy = styled.a`
-    color: ${theme.colors.greyDark};
+    color: ${theme.colors.grayDark};
     cursor: pointer;
     transition: 0.3s;
 

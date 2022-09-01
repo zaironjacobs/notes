@@ -198,10 +198,10 @@ export const Note = () => {
                                         <FontAwesomeIcon icon={faLock} />
                                     </NoteLock>
                                 )}
-                                <NoteSave onClick={onSaveClick}>
+                                <NoteSave noteIsEditable={noteIsEditable} onClick={onSaveClick}>
                                     <FontAwesomeIcon icon={faCheck} />
                                 </NoteSave>
-                                <NoteTrash onClick={onTrashClick}>
+                                <NoteTrash noteIsEditable={noteIsEditable} onClick={onTrashClick}>
                                     <FontAwesomeIcon icon={faTrash} />
                                 </NoteTrash>
                             </NoteOptionsWrapper>

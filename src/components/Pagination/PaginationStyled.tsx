@@ -24,7 +24,7 @@ export const Content = styled.nav`
         align-items: center;
         width: 35px;
         height: 35px;
-        background-color: ${theme.colors.greyLighter};
+        background-color: ${theme.colors.grayLighter};
         font-size: 16px;
         cursor: pointer;
         border-radius: 5px;
@@ -48,16 +48,16 @@ export const Content = styled.nav`
         cursor: default;
 
         :hover {
-            background-color: ${theme.colors.greyLighter};
+            background-color: ${theme.colors.grayLighter};
         }
     }
 
     .disabled-x-than {
-        color: ${theme.colors.greyLight};
+        color: ${theme.colors.grayLight};
         cursor: unset;
 
         :hover {
-            background-color: ${theme.colors.greyLighter};
+            background-color: ${theme.colors.grayLighter};
         }
     }
 `

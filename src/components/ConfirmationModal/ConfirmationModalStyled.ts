@@ -53,7 +53,7 @@ export const Button = styled.button`
     transition: 0.3s;
     font-size: 18px;
     font-weight: 400;
-    background-color: ${theme.colors.greyLight};
+    background-color: ${theme.colors.grayLight};
 
     :hover {
         box-shadow: rgba(149, 157, 165, 0.25) 0 8px 24px;

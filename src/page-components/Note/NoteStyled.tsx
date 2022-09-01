@@ -2,6 +2,10 @@ import styled from 'styled-components'
 import { theme } from '@theme'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+interface INoteIsEditableProps {
+    noteIsEditable: boolean
+}
+
 export const Wrapper = styled.div`
     max-width: 64rem;
     width: 100%;
@@ -23,10 +27,10 @@ export const NoteEdit = styled.div`
     cursor: pointer;
     transition: 0.3s;
     margin-left: 25px;
-    color: ${theme.colors.greyDark};
+    color: ${theme.colors.yellowNormal};
 
     :hover {
-        color: ${theme.colors.greyNormal};
+        color: ${theme.colors.yellowLight};
     }
 
     :after {
@@ -47,10 +51,10 @@ export const NoteLock = styled.div`
     cursor: pointer;
     transition: 0.3s;
     margin-left: 25px;
-    color: ${theme.colors.greyDark};
+    color: ${theme.colors.grayDark};
 
     :hover {
-        color: ${theme.colors.greyNormal};
+        color: ${theme.colors.grayNormal};
     }
 
     :after {
@@ -69,15 +73,15 @@ export const NoteOptionsWrapper = styled.div`
     justify-content: end;
     position: relative;
 `
-export const NoteTrash = styled.div`
+export const NoteTrash = styled.div<INoteIsEditableProps>`
     text-align: center;
     font-weight: 600;
     font-size: 24px;
     right: 10px;
     margin-left: 25px;
     transition: 0.3s;
-    color: ${theme.colors.redNormal};
-    cursor: pointer;
+    color: ${(props) => (props.noteIsEditable ? theme.colors.redNormal : theme.colors.grayDark)};
+    cursor: ${(props) => (props.noteIsEditable ? 'pointer' : 'undefined')};
 
     :after {
         content: 'delete';
@@ -86,7 +90,7 @@ export const NoteTrash = styled.div`
     }
 
     :hover {
-        color: ${theme.colors.redLight};
+        color: ${(props) => (props.noteIsEditable ? theme.colors.redLight : null)};
     }
 
     ${theme.media._768px} {
@@ -94,13 +98,13 @@ export const NoteTrash = styled.div`
     }
 `
 
-export const NoteSave = styled.div`
+export const NoteSave = styled.div<INoteIsEditableProps>`
     text-align: center;
     font-size: 24px;
     font-weight: 600;
     right: 0;
-    color: ${theme.colors.greenNormal};
-    cursor: pointer;
+    color: ${(props) => (props.noteIsEditable ? theme.colors.greenNormal : theme.colors.grayDark)};
+    cursor: ${(props) => (props.noteIsEditable ? 'pointer' : 'undefined')};
     transition: 0.3s;
     margin-left: 25px;
 
@@ -111,7 +115,7 @@ export const NoteSave = styled.div`
     }
 
     :hover {
-        color: ${theme.colors.greenLight};
+        color: ${(props) => (props.noteIsEditable ? theme.colors.greenLight : null)};
     }
 
     ${theme.media._768px} {
@@ -133,14 +137,14 @@ export const NoteInput = styled.input`
     width: 100%;
     padding: 10px;
     color: ${theme.colors.black};
-    border: 1px solid ${theme.colors.greyLight};
+    border: 1px solid ${theme.colors.grayLight};
     border-radius: ${theme.borderRadius};
     cursor: text;
     box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0 inset;
 
     :disabled {
         color: ${theme.colors.black};
-        background-color: ${theme.colors.greyLighter};
+        background-color: ${theme.colors.grayLighter};
         box-shadow: none;
     }
 `
@@ -153,7 +157,7 @@ export const NoteTextArea = styled.textarea`
     padding: 10px;
     font-weight: 400;
     font-size: 18px;
-    border: 1px solid ${theme.colors.greyLight};
+    border: 1px solid ${theme.colors.grayLight};
     border-radius: ${theme.borderRadius};
     color: ${theme.colors.black};
     cursor: text;
@@ -161,7 +165,7 @@ export const NoteTextArea = styled.textarea`
 
     :disabled {
         color: ${theme.colors.black};
-        background-color: ${theme.colors.greyLighter};
+        background-color: ${theme.colors.grayLighter};
         box-shadow: none;
     }
 `

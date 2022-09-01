@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     background-color: ${theme.colors.white};
     text-rendering: optimizeLegibility;
-    color: ${theme.colors.greyDark};
+    color: ${theme.colors.grayDark};
     font-weight: 400;
     font-size: 16px;
     font-family: ${theme.fonts.openSans}, sans-serif;
@@ -28,6 +28,6 @@ export const GlobalStyle = createGlobalStyle`
 
   a {
     text-decoration: none;
-    color: ${theme.colors.greyDark};
+    color: ${theme.colors.grayDark};
   }
 `

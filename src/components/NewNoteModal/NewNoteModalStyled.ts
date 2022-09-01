@@ -46,7 +46,7 @@ export const Form = styled.form`
 
 export const Input = styled.input`
     box-shadow: rgba(0, 0, 0, 0.07) 0 2px 4px 0 inset;
-    border: 1px solid ${theme.colors.greyLight};
+    border: 1px solid ${theme.colors.grayLight};
     border-radius: ${theme.borderRadius};
     padding: 10px;
     margin-bottom: 0.5rem;

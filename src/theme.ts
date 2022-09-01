@@ -15,10 +15,10 @@ export const theme = {
         blueNormal: '#0687db',
         blueDark: '#005ea9',
 
-        greyLighter: '#f8f8f8',
-        greyLight: '#dbdbdb',
-        greyNormal: '#84898f',
-        greyDark: '#444a51',
+        grayLighter: '#f8f8f8',
+        grayLight: '#dbdbdb',
+        grayNormal: '#84898f',
+        grayDark: '#444a51',
 
         greenLight: '#8cd276',
         greenNormal: '#63c146',
@@ -27,6 +27,9 @@ export const theme = {
         redLight: '#ef5562',
         redNormal: '#E42535',
         redDark: '#bc1522',
+
+        yellowNormal: '#FCBA04',
+        yellowLight: '#ffd36a',
     },
 
     borderRadius: '5px',

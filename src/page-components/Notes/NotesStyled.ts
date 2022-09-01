@@ -59,7 +59,7 @@ export const NoteUpload = styled.div`
     cursor: pointer;
     transition: 0.3s;
     margin-left: 25px;
-    color: ${theme.colors.greyDark};
+    color: ${theme.colors.grayDark};
 
     ::after {
         content: 'upload';
@@ -68,7 +68,7 @@ export const NoteUpload = styled.div`
     }
 
     :hover {
-        color: ${theme.colors.greyNormal};
+        color: ${theme.colors.grayNormal};
     }
 
     ${theme.media._768px} {
@@ -119,12 +119,12 @@ export const SingleNote = styled.div`
     width: 100%;
     font-size: 18px;
     height: 45px;
-    border-bottom: 1px solid ${theme.colors.greyDark};
+    border-bottom: 1px solid ${theme.colors.grayDark};
     margin-bottom: 1rem;
     transition: 0.1s ease-in-out;
 
     :hover {
-        background-color: ${theme.colors.greyLighter};
+        background-color: ${theme.colors.grayLighter};
     }
 `
 
