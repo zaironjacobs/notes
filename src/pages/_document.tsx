@@ -1,34 +1,9 @@
-import Document, { Head, Html, Main, NextScript } from 'next/document'
+import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 import React from 'react'
 
 class MyDocument extends Document {
-    render() {
-        return (
-            <Html>
-                <Head>
-                    <link rel="preconnect" href="https://fonts.gstatic.com" />
-                    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
-                    <link
-                        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap"
-                        rel="stylesheet"
-                    />
-                    <link
-                        rel="stylesheet"
-                        href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
-                        integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
-                        crossOrigin="anonymous"
-                    />
-                </Head>
-                <body>
-                    <Main />
-                    <NextScript />
-                </body>
-            </Html>
-        )
-    }
-
-    static async getInitialProps(ctx) {
+    static async getInitialProps(ctx: DocumentContext) {
         const sheet = new ServerStyleSheet()
         const originalRenderPage = ctx.renderPage
 
@@ -51,6 +26,45 @@ class MyDocument extends Document {
         } finally {
             sheet.seal()
         }
+    }
+
+    render() {
+        return (
+            <Html>
+                <Head>
+                    <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+                    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+                    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+                    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+                    <link rel="manifest" href="/manifest.json" />
+                    <meta name="description" content="Notes" />
+
+                    <meta name="title" content="Notes" />
+                    <meta name="description" content="Notes app" />
+                    <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+
+                    <meta property="og:image" content="" />
+                    <meta property="og:image:alt" content="" />
+                    <meta property="og:type" content="website" />
+                    <meta property="og:url" content="https://notes.zaironjacobs.com" />
+                    <meta property="og:title" content="Notes" />
+                    <meta property="og:site_name" content="Notes" />
+                    <meta property="og:description" content="Notes app" />
+                    <meta property="og:locale" content="en_US" />
+
+                    <meta name="twitter:card" content="summary_large_image" />
+                    <meta property="twitter:domain" content="notes.zaironjacobs.com" />
+                    <meta property="twitter:url" content="https://notes.zaironjacobs.com/" />
+                    <meta name="twitter:title" content="Notes" />
+                    <meta name="twitter:description" content="Notes" />
+                    <meta name="twitter:image" content="" />
+                </Head>
+                <body>
+                    <Main />
+                    <NextScript />
+                </body>
+            </Html>
+        )
     }
 }
 

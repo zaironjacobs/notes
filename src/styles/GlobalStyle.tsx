@@ -1,5 +1,5 @@
-import styled, { createGlobalStyle } from 'styled-components'
-import theme from 'theme'
+import { createGlobalStyle } from 'styled-components'
+import { theme } from '@theme'
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -10,16 +10,6 @@ export const GlobalStyle = createGlobalStyle`
     color: ${theme.colors.greyDark};
     font-weight: 400;
     font-size: 16px;
-  }
-
-  button, input, textarea {
-    font-size: 16px;
-    border: none;
-    outline: none;
-    font-family: inherit;
-  }
-
-  body, input, textarea, button {
     font-family: ${theme.fonts.openSans}, sans-serif;
   }
 
@@ -32,36 +22,12 @@ export const GlobalStyle = createGlobalStyle`
     background: ${theme.colors.blueNormal};
   }
 
+  p {
+    margin: 0;
+  }
+
   a {
-    color: ${theme.colors.blueNormal};
-    text-decoration: underline solid transparent;
-    transition: .3s ease;
-
-    :hover {
-      text-decoration: underline solid ${theme.colors.blueLight};
-    }
+    text-decoration: none;
+    color: ${theme.colors.greyDark};
   }
-
-  img {
-    color: transparent;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 400;
-  }
-`
-
-export const Main = styled.main`
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    padding: 0 15px 0 15px;
-    min-height: calc(100vh - ${theme.header.mobileHeight} - ${theme.footer.mobileHeight});
-`
-
-export const PageWrapper = styled.div`
-    max-width: 1100px;
-    width: 100%;
-    margin-top: 35px;
 `

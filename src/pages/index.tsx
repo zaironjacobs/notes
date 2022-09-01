@@ -1,14 +1,3 @@
-import { useEffect } from 'react'
-import { NextRouter, useRouter } from 'next/router'
-import global from 'global'
+import { Home } from '@page-components/Home'
 
-const Index = () => {
-    const router: NextRouter = useRouter()
-    useEffect(() => {
-        router.push(global.paths.login)
-    })
-
-    return <></>
-}
-
-export default Index
+export default Home

@@ -1,4 +1,4 @@
-export default {
+export const global = {
     siteName: 'Notes',
 
     paginationLimit: 5,
@@ -7,30 +7,4 @@ export default {
     maxNoteContent: 15000000,
 
     maxNoteNameLength: 30,
-
-    paths: {
-        index: '/',
-        signUp: '/signup',
-        login: '/login',
-        note: '/note',
-        notes: '/notes',
-        notfound404: '/404',
-    },
-
-    api: {
-        user: '/api/user',
-        signUp: '/api/signup',
-        login: '/api/login',
-        logout: '/api/logout',
-        note: '/api/note',
-        notes: '/api/notes',
-        notesCount: '/api/notes-count',
-    },
-
-    notificationTimeout: 5000,
-
-    notificationActions: {
-        SHOW_NOTIFICATION: 'show_notification',
-        CLOSE_NOTIFICATION: 'close_notification',
-    },
 }

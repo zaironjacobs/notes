@@ -1,10 +1,10 @@
-import withSession from '@libs/session'
+import { withSessionRoute } from '@libs/with-session'
 
-export default withSession(async (req, res) => {
-    // Logout user
+export default withSessionRoute(async (req, res) => {
+    // Logout
     if (req.method === 'POST') {
         req.session.destroy()
-        return res.status(200).json({ message: 'Logged out' })
+        return res.status(200).json({})
     } else {
         return res.status(405).json({ message: 'Invalid method' })
     }

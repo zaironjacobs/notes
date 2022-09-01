@@ -30,7 +30,7 @@ MYSQL_DATABASE=notes
 MYSQL_USERNAME=username
 MYSQL_PASSWORD=password
 MYSQL_PORT=3306
-SECRET=0RRDkRscGkAMA3329tjOWAYn8hw0Qykp
+SECRET=1234567890
 ```
 
 Optional: MySQL configuration for max_allowed_packet:

@@ -1,39 +1,37 @@
-import { query } from '@libs/db'
+import { executeQuery } from '@libs/db'
 import { compare } from 'bcrypt'
-import withSession from '@libs/session'
-import UserInterface from '@interfaces/User'
+import { withSessionRoute } from '@libs/with-session'
 
-export default withSession(async (req, res) => {
+export default withSessionRoute(async (req, res) => {
+    // Login
     if (req.method === 'POST') {
         const { email, password } = req.body
         try {
-            const results = await query(
+            const result = (await executeQuery(
                 `
-                    SELECT id, first_name, last_name, email, password
-                    FROM user
-                    WHERE email = '${email}';
+                SELECT id, first_name, last_name, email, password
+                FROM user
+                WHERE email = '${email}';
                 `
-            )
-            const user = results[0]
-            const match = await compare(password, user['password'])
+            )) as any
+            const dbUser = result[0]
+            const match = await compare(password, dbUser.password)
             if (match) {
-                const responseUser: UserInterface = {
-                    id: user.id,
-                    firstName: user.first_name,
-                    lastName: user.last_name,
-                    email: user.email,
-                    isLoggedIn: true,
+                req.session.user = {
+                    id: dbUser.id,
+                    firstName: dbUser.first_name,
+                    lastName: dbUser.last_name,
+                    email: dbUser.email,
                 }
-                req.session.set('user', responseUser)
                 await req.session.save()
-                return res.status(200).json({ message: 'Login success' })
+                return res.status(200).json({})
             } else {
-                return res.status(500).json({ message: 'Login failed' })
+                return res.status(500).json({ detail: 'Login failed' })
             }
         } catch (error) {
-            return res.status(500).json({ message: 'Login failed' })
+            return res.status(500).json({ detail: 'Login failed' })
         }
     } else {
-        return res.status(405).json({ message: 'Invalid method' })
+        return res.status(405).json({ detail: 'Invalid method' })
     }
 })
