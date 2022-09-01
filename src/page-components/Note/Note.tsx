@@ -85,6 +85,7 @@ export const Note = () => {
         onSuccess: (note) => {
             setNote(note)
         },
+        refetchOnWindowFocus: false
     })
 
     // Save note
