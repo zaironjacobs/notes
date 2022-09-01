@@ -1,5 +1,5 @@
 import { NextRouter, useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { INote, INoteUpdate } from '@interfaces'
 import { global } from '@global'
 import {
@@ -26,6 +26,7 @@ import { deleteNote, getNote, updateNote } from '@services/api'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { UserContext } from '@contexts/User'
 
 interface INoteFormValues {
     name: string
@@ -45,6 +46,7 @@ export const Note = () => {
     const [note, setNote] = useState<INote>(undefined as any)
     const editable = router.query.editable as string
     const [noteIsEditable, setNoteIsEditable] = useState<boolean>(editable?.toLowerCase() === 'true' || false)
+    const user = useContext(UserContext)
 
     const {
         register,
@@ -79,7 +81,7 @@ export const Note = () => {
         return () => subscription.unsubscribe()
     }, [watch])
 
-    useQuery(['noteQuery'], () => getNote(noteId), {
+    useQuery(['noteQuery', user.id], () => getNote(noteId), {
         onSuccess: (note) => {
             setNote(note)
         },
@@ -97,12 +99,12 @@ export const Note = () => {
         }
     }
 
-    const noteUpdateMutation = useMutation('noteUpdateMutation', (noteUpdate: INoteUpdate) => {
+    const noteUpdateMutation = useMutation(['noteUpdateMutation', user.id], (noteUpdate: INoteUpdate) => {
         return updateNote(noteUpdate)
     })
 
     const noteDeleteMutation = useMutation(
-        'noteDeleteMutation',
+        ['noteDeleteMutation', user.id],
         (id: string) => {
             return deleteNote(id)
         },

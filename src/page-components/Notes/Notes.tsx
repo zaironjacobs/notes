@@ -1,6 +1,5 @@
 import {
     AllNotesCheckbox,
-    Wrapper,
     InputCheckbox,
     InputFile,
     NoteName,
@@ -12,9 +11,10 @@ import {
     NoteUpload,
     SingleNote,
     Title,
+    Wrapper,
 } from './NotesStyled'
 import { global } from '@global'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useContext, useState } from 'react'
 import Head from 'next/head'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { deleteNote, getNotes, getNotesCount, postNote } from '@services/api'
@@ -26,6 +26,7 @@ import { ConfirmationModal } from '@components/ConfirmationModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileUpload, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
+import { UserContext } from '@contexts/User'
 
 export const Notes = () => {
     const [currentPage, setCurrentPage] = useState<number>(1)
@@ -35,11 +36,14 @@ export const Notes = () => {
     const router = useRouter()
     const showTrash = notesCheckedId.length > 0
     const queryClient = useQueryClient()
+    const user = useContext(UserContext)
 
-    const notesQuery = useQuery(['notesQuery', currentPage], () => getNotes(currentPage, global.paginationLimit, false))
+    const notesQuery = useQuery(['notesQuery', currentPage, user.id], () =>
+        getNotes(currentPage, global.paginationLimit, false)
+    )
 
     const noteCreateMutation = useMutation(
-        'noteCreateMutation',
+        ['noteCreateMutation', user.id],
         (noteCreate: INoteCreate) => {
             return postNote(noteCreate)
         },
@@ -55,7 +59,7 @@ export const Notes = () => {
     )
 
     const noteDeleteMutation = useMutation(
-        'noteDeleteMutation',
+        ['noteDeleteMutation', user.id],
         (id: string) => {
             return deleteNote(id)
         },
@@ -68,7 +72,7 @@ export const Notes = () => {
         }
     )
 
-    const notesCountQuery = useQuery('notesCountQuery', getNotesCount)
+    const notesCountQuery = useQuery(['notesCountQuery', user.id], getNotesCount)
 
     // Calculate total pages
     const totalPages = calculateTotalPages(notesCountQuery.data || 1)
