@@ -35,7 +35,7 @@ interface INoteFormValues {
 
 const schema = yup.object().shape({
     name: yup.string().required('Required'),
-    content: yup.string(),
+    content: yup.string().max(global.maxNoteContent),
 })
 
 export const Note = () => {
@@ -227,8 +227,6 @@ export const Note = () => {
                                 {...register('content')}
                             />
                         </Form>
-
-                        <div>{note.content.length >= global.maxNoteContent ? 'Note full' : ''}</div>
                     </>
                 )}
                 {!note && <Loading className="loading">Loading....</Loading>}
