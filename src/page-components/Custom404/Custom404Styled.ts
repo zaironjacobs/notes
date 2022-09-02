@@ -16,11 +16,11 @@ export const NotFoundCode = styled.p`
     line-height: 1;
     text-transform: uppercase;
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 140px;
     }
 
-    ${theme.media._1200px} {
+    ${theme.media.xl} {
         font-size: 160px;
     }
 `
@@ -29,11 +29,11 @@ export const NotFoundText = styled.p`
     font-size: 20px;
     text-transform: uppercase;
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 24px;
     }
 
-    ${theme.media._1200px} {
+    ${theme.media.xl} {
         font-size: 26px;
     }
 `
@@ -53,7 +53,7 @@ export const Button = styled.button`
         box-shadow: rgba(149, 157, 165, 0.18) 0 8px 24px;
     }
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         max-width: 135px;
         height: 50px;
         font-size: 24px;

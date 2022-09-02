@@ -49,14 +49,9 @@ export const Note = () => {
     const [noteIsFull, setNoteIsFull] = useState<boolean>(false)
     const user = useContext(UserContext)
 
-    const { register, setFocus, reset, getValues, watch } = useForm<INoteFormValues>({
+    const { register, reset, getValues, watch } = useForm<INoteFormValues>({
         resolver: yupResolver(schema),
     })
-
-    // Set focus
-    useEffect(() => {
-        // setFocus('content')
-    }, [setFocus])
 
     const noteQuery = useQuery(['noteQuery', user.id], () => getNote(noteId), {
         onSuccess: (note) => {
@@ -64,31 +59,6 @@ export const Note = () => {
         },
         refetchOnWindowFocus: false,
     })
-
-    useEffect(() => {
-        const subscription = watch((data) => {
-            if (data.content) {
-                if (data.content.length >= global.maxNoteContent) {
-                    setNoteIsFull(true)
-                } else {
-                    setNoteIsFull(false)
-                }
-            }
-        })
-        return () => subscription.unsubscribe()
-    }, [watch])
-
-    // Save note
-    const saveNote = () => {
-        if (noteIsEditable) {
-            const noteUpdate: INoteUpdate = {
-                id: noteId,
-                name: getValues('name'),
-                content: getValues('content'),
-            }
-            noteUpdateMutation.mutate(noteUpdate)
-        }
-    }
 
     const noteUpdateMutation = useMutation(['noteUpdateMutation', user.id], (noteUpdate: INoteUpdate) => {
         return updateNote(noteUpdate)
@@ -106,13 +76,25 @@ export const Note = () => {
         }
     )
 
+    // Save note
+    function saveNote() {
+        if (noteIsEditable) {
+            const noteUpdate: INoteUpdate = {
+                id: noteId,
+                name: getValues('name'),
+                content: getValues('content'),
+            }
+            noteUpdateMutation.mutate(noteUpdate)
+        }
+    }
+
     // Delete notes
-    async function deleteCurrentNote() {
+    function deleteCurrentNote() {
         noteDeleteMutation.mutate(noteId)
     }
 
     // Go to previous page
-    const goToPreviousPage = async () => {
+    function goToPreviousPage() {
         router.push('/notes').then()
     }
 
@@ -148,12 +130,25 @@ export const Note = () => {
         setShowDeleteNoteConfirmationModal(false)
     }
 
+    // Check if note content is full
+    useEffect(() => {
+        const subscription = watch((data) => {
+            if (data.content) {
+                if (data.content.length >= global.maxNoteContent) {
+                    setNoteIsFull(true)
+                } else {
+                    setNoteIsFull(false)
+                }
+            }
+        })
+        return () => subscription.unsubscribe()
+    }, [watch])
+
     return (
         <>
             <Head>
                 <title>{`${noteQuery.data?.name || ''} – ${global.siteName}`}</title>
             </Head>
-
             <Wrapper>
                 {noteQuery.data && (
                     <>

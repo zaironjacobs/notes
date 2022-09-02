@@ -2,7 +2,6 @@ import { Button, NotFoundCode, NotFoundText, Wrapper } from '@page-components/Cu
 import Head from 'next/head'
 import { global } from '@global'
 import Link from 'next/link'
-import React from 'react'
 
 export const Custom404 = () => {
     return (

@@ -51,7 +51,7 @@ export const Login = () => {
     )
 
     // On submit form
-    async function onSubmitForm(loginValues: ILoginFormValues) {
+    function onSubmitForm(loginValues: ILoginFormValues) {
         loginMutation.mutate(loginValues)
     }
 

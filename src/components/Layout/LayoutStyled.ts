@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { theme } from '@theme'
 
-export const PageWrapper = styled.main`
+export const Wrapper = styled.main`
     display: flex;
     align-items: center;
     flex-direction: column;

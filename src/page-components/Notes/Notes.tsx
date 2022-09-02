@@ -32,7 +32,7 @@ export const Notes = () => {
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [notesCheckedId, setNotesCheckedId] = useState<string[]>([])
     const [showNewNoteModal, setShowNewNoteModal] = useState<boolean>(false)
-    const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false)
+    const [showDeleteNotesConfirmationModal, setShowDeleteNotesConfirmationModal] = useState<boolean>(false)
     const router = useRouter()
     const showTrash = notesCheckedId.length > 0
     const queryClient = useQueryClient()
@@ -53,7 +53,7 @@ export const Notes = () => {
                 await queryClient.invalidateQueries('notesCountQuery')
                 await queryClient.invalidateQueries('notesQuery')
 
-                router.push(`/notes/${base64Encode(id)}?editable=true`).then()
+                router.push(`/notes/${base64EncodeId(id)}?editable=true`).then()
             },
         }
     )
@@ -82,12 +82,12 @@ export const Notes = () => {
         return Math.ceil(notesCount / global.paginationLimit)
     }
 
-    // Delete all checked notes
-    async function deleteSelectedNotes() {
+    // Delete all selected notes
+    function deleteSelectedNotes() {
         for (const id of notesCheckedId) {
             noteDeleteMutation.mutate(id)
         }
-        setShowConfirmationModal(false)
+        setShowDeleteNotesConfirmationModal(false)
 
         // Go to previous page if current page becomes empty
         if (notesQuery.data) {
@@ -121,7 +121,8 @@ export const Notes = () => {
             await createNote(noteCreate)
             await notesQuery.refetch()
         }
-        reader.onerror = () => {}
+        reader.onerror = () => {
+        }
     }
 
     // Add or remove the id of the selected notes to selectedNotesId
@@ -136,8 +137,8 @@ export const Notes = () => {
         }
     }
 
-    // Toggle all notes check
-    function toggleNotesCheck() {
+    // Toggle all notes
+    function toggleCheckNotes() {
         if (!notesQuery.data) return
 
         // Uncheck or check notes
@@ -175,15 +176,18 @@ export const Notes = () => {
         setShowNewNoteModal(false)
     }
 
-    function openConfirmationModal() {
-        setShowConfirmationModal(true)
+    // Open modal
+    function openDeleteNotesConfirmationModal() {
+        setShowDeleteNotesConfirmationModal(true)
     }
 
-    function closeConfirmationModal() {
-        setShowConfirmationModal(false)
+    // Close modal
+    function closeDeleteNotesConfirmationModal() {
+        setShowDeleteNotesConfirmationModal(false)
     }
 
-    function base64Encode(id: string) {
+    // Base 64 encode id
+    function base64EncodeId(id: string) {
         return Buffer.from(id).toString('base64')
     }
 
@@ -192,14 +196,13 @@ export const Notes = () => {
             <Head>
                 <title>{`My notes – ${global.siteName}`}</title>
             </Head>
-
             <Wrapper>
                 {/* Confirmation Popup */}
-                {showConfirmationModal && (
+                {showDeleteNotesConfirmationModal && (
                     <ConfirmationModal
                         text="Delete all selected notes?"
                         action={deleteSelectedNotes}
-                        closeModal={closeConfirmationModal}
+                        closeModal={closeDeleteNotesConfirmationModal}
                     />
                 )}
 
@@ -211,7 +214,7 @@ export const Notes = () => {
                     <Title>My notes</Title>
                     <NotesHeaderOneLeft>
                         {showTrash && (
-                            <NoteTrash onClick={openConfirmationModal}>
+                            <NoteTrash onClick={openDeleteNotesConfirmationModal}>
                                 <FontAwesomeIcon icon={faTrash} />
                             </NoteTrash>
                         )}
@@ -232,7 +235,7 @@ export const Notes = () => {
                     <NotesHeaderTwo>
                         <AllNotesCheckbox
                             checked={notesCheckedId.length === notesQuery.data.length}
-                            onChange={toggleNotesCheck}
+                            onChange={toggleCheckNotes}
                         ></AllNotesCheckbox>
                     </NotesHeaderTwo>
                 )}
@@ -242,7 +245,7 @@ export const Notes = () => {
                     notesQuery.data.map((note) => (
                         <SingleNote key={note.id}>
                             <InputCheckbox checked={note.isChecked} onChange={(e) => onNoteCheckboxChange(e, note)} />
-                            <Link href={`/notes/${base64Encode(note.id)}`}>
+                            <Link href={`/notes/${base64EncodeId(note.id)}`}>
                                 <NoteName>{note.name}</NoteName>
                             </Link>
                         </SingleNote>

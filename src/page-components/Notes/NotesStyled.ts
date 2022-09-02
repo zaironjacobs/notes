@@ -47,7 +47,7 @@ export const NoteNew = styled.div`
         color: ${theme.colors.greenLight};
     }
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 34px;
     }
 `
@@ -71,7 +71,7 @@ export const NoteUpload = styled.div`
         color: ${theme.colors.grayNormal};
     }
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 34px;
     }
 `
@@ -95,7 +95,7 @@ export const NoteTrash = styled.div`
         color: ${theme.colors.redLight};
     }
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 34px;
     }
 `
@@ -139,7 +139,7 @@ export const NoteName = styled.a`
     padding: 8px 3px 8px 3px;
     cursor: pointer;
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 20px;
     }
 `
@@ -148,7 +148,7 @@ export const Title = styled.h1`
     font-size: 20px;
     font-weight: 600;
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 32px;
     }
 `

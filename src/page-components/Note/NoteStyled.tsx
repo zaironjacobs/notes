@@ -39,7 +39,7 @@ export const NoteEdit = styled.div`
         font-size: 14px;
     }
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 32px;
     }
 `
@@ -63,7 +63,7 @@ export const NoteLock = styled.div`
         font-size: 14px;
     }
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 32px;
     }
 `
@@ -93,7 +93,7 @@ export const NoteTrash = styled.div<INoteIsEditableProps>`
         color: ${(props) => (props.noteIsEditable ? theme.colors.redLight : null)};
     }
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 32px;
     }
 `
@@ -118,7 +118,7 @@ export const NoteSave = styled.div<INoteIsEditableProps>`
         color: ${(props) => (props.noteIsEditable ? theme.colors.greenLight : null)};
     }
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 32px;
     }
 `
@@ -188,7 +188,7 @@ export const Back = styled(FontAwesomeIcon)`
         color: ${theme.colors.blueLight};
     }
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 40px;
     }
 `

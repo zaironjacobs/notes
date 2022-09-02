@@ -22,7 +22,7 @@ export const Content = styled.nav<IContentProps>`
     transform: ${({ menuOpen }) => (menuOpen ? 'translateX(0)' : 'translateX(-100%)')};
     z-index: 999999999;
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         max-width: 300px;
     }
 `
@@ -49,7 +49,7 @@ export const LogoText = styled.a`
     transition: 0.3s;
     text-decoration: unset;
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 32px;
         height: 85px;
         width: 85px;
@@ -61,7 +61,7 @@ export const MenuUl = styled.ul`
     margin: 0 0 0 30px;
     padding: 30px 0 0 0;
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         padding: 45px 0 0 0;
     }
 `
@@ -85,7 +85,7 @@ export const MenuLiA = styled.a`
     font-weight: 400;
     text-decoration: none;
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 30px;
     }
 `

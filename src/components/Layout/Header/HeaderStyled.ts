@@ -24,7 +24,7 @@ export const Logo = styled.a`
         text-decoration: unset;
     }
 
-    ${theme.media._768px} {
+    ${theme.media.md} {
         font-size: 32px;
     }
 `

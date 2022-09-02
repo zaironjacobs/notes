@@ -40,7 +40,7 @@ export const SignUp = () => {
         {
             onSuccess: async () => {
                 setError(false)
-                router.push('/notes').then()
+                router.push('/login').then()
             },
             onError: () => {
                 setError(true)
@@ -49,7 +49,7 @@ export const SignUp = () => {
     )
 
     // On submit form
-    async function onSubmitForm(userCreate: IUserCreate) {
+    function onSubmitForm(userCreate: IUserCreate) {
         signUpMutation.mutate(userCreate)
     }
 

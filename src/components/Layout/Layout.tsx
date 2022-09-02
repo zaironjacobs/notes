@@ -4,7 +4,7 @@ import { Dispatch, ReactNode, SetStateAction } from 'react'
 import { Footer } from '@components/Layout/Footer/Footer'
 import { Header } from '@components/Layout/Header/Header'
 import { Menu } from '@components/Layout/Menu'
-import { PageWrapper } from '@components/Layout/LayoutStyled'
+import { Wrapper } from '@components/Layout/LayoutStyled'
 
 interface ILayoutProps {
     children: ReactNode
@@ -27,7 +27,7 @@ export const Layout = ({ children, menuOpen, setMenuOpen }: ILayoutProps) => {
             <Header setMenuOpen={setMenuOpen} />
 
             {/* Page content */}
-            <PageWrapper>{children}</PageWrapper>
+            <Wrapper>{children}</Wrapper>
 
             {/* Footer */}
             <Footer />
